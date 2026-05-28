@@ -1,0 +1,12 @@
+opencv-python
+Pillow
+pytesseract
+easyocr
+numpy
+sqlalchemy
+scikit-image
+torch
+torchvision
+ultralytics
+faiss-cpu
+flask
