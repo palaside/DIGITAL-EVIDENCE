@@ -136,9 +136,14 @@ export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginate
                 ) : (
                   /* Bank Slip OCR Content Body */
                   <div className="space-y-4">
-                    <div className="flex items-center gap-1 text-[8px] font-bold text-amber-800 bg-amber-50/50 p-1.5 rounded border border-amber-100">
-                      <Cpu className="w-3.5 h-3.5 shrink-0 text-amber-700 animate-pulse" />
-                      <span>YOLOv8 Bank Logo: {ocrData?.bank_slip_verification?.matched_bank_brand || "SCB"} ({ocrData?.bank_slip_verification?.brand_matching_confidence || "95.4%"}) Bounding Boxes Activated.</span>
+                    <div className="flex flex-col gap-1 text-[8px] font-bold text-amber-800 bg-amber-50/50 p-2 rounded-xl border border-amber-100">
+                      <div className="flex items-center gap-1">
+                        <Cpu className="w-3.5 h-3.5 shrink-0 text-amber-700 animate-pulse" />
+                        <span>YOLOv8 Bank Logo: {ocrData?.bank_slip_verification?.matched_bank_brand || "SCB"} ({ocrData?.bank_slip_verification?.brand_matching_confidence || "95.4%"}) Bounding Boxes Activated.</span>
+                      </div>
+                      <div className="text-[7.5px] text-gray-500 font-semibold pl-4.5 border-t border-amber-100/50 pt-1 mt-0.5">
+                        Verified with Thai Slip OCR Engine (EasyOCR + PaddleOCR + Bank API sync)
+                      </div>
                     </div>
                     {uploadedFiles.map((file, idx) => (
                       <div key={idx} className="relative border border-gray-200 rounded-xl p-3 bg-gray-50/50 flex flex-col gap-2 shadow-sm overflow-hidden">
