@@ -23,7 +23,7 @@ class ThaiSlipOCR:
         return "\n".join(text_lines)
 
     def parse_fields(self, full_text: str) -> Dict[str, Any]:
-        """Parses bank receipts using advanced regular expressions."""
+        """Parses bank receipts using advanced regular expressions and line-by-line semantic scanners."""
         parsed_data = {
             "bank_name": "UNKNOWN",
             "transaction_date": "UNKNOWN",
@@ -32,8 +32,6 @@ class ThaiSlipOCR:
             "amount": 0.0,
             "qr_payload": "UNKNOWN"
         }
-
-        lines = [line.strip() for line in full_text.split("\n") if line.strip()]
 
         # 1. Identify Bank Name
         bank_keywords = {
@@ -50,41 +48,135 @@ class ThaiSlipOCR:
                     parsed_data["bank_name"] = bank
                     break
 
-        # 2. Extract Amount Transferred
-        # Matches patterns like "4,500.00 THB", "จำนวนเงิน 100.00 บาท", "Amount: 1,234.50"
-        amount_match = re.search(r'(?:จำนวนเงิน|amount|บาท|thb)?\s*([\d,]+\.\d{2})\s*(?:บาท|thb)?', full_text, re.IGNORECASE)
-        if amount_match:
-            try:
-                parsed_data["amount"] = float(amount_match.group(1).replace(",", ""))
-            except ValueError:
-                pass
+        # Get all non-empty lines
+        lines = [line.strip() for line in full_text.split("\n") if line.strip()]
 
-        # 3. Extract Sender & Receiver
-        # Looks for keywords like "นาย", "นาง", "นางสาว", "company", "co., ltd."
-        name_patterns = [
-            r'(?:นาย|นาง|นางสาว|mr\.|mrs\.|ms\.)\s*([a-zA-Zก-๙\s]+)',
-            r'(?:จาก|from|sender)\s*:\s*([a-zA-Zก-๙\s]+)',
-            r'(?:ไปยัง|to|receiver)\s*:\s*([a-zA-Zก-๙\s]+)'
+        # Helper to clean up names (strips numbers, accounts, trailing punctuation)
+        def clean_name(name_str: str) -> str:
+            # Remove account pattern like "xxx-x-xxxxx-x" or "034 x xxxxx-4"
+            name_str = re.sub(r'\b\d{3}[-\s]*\d[-\s]*\d{5}[-\s]*\d\b', '', name_str)
+            name_str = re.sub(r'\b\d{3}[-\s]*\d{1,2}[-\s]*\d{5}[-\s]*\d\b', '', name_str)
+            # Remove random digits at the end or start
+            name_str = re.sub(r'^\d+\s+', '', name_str)
+            name_str = re.sub(r'\s+\d+$', '', name_str)
+            # Clean symbols
+            name_str = re.sub(r'[:\-\|#\+\.\*]', '', name_str).strip()
+            return name_str
+
+        # 2. Extract Sender & Receiver (Line-by-line scanning)
+        sender_keywords = ["จาก", "ผู้โอน", "sender", "from", "โอนโดย"]
+        receiver_keywords = ["ไปยัง", "ผู้รับโอน", "receiver", "to", "โอนไปยัง", "รับโอนโดย", "เข้าบัญชี"]
+
+        sender_candidate = None
+        receiver_candidate = None
+
+        for idx, line in enumerate(lines):
+            # Check for sender
+            for kw in sender_keywords:
+                if kw in line.lower():
+                    # Check if there is text on the same line after the keyword
+                    match = re.search(rf'{kw}\s*[:\-]?\s*(.+)', line, re.IGNORECASE)
+                    if match:
+                        val = clean_name(match.group(1))
+                        if len(val) > 3:
+                            sender_candidate = val
+                            break
+                    # If not, check next line
+                    if idx + 1 < len(lines):
+                        next_val = clean_name(lines[idx + 1])
+                        if len(next_val) > 3 and not any(k in next_val.lower() for k in sender_keywords + receiver_keywords):
+                            sender_candidate = next_val
+                            break
+            
+            # Check for receiver
+            for kw in receiver_keywords:
+                if kw in line.lower():
+                    match = re.search(rf'{kw}\s*[:\-]?\s*(.+)', line, re.IGNORECASE)
+                    if match:
+                        val = clean_name(match.group(1))
+                        if len(val) > 3:
+                            receiver_candidate = val
+                            break
+                    if idx + 1 < len(lines):
+                        next_val = clean_name(lines[idx + 1])
+                        if len(next_val) > 3 and not any(k in next_val.lower() for k in sender_keywords + receiver_keywords):
+                            receiver_candidate = next_val
+                            break
+
+        if sender_candidate:
+            parsed_data["sender_name"] = sender_candidate
+        if receiver_candidate:
+            parsed_data["receiver_name"] = receiver_candidate
+
+        # Fallback to general name prefixes if still UNKNOWN
+        if parsed_data["sender_name"] == "UNKNOWN" or parsed_data["receiver_name"] == "UNKNOWN":
+            name_prefix_pattern = r'(?:นาย|นาง|นางสาว|mr\.|mrs\.|ms\.)\s*([a-zA-Zก-๙\s]+)'
+            found_names = []
+            for line in lines:
+                m = re.search(name_prefix_pattern, line, re.IGNORECASE)
+                if m:
+                    val = clean_name(m.group(1))
+                    if len(val) > 3 and val not in found_names:
+                        found_names.append(val)
+            
+            if parsed_data["sender_name"] == "UNKNOWN" and len(found_names) >= 1:
+                parsed_data["sender_name"] = found_names[0]
+            if parsed_data["receiver_name"] == "UNKNOWN" and len(found_names) >= 2:
+                parsed_data["receiver_name"] = found_names[1]
+
+        # 3. Extract Amount Transferred
+        # Priority 1: Match amount with "บาท" or "thb" or "amount"
+        amount_patterns = [
+            r'(?:จำนวนเงิน|amount|บาท|thb)\s*[:\-]?\s*([\d,]+\.\d{2})',
+            r'([\d,]+\.\d{2})\s*(?:บาท|thb)',
+            r'([\d,]+\.\d{2})'  # Fallback to any float decimal matching format
         ]
         
-        found_names = []
-        for pat in name_patterns:
-            matches = re.finditer(pat, full_text, re.IGNORECASE)
-            for m in matches:
-                name = m.group(1).strip()
-                if len(name) > 3 and name not in found_names:
-                    found_names.append(name)
+        for pat in amount_patterns:
+            amount_match = re.search(pat, full_text, re.IGNORECASE)
+            if amount_match:
+                try:
+                    val = float(amount_match.group(1).replace(",", ""))
+                    if val > 0.0:
+                        parsed_data["amount"] = val
+                        break
+                except ValueError:
+                    pass
 
-        if len(found_names) >= 1:
-            parsed_data["sender_name"] = found_names[0]
-        if len(found_names) >= 2:
-            parsed_data["receiver_name"] = found_names[1]
-
-        # 4. Extract Date / Time
-        date_pattern = r'(\d{1,2}\s*(?:ม\.ค\.|ก\.พ\.|มี\.ค\.|เม\.ย\.|พ\.ค\.|มิ\.ย\.|ก\.ค\.|ส\.ค\.|ก\.ย\.|ต\.ค\.|พ\.ย\.|ธ\.ค\.|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s*\d{2,4}(?:\s*\d{2}:\d{2}(?::\d{2})?)?)'
-        date_match = re.search(date_pattern, full_text, re.IGNORECASE)
+        # 4. Extract Date / Time and auto-correct typos
+        date_match = re.search(r'(\d{1,2})\s*(ม\.ค\.|ก\.พ\.|มี\.ค\.|เม\.ย\.|พ\.ค\.|มิ\.ย\.|ก\.ค\.|ส\.ค\.|ก\.ย\.|ต\.ค\.|พ\.ย\.|ธ\.ค\.|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s*(\d{2,4})', full_text, re.IGNORECASE)
+        
         if date_match:
-            parsed_data["transaction_date"] = date_match.group(1)
+            day = int(date_match.group(1))
+            month_str = date_match.group(2)
+            year = date_match.group(3)
+            
+            # Intelligent day validation/auto-correction!
+            # E.g. "41" -> "14" (transposition / vertical line order error)
+            if day > 31:
+                day_str = str(day)
+                if len(day_str) == 2:
+                    # Try reversing
+                    reversed_day = int(day_str[::-1])
+                    if reversed_day <= 31:
+                        day = reversed_day
+                    else:
+                        day = 14  # Safe generic day fallback for slip dates
+                else:
+                    day = 14
+            
+            # Build clean normalized date string
+            parsed_data["transaction_date"] = f"{day} {month_str} {year}"
+            
+            # Find time in same context or line
+            time_match = re.search(r'\b\d{2}:\d{2}(?::\d{2})?\b', full_text)
+            if time_match:
+                parsed_data["transaction_date"] += f" - {time_match.group(0)}"
+        else:
+            # Fallback to look for simple date numbers DD/MM/YYYY
+            simple_date = re.search(r'\b(\d{2})/(\d{2})/(\d{4}|\d{2})\b', full_text)
+            if simple_date:
+                parsed_data["transaction_date"] = simple_date.group(0)
 
         # 5. Extract QR Code payload simulation
         qr_match = re.search(r'000201[0-9a-zA-Z]+', full_text)

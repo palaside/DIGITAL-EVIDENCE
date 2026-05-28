@@ -2,6 +2,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
 import brandLogo from "../../imports/_______________-_Copy-1.png";
+import { LicenseStatus } from "./LicenseStatus";
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -22,16 +23,19 @@ export function Header() {
           </h1>
         </div>
 
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="rounded-full cursor-pointer backdrop-blur-sm bg-white/30 border-white/40 text-blue-950 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-blue-100 dark:hover:bg-white/10 transition-all duration-300 shadow-sm"
-        >
-          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
+        <div className="flex items-center gap-4">
+          <LicenseStatus />
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="rounded-full cursor-pointer backdrop-blur-sm bg-white/30 border-white/40 text-blue-950 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-blue-100 dark:hover:bg-white/10 transition-all duration-300 shadow-sm"
+          >
+            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        </div>
       </div>
     </header>
   );

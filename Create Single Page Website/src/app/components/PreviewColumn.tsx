@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import brandLogo from "../../imports/_______________-_Copy-1.png";
 import { Cpu, ShieldAlert, BadgeInfo } from "lucide-react";
+import { LicenseStatus } from "./LicenseStatus";
 
 interface PreviewColumnProps {
   activeMode: "chat" | "slip";
@@ -13,6 +14,12 @@ interface PreviewColumnProps {
 }
 
 export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginatedPages = [], ocrData }: PreviewColumnProps) {
+  // Mock license data for UI preview
+  const mockLicense = {
+    status: "Active",
+    expiry: "2027-12-31",
+    plan: "Enterprise"
+  };
   const [zoomLevel, setZoomLevel] = useState<100 | 150>(100); // Default zoom level to 100% as requested!
   // Determine if viewport background is white A4 paper sheet or original logo matching bg
   const viewportBg = isGenerated ? "bg-gray-100 dark:bg-gray-900" : "bg-[#eef2f7]";
@@ -24,6 +31,7 @@ export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginate
         <CardTitle className="text-lg font-bold text-blue-950 dark:text-blue-200">
           {isGenerated ? "Generated Evidence PDF (A4)" : "Evidence Viewport"}
         </CardTitle>
+        <LicenseStatus license={mockLicense} />
         {isGenerated && (
           <div className="flex bg-[#030213]/10 dark:bg-white/5 border border-[#030213]/10 dark:border-white/10 rounded-lg p-0.5 text-[10px] font-bold shadow-sm shrink-0">
             <button 

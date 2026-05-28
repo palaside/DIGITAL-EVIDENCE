@@ -75,27 +75,31 @@ export default function App() {
       setProgress(10);
       try {
         const formData = new FormData();
-        const blob = dataURLtoBlob(uploadedFiles[0].url);
-        formData.append("image", blob, uploadedFiles[0].name);
+        uploadedFiles.forEach((file) => {
+          const blob = dataURLtoBlob(file.url);
+          formData.append('image', blob, file.name);
+        });
 
         setProgress(30);
-        const res = await fetch("http://localhost:5000/api/ocr", {
-          method: "POST",
+        const res = await fetch('http://localhost:5000/api/ocr', {
+          method: 'POST',
           body: formData,
         });
 
         setProgress(70);
-        if (!res.ok) throw new Error("OCR Server returned error");
+        if (!res.ok) throw new Error('OCR Server returned error');
         const data = await res.json();
-        
+
+        // Expect merged result with combined_results array; take first result for UI
+        const ocrResult = data.combined_results ? data.combined_results[0] : data;
         setProgress(90);
-        setOcrData(data);
+        setOcrData(ocrResult);
         setProgress(100);
         setIsGenerating(false);
         setIsGenerated(true);
-        toast.success("Bank slip OCR analysis completed successfully!");
+        toast.success('Bank slip OCR analysis completed successfully!');
       } catch (err) {
-        console.error("Error running Slip OCR:", err);
+        console.error('Error running Slip OCR:', err);
         setProgress(80);
         setTimeout(() => {
           setOcrData({
@@ -125,7 +129,7 @@ export default function App() {
           setProgress(100);
           setIsGenerating(false);
           setIsGenerated(true);
-          toast.success("Bank slip OCR completed (Offline Mock Backup)!");
+          toast.success('Bank slip OCR completed (Offline Mock Backup)!');
         }, 1500);
       }
     }

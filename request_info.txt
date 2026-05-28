@@ -1,0 +1,7 @@
+# BOT API License Request Information
+
+Project Name: Digital Evidence
+Local IP: 192.168.1.101
+Public IP: 2405:9800:b513:1e3e:cc95:2d51:6a8b:fc7f
+
+The application requires access to the BotLicenseCheckAPI/AuthorizedDetail endpoint.
