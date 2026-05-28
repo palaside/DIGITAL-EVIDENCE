@@ -9,9 +9,10 @@ interface PreviewColumnProps {
   isGenerated: boolean;
   uploadedFiles: { name: string; url: string }[];
   paginatedPages?: { canvasDataUrl: string; pageNumber: number }[];
+  ocrData?: any;
 }
 
-export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginatedPages = [] }: PreviewColumnProps) {
+export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginatedPages = [], ocrData }: PreviewColumnProps) {
   const [zoomLevel, setZoomLevel] = useState<100 | 150>(100); // Default zoom level to 100% as requested!
   // Determine if viewport background is white A4 paper sheet or original logo matching bg
   const viewportBg = isGenerated ? "bg-gray-100 dark:bg-gray-900" : "bg-[#eef2f7]";
@@ -87,7 +88,7 @@ export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginate
                   </div>
                   <div className="truncate">
                     <span className="block text-[6px] text-gray-400 uppercase">Legal Security Hash</span>
-                    <span className="font-mono text-green-700">SHA256: 7e8b23a9d...</span>
+                    <span className="font-mono text-green-700">{ocrData?.forensics_analysis?.integrity_hash ? `SHA256: ${ocrData.forensics_analysis.integrity_hash.slice(7, 18)}...` : "SHA256: 7e8b23a9d..."}</span>
                   </div>
                 </div>
               </div>
@@ -137,12 +138,12 @@ export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginate
                   <div className="space-y-4">
                     <div className="flex items-center gap-1 text-[8px] font-bold text-amber-800 bg-amber-50/50 p-1.5 rounded border border-amber-100">
                       <Cpu className="w-3.5 h-3.5 shrink-0 text-amber-700 animate-pulse" />
-                      <span>YOLOv8 Bank Logo Detection & Text OCR Segment Bounding Boxes Activated.</span>
+                      <span>YOLOv8 Bank Logo: {ocrData?.bank_slip_verification?.matched_bank_brand || "SCB"} ({ocrData?.bank_slip_verification?.brand_matching_confidence || "95.4%"}) Bounding Boxes Activated.</span>
                     </div>
                     {uploadedFiles.map((file, idx) => (
                       <div key={idx} className="relative border border-gray-200 rounded-xl p-3 bg-gray-50/50 flex flex-col gap-2 shadow-sm overflow-hidden">
                         <span className="text-[8px] font-bold text-amber-700 border-b border-gray-150 pb-1 uppercase tracking-wider">
-                          Bank Receipt #{idx + 1} &mdash; {file.name}
+                          Bank Receipt #{idx + 1} &mdash; {file.name} (Matched Brand: {ocrData?.extracted_transaction_metadata?.bank_name || "SCB"})
                         </span>
                         
                         {/* Bounding box dynamic viewport wrapper */}

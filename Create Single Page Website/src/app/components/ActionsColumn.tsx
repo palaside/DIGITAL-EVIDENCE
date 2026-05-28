@@ -8,6 +8,7 @@ interface ActionsColumnProps {
   onSave: () => void;
   onDetail: () => void;
   onSend: () => void;
+  ocrData?: any;
 }
 
 export function ActionsColumn({
@@ -16,6 +17,7 @@ export function ActionsColumn({
   onSave,
   onDetail,
   onSend,
+  ocrData,
 }: ActionsColumnProps) {
   return (
     <div className="space-y-6 h-full flex flex-col justify-between">
@@ -74,14 +76,14 @@ export function ActionsColumn({
                 </div>
                 <div className="flex justify-between py-2 border-b border-white/20 dark:border-white/5">
                   <span className="text-gray-500 dark:text-gray-400 font-semibold">Logo Detection:</span>
-                  <span className="font-bold text-green-600 dark:text-green-400">YOLOv8 Active</span>
+                  <span className="font-bold text-green-600 dark:text-green-400">{ocrData?.bank_slip_verification?.matched_bank_brand ? `${ocrData.bank_slip_verification.matched_bank_brand} (${ocrData.bank_slip_verification.brand_matching_confidence})` : "YOLOv8 Active"}</span>
                 </div>
               </>
             )}
             
             <div className="flex justify-between py-2 border-b border-white/20 dark:border-white/5">
               <span className="text-gray-500 dark:text-gray-400 font-semibold">Legal Hash:</span>
-              <span className="font-mono text-xs font-bold text-blue-900 dark:text-blue-400">SHA-256</span>
+              <span className="font-mono text-xs font-bold text-blue-900 dark:text-blue-400">{ocrData?.forensics_analysis?.integrity_hash ? ocrData.forensics_analysis.integrity_hash.slice(7, 18) + "..." : "SHA-256"}</span>
             </div>
           </div>
 

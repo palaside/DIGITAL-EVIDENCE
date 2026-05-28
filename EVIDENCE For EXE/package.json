@@ -1,0 +1,35 @@
+{
+  "name": "digital-evidence-app",
+  "version": "1.0.0",
+  "description": "Standalone Desktop Application for Digital Evidence Forensics, OCR, and Chat Paginator System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "AI Case Copilot",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.digitalevidence.app",
+    "productName": "EVIDENCE",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "artifactName": "EVIDENCE.${ext}"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "dist/**/*"
+    ]
+  }
+}

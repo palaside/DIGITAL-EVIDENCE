@@ -26,11 +26,18 @@ export function UploadColumn({
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      const fileObjects = Array.from(files).map((f) => ({
-        name: f.name,
-        url: URL.createObjectURL(f),
-      }));
-      setUploadedFiles((prev) => [...prev, ...fileObjects]);
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (typeof reader.result === "string") {
+            setUploadedFiles((prev) => [
+              ...prev,
+              { name: file.name, url: reader.result }
+            ]);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
     }
   };
 
