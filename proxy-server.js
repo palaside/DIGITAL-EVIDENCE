@@ -10,6 +10,18 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
+// Request logger middleware
+app.use((req, res, next) => {
+  const safeHeaders = { ...req.headers };
+  for (const key of ['authorization', 'cookie', 'x-api-key']) {
+    if (safeHeaders[key]) safeHeaders[key] = '[redacted]';
+  }
+
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  console.log('Headers:', safeHeaders);
+  console.log('Query:', req.query);
+  next();
+});
 
 const BOT_BASE = 'https://gateway.api.bot.or.th';
 const API_KEY = process.env.BOT_API_KEY; // set in .env
