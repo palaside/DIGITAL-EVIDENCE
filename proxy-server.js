@@ -65,6 +65,11 @@ app.get('/ping', (req, res) => {
 
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`🚀 Bot proxy server listening on http://localhost:${PORT}`);
+});
+
+server.on('error', (err) => {
+  console.error('Proxy server failed to start:', err.message);
+  process.exitCode = 1;
 });
