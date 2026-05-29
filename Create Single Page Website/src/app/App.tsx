@@ -151,8 +151,7 @@ export default function App() {
           }
 
           setProgress(90);
-          const validatedData = validateSlipData(ocrResult);
-          setOcrData(validatedData);
+          setOcrData(ocrResult);
           setProgress(100);
           setIsGenerating(false);
           setIsGenerated(true);

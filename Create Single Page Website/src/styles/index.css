@@ -1,3 +1,49 @@
-@import './fonts.css';
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');
 @import './tailwind.css';
-@import './theme.css';
+
+/* Global design tokens */
+:root {
+  --color-primary: #6366F1;   /* Indigo */
+  --color-secondary: #818CF8; /* Light indigo */
+  --color-cta: #22C55E;      /* Fresh green */
+  --color-bg: #EEF2FF;       /* Very light blue */
+  --color-text: #312E81;     /* Dark indigo */
+}
+
+/* Base styles */
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fredoka', sans-serif;
+}
+
+/* Utility helpers */
+.bg-primary { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-cta { background-color: var(--color-cta); }
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-cta { color: var(--color-cta); }
+
+/* Glassmorphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Smooth transition for interactive elements */
+.transition {
+  transition: all 0.2s ease-in-out;
+}
+
