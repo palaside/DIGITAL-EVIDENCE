@@ -1,0 +1,444 @@
+"""
+bank_slip_reader/slip_parser.py
+แปลง OCR text → BankSlipData
+รองรับ 2 mode:
+  - rule_based : regex เท่านั้น (ไม่ต้องการ API)
+  - ai         : GPT-4o-mini (ต้องมี OPENAI_API_KEY)
+"""
+import re
+import json
+import asyncio
+from datetime import datetime
+from typing import Optional
+
+from .models import BankSlipData, BankName
+from .bank_detector import BankDetector
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+#  Helper regexes
+# ──────────────────────────────────────────────────────────────────────────────
+AMOUNT_PAT = [
+    r"จำนวนเงิน[:\s]*([\d,]+\.?\d*)",
+    r"ยอดโอน[:\s]*([\d,]+\.?\d*)",
+    r"ยอดชำระ[:\s]*([\d,]+\.?\d*)",
+    r"amount[:\s]*([\d,]+\.?\d*)",
+    r"([\d,]+\.\d{2})\s*(?:บาท|thb|baht)",
+    r"([\d,.]+)\s*(?:บาท|thb|baht)",
+    r"([\d,]+)\s*บาท"
+]
+
+DATE_PAT = [
+    r"(\d{1,2})[/\-\.](\d{1,2})[/\-\.](\d{4})",      # dd/mm/yyyy
+    r"(\d{1,2})[/\-\.](\d{1,2})[/\-\.](\d{2})",       # dd/mm/yy
+    (                                                   # dd monthTH yyyy
+        r"(\d{1,2})\s*(ม\.?ค\.?|ก\.?พ\.?|มี\.?ค\.?|เม\.?ย\.?|พ\.?ค\.?|มิ\.?ย\.?|"
+        r"ก\.?ค\.?|ส\.?ค\.?|ก\.?ย\.?|ต\.?ค\.?|พ\.?ย\.?|ธ\.?ค\.?|"
+        r"มกราคม|กุมภาพันธ์|มีนาคม|เมษายน|พฤษภาคม|มิถุนายน|"
+        r"กรกฎาคม|สิงหาคม|กันยายน|ตุลาคม|พฤศจิกายน|ธันวาคม)\s*(\d{2,4})"
+    ),
+]
+TIME_PAT_LIST = [
+    r"\b([0-2]?\d):([0-5]\d)\b",               # HH:MM with ':'
+    r"\b([0-2]?\d)\.([0-5]\d)\s*(?:น\.|น)\b"   # HH.MM น.
+]
+# Backward compatibility variable
+TIME_PAT = TIME_PAT_LIST[0]
+REF_PAT   = [
+    r"(?:transaction\s*id|ref(?:erence)?|เลขอ้างอิง|หมายเลข|รหัส)[^\w]*([\w\-]{6,30})",
+    r"\b([A-Z]{1,3}[\-]?\d{6,20})\b",
+    r"\b([A-Z0-9]{10,})\b",
+    r"\b(\d{15,22})\b",
+    r"\b([Nn]\d{20,22})\b",
+    r"\b([Nn]\d{8,15})\b",  # shorter N-prefixed IDs
+    r"\b(\d{6,12})\b",    # plain numeric reference IDs
+]  # added patterns for varied reference formats
+SENDER_LABELS   = [
+    "จาก", "ผู้โอน", "โอนจาก", "from", "sender", "ชื่อบัญชีต้นทาง",
+    "วันที่กลาย",  # OCR เบี้ยวของ 'ชื่อผู้โอน'
+    "mr.", "นาย", "sender name",
+]
+RECEIVER_LABELS = [
+    "ถึง", "ผู้รับ", "โอนไปยัง", "to", "receiver", "ชื่อบัญชีปลายทาง",
+    "receiver name", "บจก.", "บริษัท", "ไปยัง"
+]
+ACCOUNT_PAT     = r"(?:[A-Za-z]+\s)?[xX\d]{3}[-\s]?[xX\d]{1,7}[-\s]?[xX\d]{1,7}[-\s]?[xX\d]{0,2}"
+
+THAI_MONTH_MAP = {
+    "มกราคม": 1, "ม.ค.": 1, "ม.ค": 1,
+    "กุมภาพันธ์": 2, "ก.พ.": 2, "ก.พ": 2,
+    "มีนาคม": 3, "มี.ค.": 3, "มี.ค": 3,
+    "เมษายน": 4, "เม.ย.": 4, "เม.ย": 4,
+    "พฤษภาคม": 5, "พ.ค.": 5, "พ.ค": 5,
+    "มิถุนายน": 6, "มิ.ย.": 6, "มิ.ย": 6,
+    "กรกฎาคม": 7, "ก.ค.": 7, "ก.ค": 7,
+    "สิงหาคม": 8, "ส.ค.": 8, "ส.ค": 8,
+    "กันยายน": 9, "ก.ย.": 9, "ก.ย": 9,
+    "ตุลาคม": 10, "ต.ค.": 10, "ต.ค": 10,
+    "พฤศจิกายน": 11, "พ.ย.": 11, "พ.ย": 11,
+    "ธันวาคม": 12, "ธ.ค.": 12, "ธ.ค": 12,
+}
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+#  SlipParser
+# ──────────────────────────────────────────────────────────────────────────────
+class SlipParser:
+
+    def __init__(self, openai_api_key: Optional[str] = None, mode: str = "rule_based"):
+        """
+        mode: "rule_based" (default, no API) | "ai" (requires openai_api_key)
+        """
+        self.mode = mode
+        self.api_key = openai_api_key
+        self.detector = BankDetector()
+
+    # ─── Public ──────────────────────────────────────────────────────────────
+    async def parse(self, raw_text: str, file_name: str = "") -> BankSlipData:
+        slip = BankSlipData(raw_text=raw_text, file_name=file_name)
+
+        # 1. Detect bank
+        bank, conf = self.detector.detect(raw_text)
+        slip.bank_name        = bank
+        slip.bank_confidence  = conf
+
+        # 2. Extract structured data
+        try:
+            if self.mode == "ai" and self.api_key:
+                try:
+                    parsed = await self._ai_parse(raw_text, bank)
+                    slip = self._merge(slip, parsed)
+                except:
+                    pass
+            
+            # Always run rule_parse to fill gaps
+            slip = self._rule_parse(slip, raw_text)
+            slip.success = True
+        except Exception as e:
+            slip.error_message = str(e)
+
+        return slip
+
+    # ─── Rule-based ───────────────────────────────────────────────────────────
+    def _rule_parse(self, slip: BankSlipData, text: str) -> BankSlipData:
+        lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+
+        if slip.transaction_time is None:
+            slip.transaction_time = self._parse_time(text)
+        if slip.amount is None:
+            slip.amount = self._parse_amount(text)
+        if slip.transaction_date is None:
+            slip.transaction_date = self._parse_date(text)
+        if slip.transaction_id is None:
+            slip.transaction_id = self._parse_ref(text)
+
+        
+        s_n, s_a, r_n, r_a = self._parse_parties(lines)
+        if not slip.sender_name: slip.sender_name = s_n
+        if not slip.sender_account: slip.sender_account = s_a
+        if not slip.receiver_name: slip.receiver_name = r_n
+        if not slip.receiver_account: slip.receiver_account = r_a
+
+        return slip
+
+    def _parse_time(self, text: str) -> Optional[str]:
+        """Extract time from OCR text.
+        Tries multiple TIME_PAT patterns. Returns HH:MM (seconds omitted) or None.
+        """
+        for pat in TIME_PAT_LIST:
+            m = re.search(pat, text)
+            if m:
+                hour = m.group(1).zfill(2)
+                minute = m.group(2).zfill(2)
+                return f"{hour}:{minute}"
+        return None
+
+    def _parse_amount(self, text: str) -> Optional[float]:
+        """Parse amount from OCR text using AMOUNT_PAT patterns.
+        Returns a float or None.
+        """
+        for pat in AMOUNT_PAT:
+            m = re.search(pat, text, re.IGNORECASE)
+            if m:
+                try:
+                    return float(m.group(1).replace(",", ""))
+                except ValueError:
+                    pass
+        # fallback: largest money-like number not a year
+        candidates = re.findall(r"[\d,]+\.\d{2}", text)
+        best = None
+        for c in candidates:
+            try:
+                v = float(c.replace(",", ""))
+                if not (2000 <= v <= 2100):
+                    if best is None or v > best:
+                        best = v
+            except ValueError:
+                pass
+        return best
+
+    def _parse_date(self, text: str) -> Optional[datetime]:
+        # Pattern 1: dd/mm/yyyy or dd/mm/yy
+        m = re.search(r"(\d{1,2})[/\-\.](\d{1,2})[/\-\.](\d{4})", text)
+        if m:
+            d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            if y > 2100:
+                y -= 543
+            try:
+                return datetime(y, mo, d)
+            except ValueError:
+                pass
+
+        m = re.search(r"(\d{1,2})[/\-\.](\d{1,2})[/\-\.](\d{2})", text)
+        if m:
+            d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            y += 2000 if y < 70 else 1900
+            try:
+                return datetime(y, mo, d)
+            except ValueError:
+                pass
+
+        # Pattern 2: Thai written month
+        for month_str, month_num in sorted(THAI_MONTH_MAP.items(), key=lambda x: -len(x[0])):
+            pat = rf"(\d{{1,2}})\s*{re.escape(month_str)}\s*(\d{{2,4}})"
+            m = re.search(pat, text)
+            if m:
+                d, y = int(m.group(1)), int(m.group(2))
+                if y > 2100:
+                    y -= 543
+                try:
+                    return datetime(y, month_num, d)
+                except ValueError:
+                    pass
+
+        return None
+
+    def _parse_ref(self, text: str) -> Optional[str]:
+        for pat in REF_PAT:
+            m = re.search(pat, text, re.IGNORECASE)
+            if m:
+                return m.group(1).strip()
+        return None
+
+    def _parse_parties(self, lines: list[str]):
+        sender_name = sender_acc = receiver_name = receiver_acc = None
+
+        thai_name = re.compile(
+            r"(?:(?:นาย|นาง(?:สาว)?|น\.ส\.|ด\.ช\.|ด\.ญ\.|สิบตรี|สิบเอก|สิบจ่า|ด\.ร\.|ร\.ต\.|พ\.ต\.|พล\.|Mr\.|Mrs\.|Miss\.)\s*)?"
+            r"[ก-๙A-Z][ก-๙a-zA-Z\s\.\*x-]{2,}(?:\s+[ก-๙a-zA-Z\*x-]+)*"
+        )
+        acc_re = re.compile(ACCOUNT_PAT)
+
+        # รูปแบบ: "Mr. Somchai Meesook" หรือ "นาย สมชาย มีสุข"
+        def _grab_name(line: str) -> Optional[str]:
+            stripped = re.sub(r"^[^:：]*[:：]\s*", "", line).strip()
+            m = thai_name.search(stripped)
+            if m:
+                name = m.group(0).strip()
+                # กรองคำที่ไม่ใช่ชื่อคน
+                noise = [
+                    "ธนาคาร", "Bank", "BANK", "Trading", "Co.,", "Ltd.", "NAME", "KBANK", "SCB", "KTB",
+                    "ไปยัง", "โอนเงิน", "รหัส", "อ้างอิง", "จํานวนเงิน", "ค่าธรรมเนียม", "วันที่ทำรายการ",
+                    "ถึง", "จาก", "โอนไป", "สำเร็จ", "success", "รายการ", "เวลา", "จำนวนเงิน", "โอน"
+                ]
+                if len(name) >= 4 and not any(n in name for n in noise):
+                    return name
+            return None
+
+        def _grab_acc(line: str) -> Optional[str]:
+            m = acc_re.search(line)
+            return m.group(0).strip() if m else None
+
+        for i, line in enumerate(lines):
+            ll = line.lower()
+            next_line = lines[i + 1] if i + 1 < len(lines) else ""
+
+            if any(lbl in ll for lbl in SENDER_LABELS):
+                if sender_name is None:
+                    sender_name = _grab_name(line) or _grab_name(next_line)
+                if sender_acc is None:
+                    sender_acc  = _grab_acc(line) or _grab_acc(next_line)
+
+            if any(lbl in ll for lbl in RECEIVER_LABELS):
+                if receiver_name is None:
+                    receiver_name = _grab_name(line) or _grab_name(next_line)
+                if receiver_acc is None:
+                    receiver_acc  = _grab_acc(line) or _grab_acc(next_line)
+
+        # If still missing, attempt inference based on surrounding context
+        # Infer sender if missing
+        if sender_name is None or sender_acc is None:
+            for i, line in enumerate(lines):
+                # Try name and account on the same line first
+                name_candidate = _grab_name(line)
+                acc_candidate = _grab_acc(line)
+                if name_candidate and acc_candidate:
+                    if any(lbl in line.lower() for lbl in RECEIVER_LABELS):
+                        continue
+                    if sender_name is None:
+                        sender_name = name_candidate
+                    if sender_acc is None:
+                        sender_acc = acc_candidate
+                    continue
+                # Fallback to name on this line and account on next line(s)
+                name_candidate = _grab_name(line)
+                acc_candidate = _grab_acc(lines[i + 1] if i + 1 < len(lines) else "")
+                if not acc_candidate and i + 2 < len(lines):
+                    acc_candidate = _grab_acc(lines[i + 2])
+                
+                if name_candidate and acc_candidate:
+                    if any(lbl in line.lower() for lbl in RECEIVER_LABELS):
+                        continue
+                    if sender_name is None:
+                        sender_name = name_candidate
+                    if sender_acc is None:
+                        sender_acc = acc_candidate
+                    break
+
+        # Infer receiver after a cue like "ไปยัง" or any receiver label
+        if receiver_name is None or receiver_acc is None:
+            receiver_section = False
+            for i, line in enumerate(lines):
+                # Detect start of receiver section
+                if "ไปยัง" in line.lower() or any(lbl in line.lower() for lbl in RECEIVER_LABELS):
+                    receiver_section = True
+                    continue
+                if not receiver_section:
+                    continue
+                # Skip visual separators
+                if line.strip() in {"***", "---", "___"}:
+                    continue
+                # Try to capture name if not yet found
+                if receiver_name is None:
+                    name_candidate = _grab_name(line)
+                    if name_candidate:
+                        receiver_name = name_candidate
+                        continue
+                # Try to capture account (same line or next line)
+                if receiver_acc is None:
+                    acc_candidate = _grab_acc(line)
+                    if acc_candidate:
+                        receiver_acc = acc_candidate
+                        if receiver_name is not None:
+                            break
+                    else:
+                        next_line = lines[i + 1] if i + 1 < len(lines) else ""
+                        acc_candidate = _grab_acc(next_line)
+                        if acc_candidate:
+                            receiver_acc = acc_candidate
+                            if receiver_name is not None:
+                                break
+
+        if receiver_name is None or receiver_acc is None:
+            receiver_section = False
+            for i, line in enumerate(lines):
+                # Try name and account on the same line first
+                name_candidate = _grab_name(line)
+                acc_candidate = _grab_acc(line)
+                if name_candidate and acc_candidate:
+                    if any(lbl in line.lower() for lbl in SENDER_LABELS):
+                        # Avoid confusing sender as receiver
+                        continue
+                    if receiver_name is None:
+                        receiver_name = name_candidate
+                    if receiver_acc is None:
+                        receiver_acc = acc_candidate
+                    continue
+                # Detect cue for receiver section
+                if "ไปยัง" in line.lower() or any(lbl in line.lower() for lbl in RECEIVER_LABELS):
+                    receiver_section = True
+                    continue
+                if receiver_section:
+                    # Fallback to name on this line and account on next line(s)
+                    name_candidate = _grab_name(line)
+                    acc_candidate = _grab_acc(lines[i + 1] if i + 1 < len(lines) else "")
+                    if not acc_candidate and i + 2 < len(lines):
+                        acc_candidate = _grab_acc(lines[i + 2])
+                        
+                    if name_candidate and acc_candidate:
+                        if receiver_name is None:
+                            receiver_name = name_candidate
+                        if receiver_acc is None:
+                            receiver_acc = acc_candidate
+                        break
+
+        return sender_name, sender_acc, receiver_name, receiver_acc
+
+    # ─── AI mode (GPT-4o-mini) ───────────────────────────────────────────────
+    async def _ai_parse(self, text: str, bank: BankName) -> dict:
+        try:
+            from openai import AsyncOpenAI
+        except ImportError:
+            raise RuntimeError("ต้องติดตั้ง openai: pip install openai")
+
+        client = AsyncOpenAI(api_key=self.api_key)
+
+        prompt = f"""
+จากข้อความสลิปธนาคาร {bank.value} ด้านล่าง
+ให้แกะข้อมูลและตอบเป็น JSON format เท่านั้น ห้ามมีข้อความอื่น
+
+ข้อความ:
+{text}
+
+**ข้อควรระบุ** (ตอบตามรูปแบบ JSON ด้านล่าง):
+- รหัสอ้างอิง (transaction_id) – ตัวอย่างเช่น “รหัสอ้างอิง”, “เลขอ้างอิง”, “Reference”
+- จำนวนเงิน (amount) – ตัวเลขและสกุลเงิน (เช่น 4,000.00 หรือ 4000) โดยต้องเป็น float
+- วันที่ทำรายการ (transaction_date) – รูปแบบ YYYY-MM-DD (เช่น 2023-10-14) หรือ DD MMM YYYY (เช่น 29 พ.ค. 2569)
+- เวลา (transaction_time) – HH:MM:SS หากมี
+- ชื่อผู้โอน (sender_name) และเลขบัญชีผู้โอน (sender_account)
+- ธนาคารผู้โอน (sender_bank) – หากระบุ
+- ชื่อผู้รับ (receiver_name) และเลขบัญชีผู้รับ (receiver_account)
+- ธนาคารผู้รับ (receiver_bank)
+
+JSON Format:
+{{
+    "transaction_id": "เลขอ้างอิง",
+    "amount": 0.00,
+    "currency": "THB",
+    "transaction_date": "YYYY-MM-DD",
+    "transaction_time": "HH:MM:SS",
+    "sender_name": "ชื่อผู้โอน",
+    "sender_account": "เลขบัญชีผู้โอน",
+    "sender_bank": "ธนาคารผู้โอน",
+    "receiver_name": "ชื่อผู้รับ",
+    "receiver_account": "เลขบัญชีผู้รับ",
+    "receiver_bank": "ธนาคารผู้รับ"
+}}
+
+หมายเหตุ: ถ้าไม่พบให้ใส่ null, amount ต้องเป็น float ไม่มีเครื่องหมายจุลภาค
+"""
+
+        resp = await client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "คุณเป็นผู้เชี่ยวชาญการอ่านสลิปธนาคารไทย ตอบเป็น JSON เท่านั้น"},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0,
+            response_format={"type": "json_object"},
+        )
+        return json.loads(resp.choices[0].message.content)
+
+    def _merge(self, slip: BankSlipData, parsed: dict) -> BankSlipData:
+        slip.transaction_id   = parsed.get("transaction_id")
+        slip.amount           = parsed.get("amount")
+        slip.currency         = parsed.get("currency", "THB")
+        slip.sender_name      = parsed.get("sender_name")
+        slip.sender_account   = parsed.get("sender_account")
+        slip.sender_bank      = parsed.get("sender_bank")
+        slip.receiver_name    = parsed.get("receiver_name")
+        slip.receiver_account = parsed.get("receiver_account")
+        slip.receiver_bank    = parsed.get("receiver_bank")
+
+        date_str = parsed.get("transaction_date")
+        time_str = parsed.get("transaction_time", "00:00:00") or "00:00:00"
+        if date_str:
+            for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d"):
+                try:
+                    slip.transaction_date = datetime.strptime(
+                        f"{date_str} {time_str}" if " " not in fmt else date_str, fmt
+                    )
+                    break
+                except ValueError:
+                    pass
+        return slip

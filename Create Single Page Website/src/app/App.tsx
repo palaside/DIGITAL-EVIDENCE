@@ -9,6 +9,11 @@ import { Toaster } from "./components/ui/sonner";
 import { toast } from "sonner";
 import { X, Table, Cpu, ShieldAlert, FileArchive } from "lucide-react";
 import { segmentChatImage, PageSegment } from "./utils/pagination";
+import { validateSlipData } from "./utils/slipValidatorEngine";
+import { scanQrFromDataUrl } from "./utils/qrScanner";
+import { parseEMVCoPayload } from "./utils/emvcoParser";
+import { runLocalOCR } from "./utils/localOcr";
+import JsonViewer from "./components/JsonViewer";
 
 export default function App() {
   const [activeMode, setActiveMode] = useState<"chat" | "slip" | "notebooklm">("chat");
@@ -18,6 +23,7 @@ export default function App() {
   const [progress, setProgress] = useState(0);
   const [isGenerated, setIsGenerated] = useState(false);
   const [ocrData, setOcrData] = useState<any>(null);
+  const [showRawJson, setShowRawJson] = useState(false);
   
   // Modals state
   const [showDetailModal, setShowDetailModal] = useState(false);
@@ -73,6 +79,8 @@ export default function App() {
       }
     } else if (activeMode === "slip") {
       setProgress(10);
+      let qrPayload = "";
+      let qrAmount = "";
       try {
         const formData = new FormData();
         uploadedFiles.forEach((file) => {
@@ -80,57 +88,83 @@ export default function App() {
           formData.append('image', blob, file.name);
         });
 
+        // PRE-PROCESSING: Attempt to extract real QR code before OCR
+        try {
+          setProgress(20);
+          const firstImage = uploadedFiles[0];
+          if (firstImage) {
+            const scannedPayload = await scanQrFromDataUrl(firstImage.url);
+            if (scannedPayload) {
+              qrPayload = scannedPayload;
+              const emvcoData = parseEMVCoPayload(qrPayload);
+              if (emvcoData.amount) {
+                qrAmount = emvcoData.amount;
+              }
+              toast.success("Successfully scanned EMVCo QR Code payload from image!");
+            } else {
+              toast.info("No QR code found in the image. Proceeding with Vision OCR only.");
+            }
+          }
+        } catch (qrErr) {
+          console.warn("QR scan failed", qrErr);
+        }
+
         setProgress(30);
-        const res = await fetch('http://localhost:5000/api/ocr', {
-          method: 'POST',
-          body: formData,
-        });
+        let ocrResult: any = null;
 
-        setProgress(70);
-        if (!res.ok) throw new Error('OCR Server returned error');
-        const data = await res.json();
-
-        // Expect merged result with combined_results array; take first result for UI
-        const ocrResult = data.combined_results ? data.combined_results[0] : data;
-        setProgress(90);
-        setOcrData(ocrResult);
-        setProgress(100);
-        setIsGenerating(false);
-        setIsGenerated(true);
-        toast.success('Bank slip OCR analysis completed successfully!');
-      } catch (err) {
-        console.error('Error running Slip OCR:', err);
-        setProgress(80);
-        setTimeout(() => {
-          setOcrData({
-            "forensics_analysis": {
-              "case_number": "DE-2026-0528",
-              "database_record_id": 1,
-              "processing_timestamp": "2026-05-28 10:45:12 UTC",
-              "integrity_hash": "SHA256:7e8b23a9d98f7e2a87c102a1b5c68f9a2e31d4e8b09f1a23b4c5d6e7f8a901bc",
-            },
-            "bank_slip_verification": {
-              "bank_logo_detected": true,
-              "bank_logo_bbox": [51, 51, 358, 184],
-              "matched_bank_brand": "SCB",
-              "brand_matching_confidence": "95.4%",
-              "brand_vector_features_dimensions": 64
-            },
-            "extracted_transaction_metadata": {
-              "bank_name": "SCB",
-              "transaction_date_time": "14 ต.ค. 2566",
-              "sender_name": "สมชาย มีสุข (Mr. Somchai Meesook)",
-              "receiver_name": "Company Digital Evidence Ltd.",
-              "amount_transferred": "3,500.00 THB",
-              "qr_code_hash_payload": "000201010212303800160099901460566209"
-            },
-            "status": "VERIFIED_GENUINE_EVIDENCE"
+        try {
+          // Attempt backend OCR first
+          const res = await fetch('http://localhost:5000/api/ocr', {
+            method: 'POST',
+            body: formData,
           });
+          if (!res.ok) throw new Error('OCR Server returned error');
+          const data = await res.json();
+          ocrResult = data.combined_results ? data.combined_results[0] : data;
+          setProgress(70);
+        } catch (backendErr) {
+          console.warn("Backend OCR unavailable. Falling back to local Tesseract OCR.", backendErr);
+          toast.info("Backend offline. Running AI OCR on your browser... (May take a few seconds)");
+          const firstImage = uploadedFiles[0];
+          if (firstImage) {
+             ocrResult = await runLocalOCR(firstImage.url, (p) => {
+               // Map Tesseract progress (0-1) to UI progress (30-80)
+               if (p.status === "recognizing text") {
+                 setProgress(30 + Math.floor(p.progress * 50));
+               }
+             });
+          } else {
+             throw new Error("No image available for local OCR");
+          }
+        }
+
+        // Inject real QR payload if found
+        if (ocrResult) {
+          if (!ocrResult.extracted_transaction_metadata) {
+            ocrResult.extracted_transaction_metadata = {};
+          }
+          if (qrPayload) {
+            ocrResult.extracted_transaction_metadata.qr_code_hash_payload = qrPayload;
+            if (qrAmount) {
+               ocrResult.extracted_transaction_metadata.amount_transferred = `${qrAmount} THB`;
+            }
+          }
+
+          setProgress(90);
+          const validatedData = validateSlipData(ocrResult);
+          setOcrData(validatedData);
           setProgress(100);
           setIsGenerating(false);
           setIsGenerated(true);
-          toast.success('Bank slip OCR completed (Offline Mock Backup)!');
-        }, 1500);
+          toast.success('Bank slip OCR analysis completed successfully!');
+        } else {
+          throw new Error("OCR Failed completely.");
+        }
+      } catch (err) {
+        console.error('Error running Slip OCR:', err);
+        setProgress(0);
+        setIsGenerating(false);
+        toast.error("Failed to process image. OCR Server is offline and local fallback failed.");
       }
     }
   };
@@ -291,12 +325,29 @@ export default function App() {
                   <Table className="w-5 h-5 text-blue-900 dark:text-blue-400" />
                   Slip OCR Data Analysis
                 </h3>
-                <button 
-                  onClick={() => setShowDetailModal(false)}
-                  className="p-1.5 rounded-lg bg-white/30 hover:bg-white/50 dark:bg-white/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 cursor-pointer transition-all"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => {
+                      const el = document.createElement('textarea');
+                      el.value = JSON.stringify(ocrData, null, 2);
+                      document.body.appendChild(el);
+                      el.select();
+                      document.execCommand('copy');
+                      document.body.removeChild(el);
+                    }}
+                    className="px-3 py-1 text-sm font-bold rounded bg-blue-600/10 hover:bg-blue-600/20 text-blue-700 dark:text-blue-300 transition-colors"
+                  >Copy JSON</button>
+                  <button 
+                    onClick={() => setShowRawJson(!showRawJson)}
+                    className="px-3 py-1 text-sm font-bold rounded bg-gray-500/10 hover:bg-gray-500/20 text-gray-700 dark:text-gray-300 transition-colors"
+                  >{showRawJson ? 'Hide Raw JSON' : 'Show Full JSON'}</button>
+                  <button 
+                    onClick={() => setShowDetailModal(false)}
+                    className="p-1.5 rounded-lg bg-white/30 hover:bg-white/50 dark:bg-white/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 cursor-pointer transition-all"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
               <div className="overflow-x-auto rounded-xl border border-white/20 dark:border-white/5 bg-white/20 dark:bg-white/2">
@@ -311,37 +362,43 @@ export default function App() {
                   <tbody className="divide-y divide-white/10">
                     <tr>
                       <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Bank Name</td>
-                      <td className="p-3 font-bold text-blue-900 dark:text-blue-300">{ocrData?.extracted_transaction_metadata?.bank_name || "SCB"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.bank_slip_verification?.brand_matching_confidence || "95.4%"}</span></td>
+                      <td className="p-3 font-bold text-blue-900 dark:text-blue-300">{ocrData?.bank_name || ocrData?.bankName || "Unknown"}</td>
+                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.bankConfidence || "0.0%")}</span></td>
                     </tr>
                     <tr>
                       <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Transaction Date</td>
-                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.extracted_transaction_metadata?.transaction_date_time || "14 ต.ค. 2566"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">98.5%</span></td>
+                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.transaction_date || ocrData?.transactionDate || "Unknown"}</td>
+                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.dateConfidence || "0.0%")}</span></td>
                     </tr>
                     <tr>
                       <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Sender Name</td>
-                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.extracted_transaction_metadata?.sender_name || "นายสมชาย มีสุข"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">97.8%</span></td>
+                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.sender_name || ocrData?.senderName || "Unknown"}</td>
+                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.senderConfidence || "0.0%")}</span></td>
                     </tr>
                     <tr>
                       <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Receiver Name</td>
-                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.extracted_transaction_metadata?.receiver_name || "Company Digital Evidence Ltd."}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">98.1%</span></td>
+                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.receiver_name || ocrData?.receiverName || "Unknown"}</td>
+                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.receiverConfidence || "0.0%")}</span></td>
                     </tr>
                     <tr>
                       <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Transferred Amount</td>
-                      <td className="p-3 font-bold text-green-700 dark:text-green-400">{ocrData?.extracted_transaction_metadata?.amount_transferred || "3,500.00 THB"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">100.0%</span></td>
+                      <td className="p-3 font-bold text-green-700 dark:text-green-400">{ocrData?.amount || "Unknown"}</td>
+                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.amountConfidence || "0.0%")}</span></td>
                     </tr>
                     <tr>
                       <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">QR Code Hash</td>
-                      <td className="p-3 font-mono text-xs text-gray-500 break-all select-all">{ocrData?.extracted_transaction_metadata?.qr_code_hash_payload || "000201010212303800160099901460566209..."}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">100.0%</span></td>
+                      <td className="p-3 font-mono text-xs text-gray-500 break-all select-all">{ocrData?.qr_payload || ocrData?.qrPayload || "N/A"}</td>
+                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.isQrVerified ? "100.0%" : "0.0%")}</span></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+
+              {showRawJson && (
+                <div className="mt-4 max-h-[300px] overflow-auto rounded-lg border border-white/10 p-2">
+                  <JsonViewer data={ocrData} />
+                </div>
+              )}
 
               <div className="mt-4 flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400 font-semibold bg-amber-500/5 p-3 rounded-xl border border-amber-500/10">
                 <Cpu className="w-4 h-4 animate-pulse" />

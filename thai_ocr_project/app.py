@@ -2,6 +2,11 @@
 # Listens on port 5000 and processes real-time slip uploads with CORS active
 
 import os
+import sys
+from dotenv import load_dotenv
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+load_dotenv(os.path.join(sys.path[0], '.env'))
+
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from modules.preprocessor import preprocess_image
@@ -53,23 +58,93 @@ def process_slip_ocr():
             matcher = BankLogoMatcher()
             match_res = matcher.match_brand(detect_res.get("cropped_logo"))
 
-            # 4. EasyOCR Text Parsing
-            ocr_engine = ThaiSlipOCR()
-            try:
-                full_text = ocr_engine.extract_text(file_path)
-                parsed_data = ocr_engine.parse_fields(full_text)
-            except Exception:
-                parsed_data = {
-                    "bank_name": match_res.get("brand", "UNKNOWN"),
-                    "transaction_date": "28 May 2026 10:45:12",
-                    "sender_name": "Mr. Somchai Dev",
-                    "receiver_name": "Company Digital Evidence Ltd.",
-                    "amount": 4500.00,
-                    "qr_payload": "000201010212303800160099901460566209"
-                }
+            # 4. Extract Text & Parse Data with Google Vision AI and SlipParser
+            import asyncio
+            from bank_slip_reader.ocr_engine import OCREngine
+            from bank_slip_reader.slip_parser import SlipParser
 
-            if parsed_data["bank_name"] == "UNKNOWN" and match_res.get("brand") != "UNKNOWN":
-                parsed_data["bank_name"] = match_res.get("brand")
+            async def parse_slip():
+                ocr_engine = OCREngine(provider="google", api_key=os.getenv("OPENAI_API_KEY"))
+                full_text = await ocr_engine.extract_text(file_path)
+                
+                # Try rule_based mode first
+                parser = SlipParser(mode="rule_based")
+                result = await parser.parse(full_text, file_name=filename)
+                
+                # Build full response object for each file
+                start_time = time.time()
+                # raw OCR text from Vision
+                raw_text = full_text
+                # Parse result to dict
+                slip_dict = result.to_dict()
+
+                # Combine date and time
+                date_str = slip_dict.get("transaction_date") or "UNKNOWN"
+                time_str = slip_dict.get("transaction_time") or ""
+                if date_str != "UNKNOWN" and time_str:
+                    date_only = date_str.split("T")[0]
+                    combined_datetime = f"{date_only}  /  {time_str}"
+                else:
+                    combined_datetime = date_str
+
+                # Save to DB and get record meta
+                db = EvidenceDatabaseManager("sqlite:///digital_evidence.db")
+                db_record = db.save_record({
+                    "bank_name": slip_dict.get("bank_name"),
+                    "transaction_date": combined_datetime,
+                    "sender_name": slip_dict.get("sender", {}).get("name"),
+                    "receiver_name": slip_dict.get("receiver", {}).get("name"),
+                    "amount": slip_dict.get("amount"),
+                    "qr_payload": slip_dict.get("qr_payload"),
+                    "transaction_id": slip_dict.get("transaction_id"),
+                    "transaction_time": time_str,
+                })
+
+                processing_time_ms = int((time.time() - start_time) * 1000)
+
+                # Assemble full JSON for this slip
+                full_result = {
+                    "raw_text": raw_text,
+                    "bank_name": slip_dict.get("bank_name", "UNKNOWN"),
+                    "bank_code": slip_dict.get("bank_code"),
+                    "transaction_date": combined_datetime,
+                    "transaction_time": time_str,
+                    "sender_name": slip_dict.get("sender", {}).get("name"),
+                    "sender_account": slip_dict.get("sender", {}).get("account"),
+                    "receiver_name": slip_dict.get("receiver", {}).get("name"),
+                    "receiver_account": slip_dict.get("receiver", {}).get("account"),
+                    "amount": slip_dict.get("amount"),
+                    "currency": slip_dict.get("currency"),
+                    "qr_payload": slip_dict.get("qr_payload"),
+                    "transaction_id": slip_dict.get("transaction_id"),
+                    "confidence": slip_dict.get("bank_confidence"),
+                    "logo_detection": {
+                        "brand": detect_res.get("brand"),
+                        "confidence": detect_res.get("confidence"),
+                        "bbox": detect_res.get("bbox")
+                    },
+                    "db_record": {
+                        "case_number": db_record.case_number,
+                        "record_id": db_record.id,
+                        "created_at": db_record.created_at.isoformat(),
+                        "integrity_hash": db_record.integrity_hash
+                    },
+                    "processing_time_ms": processing_time_ms
+                }
+                
+                # Cleanup uploaded file
+                try:
+                    os.remove(file_path)
+                except Exception:
+                    pass
+
+                return full_result
+
+            try:
+                parsed_data = asyncio.run(parse_slip())
+            except Exception as e:
+                raise RuntimeError(f"Google Vision / Parser Extraction failed: {str(e)}")
+
 
             db = EvidenceDatabaseManager("sqlite:///digital_evidence.db")
             db_record = db.save_record(parsed_data)

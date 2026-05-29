@@ -1,0 +1,17 @@
+{
+  "bank_name": "SCB",
+  "transaction_date": "14/10/2566  /  00:00",
+  "sender_name": "สมชาย มีสุข (Mr. Somchai Meesook)",
+  "receiver_name": "Company Digital Evidence Ltd.",
+  "amount": 3500.0,
+  "currency": "THB",
+  "qr_payload": "000201010212303800160099901460566209",
+  "confidence": {
+    "bank_name": 0.954,
+    "transaction_date": 0.985,
+    "sender_name": 0.978,
+    "receiver_name": 0.981,
+    "amount": 1.0,
+    "qr_payload": 1.0
+  }
+}

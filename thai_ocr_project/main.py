@@ -37,20 +37,11 @@ def main():
         # 4. Text OCR Extraction (EasyOCR + Thai language pack)
         # print("Running EasyOCR Thai text extraction...")
         ocr_engine = ThaiSlipOCR()
-        # Simulated run or real run if easyocr is installed
         try:
             full_text = ocr_engine.extract_text(binarized_img)
             parsed_data = ocr_engine.parse_fields(full_text)
-        except Exception as ocr_err:
-            # High-fidelity mock parsing fallback for legal demonstration
-            parsed_data = {
-                "bank_name": match_res.get("brand", "UNKNOWN"),
-                "transaction_date": "28 May 2026 10:45:12",
-                "sender_name": "Mr. Somchai Dev",
-                "receiver_name": "Company Digital Evidence Ltd.",
-                "amount": 4500.00,
-                "qr_payload": "000201010212303800160099901460566209"
-            }
+        except Exception as e:
+            raise RuntimeError(f"OCR Exception: {str(e)}")
 
         # Override detected bank name with matched brand if OCR missed it
         if parsed_data["bank_name"] == "UNKNOWN" and match_res.get("brand") != "UNKNOWN":
