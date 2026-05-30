@@ -15,6 +15,84 @@ import { parseEMVCoPayload } from "./utils/emvcoParser";
 import { runLocalOCR } from "./utils/localOcr";
 import JsonViewer from "./components/JsonViewer";
 
+const EMPTY_CELL = "-";
+
+function asSlipResults(ocrData: any): any[] {
+  if (!ocrData) return [];
+  return Array.isArray(ocrData) ? ocrData : [ocrData];
+}
+
+function readSlipField(result: any, ...paths: string[]): string {
+  for (const path of paths) {
+    const value = path.split(".").reduce((current, key) => current?.[key], result);
+    if (value !== undefined && value !== null && String(value).trim() !== "") {
+      return String(value);
+    }
+  }
+  return EMPTY_CELL;
+}
+
+function splitSlipDateTime(value: string): { date: string; time: string } {
+  if (!value || value === EMPTY_CELL) return { date: EMPTY_CELL, time: EMPTY_CELL };
+
+  const timeMatch = value.match(/\b\d{1,2}:\d{2}(?::\d{2})?\b/);
+  const time = timeMatch?.[0] || EMPTY_CELL;
+  const date = value.replace(time, "").replace(/\s*\/\s*/g, " ").trim() || value;
+
+  return { date, time };
+}
+
+function toSlipDetailRows(ocrData: any) {
+  return asSlipResults(ocrData).map((result, index) => {
+    const dateTime = readSlipField(
+      result,
+      "transaction_date",
+      "transactionDate",
+      "extracted_transaction_metadata.transaction_date_time"
+    );
+    const { date, time } = splitSlipDateTime(dateTime);
+
+    return {
+      no: index + 1,
+      date,
+      time,
+      senderBank: readSlipField(
+        result,
+        "sender_bank",
+        "senderBank",
+        "bank_name",
+        "bankName",
+        "extracted_transaction_metadata.bank_name"
+      ),
+      senderName: readSlipField(
+        result,
+        "sender_name",
+        "senderName",
+        "extracted_transaction_metadata.sender_name"
+      ),
+      amount: readSlipField(
+        result,
+        "amount",
+        "extracted_transaction_metadata.amount_transferred"
+      ),
+      receiverName: readSlipField(
+        result,
+        "receiver_name",
+        "receiverName",
+        "extracted_transaction_metadata.receiver_name"
+      ),
+      receiverBank: readSlipField(
+        result,
+        "receiver_bank",
+        "receiverBank",
+        "extracted_transaction_metadata.receiver_bank_name"
+      ),
+      memo: readSlipField(result, "transaction_id", "ref_id", "memo"),
+      note: readSlipField(result, "source_file_name", "filename", "status", "error"),
+    };
+  });
+}
+
 export default function App() {
   const [activeMode, setActiveMode] = useState<"chat" | "slip" | "notebooklm">("chat");
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; url: string }[]>([]);
@@ -121,7 +199,7 @@ export default function App() {
         }
 
         setProgress(30);
-        let ocrResult: any = null;
+        let ocrResults: any[] = [];
 
         try {
           // Attempt backend OCR first
@@ -131,42 +209,70 @@ export default function App() {
           });
           if (!res.ok) throw new Error('OCR Server returned error');
           const data = await res.json();
-          ocrResult = data.combined_results ? data.combined_results[0] : data;
+          ocrResults = data.combined_results ? data.combined_results : [data];
           setProgress(70);
         } catch (backendErr) {
           console.warn("Backend OCR unavailable. Falling back to local Tesseract OCR.", backendErr);
           toast.info("Backend offline. Running AI OCR on your browser... (May take a few seconds)");
-          const firstImage = uploadedFiles[0];
-          if (firstImage) {
-             ocrResult = await runLocalOCR(firstImage.url, (p) => {
-               // Map Tesseract progress (0-1) to UI progress (30-80)
-               if (p.status === "recognizing text") {
-                 setProgress(30 + Math.floor(p.progress * 50));
-               }
-             });
-          } else {
-             throw new Error("No image available for local OCR");
+
+          for (let i = 0; i < uploadedFiles.length; i++) {
+            const file = uploadedFiles[i];
+            const result = await runLocalOCR(file.url, (p) => {
+              if (p.status === "recognizing text") {
+                const fileProgress = (i + p.progress) / uploadedFiles.length;
+                setProgress(30 + Math.floor(fileProgress * 50));
+              }
+            });
+            ocrResults.push({
+              ...result,
+              source_file_name: file.name,
+            });
           }
         }
 
         // Inject real QR payload if found
-        if (ocrResult) {
-          if (!ocrResult.extracted_transaction_metadata) {
-            ocrResult.extracted_transaction_metadata = {};
-          }
-          if (qrPayload) {
-            ocrResult.extracted_transaction_metadata.qr_code_hash_payload = qrPayload;
-            if (qrAmount) {
-               ocrResult.extracted_transaction_metadata.amount_transferred = `${qrAmount} THB`;
+        if (ocrResults.length > 0) {
+          const resultsWithMetadata = ocrResults.map((result, index) => {
+            const nextResult = {
+              ...result,
+              source_file_name: result.source_file_name || uploadedFiles[index]?.name || `Slip ${index + 1}`,
+              extracted_transaction_metadata: {
+                ...(result.extracted_transaction_metadata || {}),
+              },
+            };
+
+            if (index === 0 && qrPayload) {
+              nextResult.extracted_transaction_metadata.qr_code_hash_payload = qrPayload;
+              if (qrAmount) {
+                nextResult.extracted_transaction_metadata.amount_transferred = `${qrAmount} THB`;
+              }
             }
+
+            return nextResult;
+          });
+
+          const normalizedResults = resultsWithMetadata.map((result) => {
+            try {
+              return {
+                ...result,
+                ...validateSlipData(result),
+              };
+            } catch {
+              return result;
+            }
+          });
+
+          if (normalizedResults.length === 1) {
+            setOcrData(normalizedResults[0]);
+          } else {
+            setOcrData(normalizedResults);
           }
 
           setProgress(90);
-          setOcrData(ocrResult);
           setProgress(100);
           setIsGenerating(false);
           setIsGenerated(true);
-          toast.success('Bank slip OCR analysis completed successfully!');
+          toast.success(`Bank slip OCR analysis completed for ${normalizedResults.length} slip(s).`);
         } else {
           throw new Error("OCR Failed completely.");
         }
@@ -220,6 +326,8 @@ export default function App() {
       });
     }, 150);
   };
+
+  const slipDetailRows = toSlipDetailRows(ocrData);
 
   return (
     <ThemeProvider>
@@ -361,45 +469,44 @@ export default function App() {
               </div>
 
               <div className="overflow-x-auto rounded-xl border border-white/20 dark:border-white/5 bg-white/20 dark:bg-white/2">
-                <table className="w-full border-collapse text-sm text-left">
+                <table className="w-full min-w-[1100px] border-collapse text-xs text-left">
                   <thead>
                     <tr className="bg-white/40 dark:bg-white/5 border-b border-white/20 dark:border-white/5">
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">Data Field</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">Extracted Value</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 text-center">Confidence</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ลำดับ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">วันที่</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">เวลา</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ธนาคารผู้โอน</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ชื่อผู้โอน</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">จำนวนเงิน</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ชื่อผู้รับ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ธนาคารผู้รับ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">บันทึกช่วยจำ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">หมายเหตุ</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/10">
-                    <tr>
-                      <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Bank Name</td>
-                      <td className="p-3 font-bold text-blue-900 dark:text-blue-300">{ocrData?.bank_name || ocrData?.bankName || "Unknown"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.bankConfidence || "0.0%")}</span></td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Transaction Date</td>
-                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.transaction_date || ocrData?.transactionDate || "Unknown"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.dateConfidence || "0.0%")}</span></td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Sender Name</td>
-                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.sender_name || ocrData?.senderName || "Unknown"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.senderConfidence || "0.0%")}</span></td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Receiver Name</td>
-                      <td className="p-3 font-semibold text-blue-950 dark:text-blue-100">{ocrData?.receiver_name || ocrData?.receiverName || "Unknown"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.receiverConfidence || "0.0%")}</span></td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">Transferred Amount</td>
-                      <td className="p-3 font-bold text-green-700 dark:text-green-400">{ocrData?.amount || "Unknown"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.amountConfidence || "0.0%")}</span></td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">QR Code Hash</td>
-                      <td className="p-3 font-mono text-xs text-gray-500 break-all select-all">{ocrData?.qr_payload || ocrData?.qrPayload || "N/A"}</td>
-                      <td className="p-3 text-center"><span className="px-2 py-0.5 bg-green-500/10 text-green-700 dark:text-green-400 rounded-md font-bold text-xs">{ocrData?.confidence ? `${ocrData.confidence}%` : (ocrData?.isQrVerified ? "100.0%" : "0.0%")}</span></td>
-                    </tr>
+                    {slipDetailRows.length > 0 ? (
+                      slipDetailRows.map((row) => (
+                        <tr key={row.no}>
+                          <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">{row.no}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.date}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.time}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.senderBank}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.senderName}</td>
+                          <td className="p-3 font-bold text-green-700 dark:text-green-400">{row.amount}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.receiverName}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.receiverBank}</td>
+                          <td className="p-3 text-gray-600 dark:text-gray-300">{row.memo}</td>
+                          <td className="p-3 text-gray-600 dark:text-gray-300">{row.note}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td className="p-3 text-center text-gray-500" colSpan={10}>
+                          ยังไม่มีผล OCR จากสลิปที่อัปโหลด
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
