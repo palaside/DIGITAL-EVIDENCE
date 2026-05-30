@@ -150,7 +150,7 @@ export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginate
                         <span>YOLOv8 Bank Logo: {ocrData?.bank_slip_verification?.matched_bank_brand || "SCB"} ({ocrData?.bank_slip_verification?.brand_matching_confidence || "95.4%"}) Bounding Boxes Activated.</span>
                       </div>
                       <div className="text-[7.5px] text-gray-500 font-semibold pl-4.5 border-t border-amber-100/50 pt-1 mt-0.5">
-                        Verified with Thai Slip OCR Engine (EasyOCR + PaddleOCR + Bank API sync)
+                        OCR result from uploaded slip. Please review extracted fields.
                       </div>
                     </div>
                     {uploadedFiles.map((file, idx) => (

@@ -558,7 +558,7 @@ export default function App() {
 
               <div className="mt-4 flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400 font-semibold bg-amber-500/5 p-3 rounded-xl border border-amber-500/10">
                 <Cpu className="w-4 h-4 animate-pulse" />
-                <span>Verified with Thai Slip OCR Engine (EasyOCR + PaddleOCR + Bank API sync)</span>
+                <span>OCR result from uploaded slip. Please review extracted fields before using as evidence.</span>
               </div>
             </div>
           </div>
