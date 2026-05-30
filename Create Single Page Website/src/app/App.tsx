@@ -12,6 +12,7 @@ import { segmentChatImage, PageSegment } from "./utils/pagination";
 import { validateSlipData } from "./utils/slipValidatorEngine";
 import { scanQrFromDataUrl } from "./utils/qrScanner";
 import { parseEMVCoPayload } from "./utils/emvcoParser";
+import { exportEvidencePdf } from "./utils/pdfExport";
 import JsonViewer from "./components/JsonViewer";
 
 const EMPTY_CELL = "-";
@@ -283,22 +284,30 @@ export default function App() {
     }
   };
 
-  const handleSavePDF = () => {
+  const handleSavePDF = async () => {
     if (!isGenerated) {
       toast.error("Please generate the evidence preview first!");
       return;
     }
-    
-    // Simulate actual PDF download using the first uploaded file or preview
-    const fileName = activeMode === "chat" ? "LINE_Chat_Paginator_Evidence.pdf" : "Bank_Slip_OCR_Evidence.pdf";
-    const link = document.createElement("a");
-    link.href = uploadedFiles[0]?.url || "";
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    toast.success(`Secure encrypted PDF saved successfully: ${fileName}`);
+
+    try {
+      const mode = activeMode === "chat" ? "chat" : "slip";
+      const sourceImages =
+        mode === "chat" && paginatedPages.length > 0
+          ? paginatedPages.map((page) => page.canvasDataUrl)
+          : uploadedFiles.map((file) => file.url);
+
+      await exportEvidencePdf({
+        mode,
+        sourceImages,
+        slipRows: mode === "slip" ? slipDetailRows : [],
+      });
+
+      toast.success("Evidence PDF saved successfully.");
+    } catch (error) {
+      console.error("Error exporting evidence PDF:", error);
+      toast.error("Unable to create the evidence PDF.");
+    }
   };
 
   const handleSendProject = () => {
