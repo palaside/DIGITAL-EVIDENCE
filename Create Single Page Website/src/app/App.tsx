@@ -450,8 +450,33 @@ export default function App() {
 
         {/* Modal: Slip OCR Details Table */}
         {showDetailModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/40 animate-in fade-in duration-200">
-            <div className="glass-panel relative w-full max-w-6xl border-none shadow-2xl rounded-2xl p-6 overflow-hidden">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/40 animate-in fade-in duration-200"
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 9999,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "16px",
+              background: "rgba(0, 0, 0, 0.45)",
+            }}
+          >
+            <div
+              className="glass-panel relative w-full max-w-6xl border-none shadow-2xl rounded-2xl p-6 overflow-hidden"
+              style={{
+                position: "relative",
+                width: "min(96vw, 1152px)",
+                maxHeight: "88vh",
+                overflow: "auto",
+                borderRadius: "16px",
+                padding: "24px",
+                background: "rgba(255, 255, 255, 0.96)",
+                color: "#0f172a",
+                boxShadow: "0 24px 80px rgba(15, 23, 42, 0.35)",
+              }}
+            >
               <div className="flex justify-between items-center border-b border-white/20 dark:border-white/5 pb-4 mb-4">
                 <h3 className="text-xl font-bold flex items-center gap-2 text-blue-950 dark:text-blue-200">
                   <Table className="w-5 h-5 text-blue-900 dark:text-blue-400" />
