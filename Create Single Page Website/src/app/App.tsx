@@ -169,6 +169,11 @@ export default function App() {
         setIsGenerating(false);
       }
     } else if (activeMode === "slip") {
+      setOcrData(uploadedFiles.map((file, index) => ({
+        source_file_name: file.name || `Slip ${index + 1}`,
+        status: "Processing OCR...",
+      })));
+      setShowDetailModal(true);
       setProgress(10);
       let qrPayload = "";
       let qrAmount = "";
