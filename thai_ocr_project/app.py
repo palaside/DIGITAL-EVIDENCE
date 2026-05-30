@@ -34,8 +34,27 @@ def add_cors_headers(response):
     response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
     return response
 
-@app.route('/api/ocr', methods=['POST', 'OPTIONS'])
+@app.route('/', methods=['GET'])
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({
+        "status": "ok",
+        "service": "OCR backend is running",
+        "ocr_endpoint": "/api/ocr",
+        "ocr_method": "POST",
+    }), 200
+
+@app.route('/api/ocr', methods=['GET', 'POST', 'OPTIONS'])
 def process_slip_ocr():
+    if request.method == 'GET':
+        return jsonify({
+            "status": "ok",
+            "message": "OCR endpoint is running. Use POST with image file uploads to process slips.",
+            "required_method": "POST",
+            "file_field": "image",
+            "supports_multiple_files": True,
+        }), 200
+
     if request.method == 'OPTIONS':
         return jsonify({"status": "preflight"}), 200
 
