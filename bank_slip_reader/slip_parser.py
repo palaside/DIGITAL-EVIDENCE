@@ -92,6 +92,54 @@ class SlipParser:
         self.mode = mode
         self.api_key = openai_api_key
         self.detector = BankDetector()
+        self.bank_noise_tokens = self._build_bank_noise_tokens()
+
+    def _build_bank_noise_tokens(self) -> set[str]:
+        tokens: set[str] = {
+            "bank", "banks", "thai", "payment", "transfer", "success",
+            "krungthai", "kasikorn", "kbank", "scb", "ttb", "tmb",
+            "กรุงไทย", "กสิกรไทย", "ไทยพาณิชย์", "ทหารไทย", "ธนชาต",
+            "ธนาคาร", "โอนเงินสำเร็จ", "รหัสอ้างอิง", "จำนวนเงิน", "ค่าธรรมเนียม",
+        }
+
+        for bank in BankName:
+            if bank == BankName.UNKNOWN:
+                continue
+            tokens.update(self._extract_text_tokens(bank.value))
+
+        for cfg in self.detector.BANK_PATTERNS.values():
+            for keyword in cfg.get("keywords", []):
+                tokens.update(self._extract_text_tokens(keyword))
+
+        return {self._normalize_token(token) for token in tokens if self._normalize_token(token)}
+
+    def _extract_text_tokens(self, value: str) -> set[str]:
+        normalized = re.sub(r"\\[bBsSdwW\.\+\*\?\^\$\|\(\)\[\]\{\}-]", " ", value)
+        normalized = normalized.replace("\\", " ")
+        parts = re.findall(r"[A-Za-z]{3,}|[ก-๙]{2,}", normalized.lower())
+        return {part.strip() for part in parts if part.strip()}
+
+    def _normalize_token(self, value: str) -> str:
+        return re.sub(r"[^a-z0-9ก-๙]+", "", value.lower())
+
+    def _is_bank_or_header_name(self, value: str) -> bool:
+        normalized = self._normalize_token(value)
+        if not normalized:
+            return True
+
+        candidate_tokens = {
+            self._normalize_token(token)
+            for token in re.findall(r"[A-Za-z]{2,}|[ก-๙]{2,}", value.lower())
+            if self._normalize_token(token)
+        }
+
+        # Reject pure bank/header lines like "Krungthai" or "ธนาคารกรุงไทย".
+        if normalized in self.bank_noise_tokens:
+            return True
+        if candidate_tokens and candidate_tokens.issubset(self.bank_noise_tokens):
+            return True
+
+        return False
 
     # ─── Public ──────────────────────────────────────────────────────────────
     async def parse(self, raw_text: str, file_name: str = "") -> BankSlipData:
@@ -262,7 +310,11 @@ class SlipParser:
                     "ไปยัง", "โอนเงิน", "รหัส", "อ้างอิง", "จํานวนเงิน", "ค่าธรรมเนียม", "วันที่ทำรายการ",
                     "ถึง", "จาก", "โอนไป", "สำเร็จ", "success", "รายการ", "เวลา", "จำนวนเงิน", "โอน"
                 ]
-                if len(name) >= 4 and not any(n in name for n in noise):
+                if (
+                    len(name) >= 4
+                    and not any(n in name for n in noise)
+                    and not self._is_bank_or_header_name(name)
+                ):
                     return name
             return None
 
