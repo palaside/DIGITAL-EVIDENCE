@@ -12,7 +12,6 @@ import { segmentChatImage, PageSegment } from "./utils/pagination";
 import { validateSlipData } from "./utils/slipValidatorEngine";
 import { scanQrFromDataUrl } from "./utils/qrScanner";
 import { parseEMVCoPayload } from "./utils/emvcoParser";
-import { runLocalOCR } from "./utils/localOcr";
 import JsonViewer from "./components/JsonViewer";
 
 const EMPTY_CELL = "-";
@@ -209,7 +208,6 @@ export default function App() {
         let ocrResults: any[] = [];
 
         try {
-          // Attempt backend OCR first
           const res = await fetch('http://localhost:5000/api/ocr', {
             method: 'POST',
             body: formData,
@@ -219,22 +217,8 @@ export default function App() {
           ocrResults = data.combined_results ? data.combined_results : [data];
           setProgress(70);
         } catch (backendErr) {
-          console.warn("Backend OCR unavailable. Falling back to local Tesseract OCR.", backendErr);
-          toast.info("Backend offline. Running AI OCR on your browser... (May take a few seconds)");
-
-          for (let i = 0; i < uploadedFiles.length; i++) {
-            const file = uploadedFiles[i];
-            const result = await runLocalOCR(file.url, (p) => {
-              if (p.status === "recognizing text") {
-                const fileProgress = (i + p.progress) / uploadedFiles.length;
-                setProgress(30 + Math.floor(fileProgress * 50));
-              }
-            });
-            ocrResults.push({
-              ...result,
-              source_file_name: file.name,
-            });
-          }
+          console.warn("OpenAI backend OCR failed.", backendErr);
+          throw new Error("OpenAI backend OCR failed. Please check OPENAI_API_KEY and the OCR server.");
         }
 
         // Inject real QR payload if found

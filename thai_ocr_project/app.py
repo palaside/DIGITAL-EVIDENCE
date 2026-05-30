@@ -62,17 +62,20 @@ def process_slip_ocr():
             matcher = BankLogoMatcher()
             match_res = matcher.match_brand(detect_res.get("cropped_logo"))
 
-            # 4. Extract Text & Parse Data with Google Vision AI and SlipParser
+            # 4. Extract Text & Parse Data with OpenAI Vision OCR + GPT parser
             import asyncio
             from bank_slip_reader.ocr_engine import OCREngine
             from bank_slip_reader.slip_parser import SlipParser
 
             async def parse_slip():
-                ocr_engine = OCREngine(provider="google", api_key=os.getenv("OPENAI_API_KEY"))
+                openai_api_key = os.getenv("OPENAI_API_KEY")
+                if not openai_api_key:
+                    raise RuntimeError("OPENAI_API_KEY is not configured. OpenAI OCR is required for Slip Mode.")
+
+                ocr_engine = OCREngine(provider="openai", api_key=openai_api_key)
                 full_text = await ocr_engine.extract_text(file_path)
                 
-                # Try rule_based mode first
-                parser = SlipParser(mode="rule_based")
+                parser = SlipParser(openai_api_key=openai_api_key, mode="ai")
                 result = await parser.parse(full_text, file_name=filename)
                 
                 # Build full response object for each file
@@ -147,7 +150,7 @@ def process_slip_ocr():
             try:
                 parsed_data = asyncio.run(parse_slip())
             except Exception as e:
-                raise RuntimeError(f"Google Vision / Parser Extraction failed: {str(e)}")
+                raise RuntimeError(f"OpenAI OCR / GPT Parser extraction failed: {str(e)}")
 
 
             db = EvidenceDatabaseManager("sqlite:///digital_evidence.db")
@@ -177,10 +180,14 @@ def process_slip_ocr():
                     "transaction_date_time": parsed_data["transaction_date"],
                     "sender_name": parsed_data["sender_name"],
                     "receiver_name": parsed_data["receiver_name"],
-                    "amount_transferred": f"{parsed_data['amount']:.2f} THB",
+                    "amount_transferred": f"{parsed_data['amount']:.2f} THB" if parsed_data.get("amount") is not None else None,
                     "qr_code_hash_payload": parsed_data["qr_payload"]
                 },
-                "status": "VERIFIED_GENUINE_EVIDENCE"
+                "extraction_engine": {
+                    "ocr_provider": "openai_vision",
+                    "parser": "openai_gpt"
+                },
+                "status": "OCR_EXTRACTED_REVIEW_REQUIRED"
             }
             results.append(report)
         except Exception as e:
