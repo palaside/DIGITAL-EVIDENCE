@@ -217,8 +217,8 @@ export default function App() {
           ocrResults = data.combined_results ? data.combined_results : [data];
           setProgress(70);
         } catch (backendErr) {
-          console.warn("OpenAI backend OCR failed.", backendErr);
-          throw new Error("OpenAI backend OCR failed. Please check OPENAI_API_KEY and the OCR server.");
+          console.warn("Google Cloud Vision backend OCR failed.", backendErr);
+          throw new Error("Google Cloud Vision backend OCR failed. Please check Google credentials and the OCR server.");
         }
 
         // Inject real QR payload if found

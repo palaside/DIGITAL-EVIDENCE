@@ -81,20 +81,16 @@ def process_slip_ocr():
             matcher = BankLogoMatcher()
             match_res = matcher.match_brand(detect_res.get("cropped_logo"))
 
-            # 4. Extract Text & Parse Data with OpenAI Vision OCR + GPT parser
+            # 4. Extract Text with Google Cloud Vision and parse fields locally
             import asyncio
             from bank_slip_reader.ocr_engine import OCREngine
             from bank_slip_reader.slip_parser import SlipParser
 
             async def parse_slip():
-                openai_api_key = os.getenv("OPENAI_API_KEY")
-                if not openai_api_key:
-                    raise RuntimeError("OPENAI_API_KEY is not configured. OpenAI OCR is required for Slip Mode.")
-
-                ocr_engine = OCREngine(provider="openai", api_key=openai_api_key)
+                ocr_engine = OCREngine(provider="google")
                 full_text = await ocr_engine.extract_text(file_path)
                 
-                parser = SlipParser(openai_api_key=openai_api_key, mode="ai")
+                parser = SlipParser(mode="rule_based")
                 result = await parser.parse(full_text, file_name=filename)
                 
                 # Build full response object for each file
@@ -152,8 +148,7 @@ def process_slip_ocr():
                     "db_record": {
                         "case_number": db_record.case_number,
                         "record_id": db_record.id,
-                        "created_at": db_record.created_at.isoformat(),
-                        "integrity_hash": db_record.integrity_hash
+                        "created_at": db_record.created_at.isoformat()
                     },
                     "processing_time_ms": processing_time_ms
                 }
@@ -169,7 +164,7 @@ def process_slip_ocr():
             try:
                 parsed_data = asyncio.run(parse_slip())
             except Exception as e:
-                raise RuntimeError(f"OpenAI OCR / GPT Parser extraction failed: {str(e)}")
+                raise RuntimeError(f"Google Cloud Vision / rule parser extraction failed: {str(e)}")
 
 
             db = EvidenceDatabaseManager("sqlite:///digital_evidence.db")
@@ -203,8 +198,8 @@ def process_slip_ocr():
                     "qr_code_hash_payload": parsed_data["qr_payload"]
                 },
                 "extraction_engine": {
-                    "ocr_provider": "openai_vision",
-                    "parser": "openai_gpt"
+                    "ocr_provider": "google_cloud_vision",
+                    "parser": "rule_based"
                 },
                 "status": "OCR_EXTRACTED_REVIEW_REQUIRED"
             }

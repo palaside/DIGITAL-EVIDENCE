@@ -10,4 +10,4 @@ torchvision
 ultralytics
 faiss-cpu
 flask
-openai
+google-cloud-vision
