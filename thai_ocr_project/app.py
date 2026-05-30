@@ -135,6 +135,7 @@ def process_slip_ocr():
                     "sender_account": slip_dict.get("sender", {}).get("account"),
                     "receiver_name": slip_dict.get("receiver", {}).get("name"),
                     "receiver_account": slip_dict.get("receiver", {}).get("account"),
+                    "receiver_bank": slip_dict.get("receiver", {}).get("bank"),
                     "amount": slip_dict.get("amount"),
                     "currency": slip_dict.get("currency"),
                     "qr_payload": slip_dict.get("qr_payload"),
@@ -194,6 +195,7 @@ def process_slip_ocr():
                     "transaction_date_time": parsed_data["transaction_date"],
                     "sender_name": parsed_data["sender_name"],
                     "receiver_name": parsed_data["receiver_name"],
+                    "receiver_bank_name": parsed_data["receiver_bank"],
                     "amount_transferred": f"{parsed_data['amount']:.2f} THB" if parsed_data.get("amount") is not None else None,
                     "qr_code_hash_payload": parsed_data["qr_payload"]
                 },

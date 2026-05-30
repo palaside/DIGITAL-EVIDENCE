@@ -138,8 +138,29 @@ class SlipParser:
         if not slip.sender_account: slip.sender_account = s_a
         if not slip.receiver_name: slip.receiver_name = r_n
         if not slip.receiver_account: slip.receiver_account = r_a
+        if not slip.receiver_bank:
+            slip.receiver_bank = self._parse_receiver_bank(lines)
 
         return slip
+
+    def _parse_receiver_bank(self, lines: list[str]) -> Optional[str]:
+        receiver_section = False
+        receiver_lines = []
+
+        for line in lines:
+            lower_line = line.lower()
+            if "ไปยัง" in lower_line or any(lbl in lower_line for lbl in RECEIVER_LABELS):
+                receiver_section = True
+                receiver_lines.append(line)
+                continue
+            if receiver_section:
+                receiver_lines.append(line)
+
+        if not receiver_lines:
+            return None
+
+        bank, _ = self.detector.detect("\n".join(receiver_lines[:6]))
+        return None if bank == BankName.UNKNOWN else bank.value
 
     def _parse_time(self, text: str) -> Optional[str]:
         """Extract time from OCR text.

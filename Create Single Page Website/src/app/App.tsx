@@ -87,7 +87,7 @@ function toSlipDetailRows(ocrData: any) {
         "extracted_transaction_metadata.receiver_bank_name"
       ),
       memo: readSlipField(result, "transaction_id", "ref_id", "memo"),
-      note: readSlipField(result, "source_file_name", "filename", "status", "error"),
+      note: "",
     };
   });
 }
@@ -434,7 +434,7 @@ export default function App() {
               className="glass-panel relative w-full max-w-6xl border-none shadow-2xl rounded-2xl p-6 overflow-hidden"
               style={{
                 position: "relative",
-                width: "min(96vw, 1152px)",
+                width: "min(98vw, 1500px)",
                 maxHeight: "88vh",
                 overflow: "auto",
                 borderRadius: "16px",
@@ -475,19 +475,22 @@ export default function App() {
               </div>
 
               <div className="overflow-x-auto rounded-xl border border-white/20 dark:border-white/5 bg-white/20 dark:bg-white/2">
-                <table className="w-full min-w-[1100px] border-collapse text-xs text-left">
+                <table
+                  className="w-full border-collapse text-xs text-left"
+                  style={{ minWidth: "1450px", tableLayout: "fixed" }}
+                >
                   <thead>
                     <tr className="bg-white/40 dark:bg-white/5 border-b border-white/20 dark:border-white/5">
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ลำดับ</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">วันที่</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">เวลา</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ธนาคารผู้โอน</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ชื่อผู้โอน</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">จำนวนเงิน</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ชื่อผู้รับ</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">ธนาคารผู้รับ</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">บันทึกช่วยจำ</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200">หมายเหตุ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ลำดับ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">วันที่</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">เวลา</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ธนาคารผู้โอน</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ชื่อผู้โอน</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">จำนวนเงิน</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ชื่อผู้รับ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ธนาคารผู้รับ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">บันทึกช่วยจำ</th>
+                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">หมายเหตุ</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/10">
@@ -495,15 +498,15 @@ export default function App() {
                       slipDetailRows.map((row) => (
                         <tr key={row.no}>
                           <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">{row.no}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.date}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.time}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.senderBank}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.senderName}</td>
-                          <td className="p-3 font-bold text-green-700 dark:text-green-400">{row.amount}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.receiverName}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100">{row.receiverBank}</td>
-                          <td className="p-3 text-gray-600 dark:text-gray-300">{row.memo}</td>
-                          <td className="p-3 text-gray-600 dark:text-gray-300">{row.note}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.date}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.time}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.senderBank}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.senderName}</td>
+                          <td className="p-3 font-bold text-green-700 dark:text-green-400 break-words">{row.amount}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.receiverName}</td>
+                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.receiverBank}</td>
+                          <td className="p-3 text-gray-600 dark:text-gray-300 break-words">{row.memo}</td>
+                          <td className="p-3 text-gray-600 dark:text-gray-300"></td>
                         </tr>
                       ))
                     ) : (
