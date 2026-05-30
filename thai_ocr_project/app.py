@@ -3,9 +3,13 @@
 
 import os
 import sys
+import time
 from dotenv import load_dotenv
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-load_dotenv(os.path.join(sys.path[0], '.env'))
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
+sys.path.insert(0, CURRENT_DIR)
+sys.path.insert(1, PROJECT_ROOT)
+load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
