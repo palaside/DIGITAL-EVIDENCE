@@ -29,10 +29,11 @@ export function UploadColumn({
       Array.from(files).forEach((file) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-          if (typeof reader.result === "string") {
+          const result = reader.result;
+          if (typeof result === "string") {
             setUploadedFiles((prev) => [
               ...prev,
-              { name: file.name, url: reader.result }
+              { name: file.name, url: result }
             ]);
           }
         };

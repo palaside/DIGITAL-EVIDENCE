@@ -211,7 +211,7 @@ export function NotebookLMPanel() {
           setGenStatus(prevStatus => ({ ...prevStatus, [type]: "done" }));
           toast.success(`Successfully synthesized ${type.toUpperCase()}!`);
           setActiveView(type);
-          return 100;
+          return { ...prev, [type]: 100 };
         }
         return { ...prev, [type]: nextVal };
       });
