@@ -139,6 +139,8 @@ export default function App() {
     setIsGenerating(true);
     setProgress(0);
     setIsGenerated(false);
+    setShowDetailModal(false);
+    setShowRawJson(false);
 
     if (activeMode === "chat") {
       try {
@@ -282,6 +284,11 @@ export default function App() {
         console.error('Error running Slip OCR:', err);
         setProgress(0);
         setIsGenerating(false);
+        setOcrData(uploadedFiles.map((file, index) => ({
+          source_file_name: file.name || `Slip ${index + 1}`,
+          error: err instanceof Error ? err.message : "OCR processing failed",
+        })));
+        setShowDetailModal(true);
         toast.error("Failed to process image. OCR Server is offline and local fallback failed.");
       }
     }
