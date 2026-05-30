@@ -64,14 +64,25 @@ export default function App() {
 
     if (activeMode === "chat") {
       try {
-        setProgress(20);
-        const segments = await segmentChatImage(uploadedFiles[0].url);
-        setProgress(60);
-        setPaginatedPages(segments);
+        const allSegments: PageSegment[] = [];
+
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          const file = uploadedFiles[i];
+          setProgress(Math.round((i / uploadedFiles.length) * 90));
+          const segments = await segmentChatImage(file.url);
+          allSegments.push(...segments);
+        }
+
+        const renumberedSegments = allSegments.map((segment, index) => ({
+          ...segment,
+          pageNumber: index + 1,
+        }));
+
+        setPaginatedPages(renumberedSegments);
         setProgress(100);
         setIsGenerating(false);
         setIsGenerated(true);
-        toast.success("LINE chat paginated into PDF A4 format successfully without splitting bubbles!");
+        toast.success(`LINE chat paginated ${uploadedFiles.length} file(s) into ${renumberedSegments.length} A4 page(s).`);
       } catch (error) {
         console.error("Error paginating chat:", error);
         toast.error("Failed to process Object-Aware Pagination on the uploaded image.");
