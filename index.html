@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Evidence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light grey background from mockup */
+            color: #111827;
+        }
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .card-title {
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .primary-btn {
+            background-color: #2b4084; /* Dark blue */
+            color: white;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .primary-btn:hover { background-color: #1e2d61; }
+        
+        .secondary-btn {
+            background-color: #8fa1c9; /* Light purple-blue */
+            color: white;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .secondary-btn:hover { background-color: #7b8eb5; }
+        
+        .toggle-btn {
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #2b4084;
+            padding: 0.5rem 2.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .toggle-btn.active {
+            border-color: #2b4084;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-[#2b4084] tracking-wide mb-1">DIGITAL EVIDENCE</h1>
+            <p class="text-sm text-gray-500">Advanced Evidence Processing System</p>
+        </div>
+
+        <!-- Mode Toggles -->
+        <div class="flex justify-center gap-4 mb-8">
+            <button class="toggle-btn active">Chat</button>
+            <button class="toggle-btn">Slip</button>
+        </div>
+
+        <!-- 3 Columns -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Column -->
+            <div class="lg:col-span-3 flex flex-col gap-6">
+                <!-- Upload Photo -->
+                <div class="card">
+                    <h3 class="card-title">Upload Photo</h3>
+                    <div class="border-2 border-dashed border-gray-200 rounded-lg p-6 flex flex-col items-center text-center cursor-pointer hover:border-gray-300 transition-colors">
+                        <i data-lucide="upload" class="w-6 h-6 text-gray-400 mb-2"></i>
+                        <p class="text-sm text-gray-600 mb-1">Click to upload or drag and drop</p>
+                        <p class="text-xs text-gray-400">PNG, JPG up to 10MB</p>
+                    </div>
+                </div>
+
+                <!-- Generate -->
+                <div class="card">
+                    <h3 class="card-title">Generate</h3>
+                    <button class="secondary-btn">
+                        <i data-lucide="play" class="w-4 h-4"></i> Start Generation
+                    </button>
+                </div>
+
+                <!-- Progress -->
+                <div class="card">
+                    <h3 class="card-title">Progress</h3>
+                    <div>
+                        <div class="w-full bg-gray-200 h-2 rounded-full mb-3">
+                            <div class="bg-gray-300 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-1">Status: Ready</p>
+                        <p class="text-xs text-gray-500">0% Complete</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Column -->
+            <div class="lg:col-span-6 flex flex-col">
+                <div class="card flex-1">
+                    <h3 class="card-title">Preview</h3>
+                    <div class="bg-[#eef2f7] rounded-lg flex-1 flex flex-col items-center justify-center p-8 min-h-[400px]">
+                        <!-- Replace this img src with the actual logo image path from the project later -->
+                        <img src="Create Single Page Website/src/assets/hero.png" onerror="this.src='https://placehold.co/300x300/eef2f7/2b4084?text=Shield+Logo'" alt="Shield Logo" class="w-64 h-auto object-contain mb-6 mix-blend-multiply">
+                        <h2 class="text-3xl font-bold text-[#2b4084] font-['Noto_Sans_Thai',sans-serif] mb-2">หลักฐานดิจิทัล</h2>
+                        <h3 class="text-3xl text-[#2b4084] font-normal tracking-wide">DIGITAL EVIDENCE</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="lg:col-span-3 flex flex-col gap-6">
+                <!-- Save -->
+                <div class="card">
+                    <h3 class="card-title">Save</h3>
+                    <div>
+                        <button class="primary-btn w-full mb-2">
+                            <i data-lucide="save" class="w-4 h-4"></i> Save Evidence
+                        </button>
+                        <p class="text-xs text-gray-500 text-center">Save to local storage</p>
+                    </div>
+                </div>
+
+                <!-- Detail -->
+                <div class="card flex-1">
+                    <h3 class="card-title">Detail</h3>
+                    <div class="space-y-4 text-sm mt-2 flex-1">
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Type:</span>
+                            <span class="font-medium">Image</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Format:</span>
+                            <span class="font-medium">PNG</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Size:</span>
+                            <span class="font-medium">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Created:</span>
+                            <span class="font-medium">May 28, 2026</span>
+                        </div>
+                    </div>
+                    <button class="w-full border border-gray-200 rounded-md py-2 text-sm font-medium flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors mt-4">
+                        <i data-lucide="file-text" class="w-4 h-4"></i> View Full Details
+                    </button>
+                </div>
+
+                <!-- Send Project -->
+                <div class="card">
+                    <h3 class="card-title">Send Project</h3>
+                    <div>
+                        <button class="primary-btn w-full mb-2">
+                            <i data-lucide="send" class="w-4 h-4"></i> Send to System
+                        </button>
+                        <p class="text-xs text-gray-500 text-center">Submit for processing</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

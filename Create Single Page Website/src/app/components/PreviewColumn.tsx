@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import brandLogo from "../../imports/_______________-_Copy-1.png";
 import { Cpu, ShieldAlert, BadgeInfo } from "lucide-react";
-import { LicenseStatus } from "./LicenseStatus";
 
 interface PreviewColumnProps {
   activeMode: "chat" | "slip";
@@ -14,43 +12,35 @@ interface PreviewColumnProps {
 }
 
 export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginatedPages = [], ocrData }: PreviewColumnProps) {
-  // Mock license data for UI preview
-  const mockLicense = {
-    status: "Active",
-    expiry: "2027-12-31",
-    plan: "Enterprise"
-  };
-  const [zoomLevel, setZoomLevel] = useState<100 | 150>(100); // Default zoom level to 100% as requested!
-  // Determine if viewport background is white A4 paper sheet or original logo matching bg
-  const viewportBg = isGenerated ? "bg-gray-100 dark:bg-gray-900" : "bg-[#eef2f7]";
-  const viewportBorder = isGenerated ? "border-transparent" : "border-[#d8dee9]";
+  const [zoomLevel, setZoomLevel] = useState<100 | 150>(100);
+  const viewportBg = isGenerated ? "bg-gray-100 dark:bg-gray-900" : "bg-[#EEF2FF] dark:bg-slate-800/50";
+  const viewportBorder = isGenerated ? "border-transparent" : "border-transparent";
 
   return (
-    <Card className="glass-panel border-none rounded-2xl shadow-xl h-full flex flex-col relative overflow-hidden">
-      <CardHeader className="pb-3 px-6 pt-5 flex flex-row items-center justify-between">
-        <CardTitle className="text-lg font-bold text-blue-950 dark:text-blue-200">
-          {isGenerated ? "Generated Evidence PDF (A4)" : "Evidence Viewport"}
-        </CardTitle>
-        <LicenseStatus license={mockLicense} />
+    <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm h-full flex flex-col relative overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex flex-row items-center justify-between">
+        <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">
+          Preview
+        </h3>
         {isGenerated && (
-          <div className="flex bg-[#030213]/10 dark:bg-white/5 border border-[#030213]/10 dark:border-white/10 rounded-lg p-0.5 text-[10px] font-bold shadow-sm shrink-0">
+          <div className="flex bg-gray-100 dark:bg-slate-900 rounded p-0.5 text-xs font-medium shadow-sm shrink-0">
             <button 
               onClick={() => setZoomLevel(100)}
-              className={`px-2.5 py-1 rounded-md transition-all duration-200 cursor-pointer ${zoomLevel === 100 ? "bg-[#030213] text-white dark:bg-blue-600 shadow-sm" : "text-gray-500 hover:text-gray-700 dark:text-gray-400"}`}
+              className={`px-3 py-1 rounded transition-colors ${zoomLevel === 100 ? "bg-white text-gray-900 shadow-sm dark:bg-slate-700 dark:text-white" : "text-gray-500 hover:text-gray-700 dark:text-gray-400"}`}
             >
               100%
             </button>
             <button 
               onClick={() => setZoomLevel(150)}
-              className={`px-2.5 py-1 rounded-md transition-all duration-200 cursor-pointer ${zoomLevel === 150 ? "bg-[#030213] text-white dark:bg-blue-600 shadow-sm" : "text-gray-500 hover:text-gray-700 dark:text-gray-400"}`}
+              className={`px-3 py-1 rounded transition-colors ${zoomLevel === 150 ? "bg-white text-gray-900 shadow-sm dark:bg-slate-700 dark:text-white" : "text-gray-500 hover:text-gray-700 dark:text-gray-400"}`}
             >
               150%
             </button>
           </div>
         )}
-      </CardHeader>
-      <CardContent className="px-6 pb-6 flex-1 flex flex-col">
-        <div className={`w-full ${isGenerated ? "flex-1 min-h-[890px]" : "h-[400px]"} ${viewportBg} border ${viewportBorder} rounded-2xl flex flex-col items-center p-4 overflow-auto shadow-inner transition-all duration-300 relative`}>
+      </div>
+      <div className="p-6 flex-1 flex flex-col">
+        <div className={`w-full ${isGenerated ? "flex-1 min-h-[890px]" : "h-full min-h-[500px]"} ${viewportBg} border ${viewportBorder} rounded-xl flex flex-col items-center p-4 overflow-auto transition-all duration-300 relative`}>
           
           {isGenerated ? (
             /* Live A4 PDF Paper Sheet Template */
@@ -197,18 +187,17 @@ export function PreviewColumn({ activeMode, isGenerated, uploadedFiles, paginate
             </div>
           ) : (
             /* Starting Default Emblem Shield Viewport */
-            <div className="w-full h-full flex items-center justify-center p-4 relative group">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none" />
+            <div className="w-full h-full flex flex-col items-center justify-center relative group p-8">
               <ImageWithFallback
                 src={brandLogo}
                 alt="Digital Evidence Preview"
-                className="w-full h-full object-contain rounded-xl transition-all duration-500 group-hover:scale-[1.02]"
+                className="w-full max-w-sm h-auto object-contain transition-all duration-500 group-hover:scale-[1.02] drop-shadow-2xl"
               />
             </div>
           )}
           
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

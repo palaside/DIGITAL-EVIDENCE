@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ShieldCheck, ShieldAlert, ShieldQuestion } from "lucide-react";
 
 export function LicenseStatus() {
@@ -12,7 +12,7 @@ export function LicenseStatus() {
       try {
         // In real usage, replace this fetch with actual call:
         // const response = await fetch("http://localhost:4000/api/bot/license", { ... });
-        
+
         // Mock success response
         setLicenseData({
           company: "Digital Evidence Corp",

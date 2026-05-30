@@ -1,3 +1,4 @@
+import React from "react";
 import { Save, FileText, Send, Table, FileArchive } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
@@ -20,111 +21,84 @@ export function ActionsColumn({
   ocrData,
 }: ActionsColumnProps) {
   return (
-    <div className="space-y-6 h-full flex flex-col justify-between">
+    <div className="space-y-6 h-full flex flex-col justify-start">
       {/* Save PDF */}
-      <Card className="glass-panel glass-panel-hover border-none rounded-2xl shadow-lg relative overflow-hidden">
-        <CardHeader className="pb-3 px-6 pt-5">
-          <CardTitle className="text-lg font-bold text-blue-950 dark:text-blue-200">Save PDF</CardTitle>
-        </CardHeader>
-        <CardContent className="px-6 pb-5">
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">Save</h3>
+        </div>
+        <div className="p-6">
           <Button
-            className="w-full h-11 font-bold text-white bg-gradient-to-tr from-[#030213] to-blue-900 dark:from-blue-700 dark:to-blue-500 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md shadow-blue-500/15 cursor-pointer rounded-xl disabled:opacity-40 disabled:pointer-events-none"
+            className="w-full h-10 font-medium text-white bg-[#1E3A8A] hover:bg-blue-900 transition-colors rounded-md shadow-none"
             onClick={onSave}
             disabled={!isGenerated}
           >
             <Save className="w-4 h-4 mr-2" />
-            Save PDF Evidence
+            Save Evidence
           </Button>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-2.5 text-center font-semibold uppercase tracking-wider">
-            Export secure A4 PDF for court
+          <p className="text-[11px] text-gray-400 mt-2 text-center">
+            Save to local storage
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Details Grid & Table */}
-      <Card className="glass-panel glass-panel-hover border-none rounded-2xl shadow-lg relative overflow-hidden flex-1">
-        <CardHeader className="pb-3 px-6 pt-5">
-          <CardTitle className="text-lg font-bold text-blue-950 dark:text-blue-200">
-            {activeMode === "chat" ? "Paginator Details" : "Slip OCR Details"}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3.5 px-6 pb-6">
-          <div className="space-y-1 text-sm">
-            <div className="flex justify-between py-2 border-b border-white/20 dark:border-white/5">
-              <span className="text-gray-500 dark:text-gray-400 font-semibold">Evidence Type:</span>
-              <span className="font-bold text-blue-950 dark:text-blue-100">
-                {activeMode === "chat" ? "LINE Chat Logs" : "Bank Slip Receipts"}
-              </span>
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden flex-1">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">
+            Detail
+          </h3>
+        </div>
+        <div className="p-6 space-y-4 text-xs">
+          <div className="space-y-2.5">
+            <div className="flex justify-between">
+              <span className="text-gray-500">Type:</span>
+              <span className="font-bold text-gray-900 dark:text-gray-100">Image</span>
             </div>
-            
-            {activeMode === "chat" ? (
-              <>
-                <div className="flex justify-between py-2 border-b border-white/20 dark:border-white/5">
-                  <span className="text-gray-500 dark:text-gray-400 font-semibold">Page Break:</span>
-                  <span className="font-bold text-blue-950 dark:text-blue-100">Object-Aware</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-white/20 dark:border-white/5">
-                  <span className="text-gray-500 dark:text-gray-400 font-semibold">Branding Header:</span>
-                  <span className="font-bold text-green-600 dark:text-green-400">THSarabunNew</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex justify-between py-2 border-b border-white/20 dark:border-white/5">
-                  <span className="text-gray-500 dark:text-gray-400 font-semibold">OCR Engines:</span>
-                  <span className="font-bold text-blue-950 dark:text-blue-100">Easy + Paddle</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-white/20 dark:border-white/5">
-                  <span className="text-gray-500 dark:text-gray-400 font-semibold">Logo Detection:</span>
-                  <span className="font-bold text-green-600 dark:text-green-400">{ocrData?.bank_slip_verification?.matched_bank_brand ? `${ocrData.bank_slip_verification.matched_bank_brand} (${ocrData.bank_slip_verification.brand_matching_confidence})` : "YOLOv8 Active"}</span>
-                </div>
-              </>
-            )}
-            
-            <div className="flex justify-between py-2 border-b border-white/20 dark:border-white/5">
-              <span className="text-gray-500 dark:text-gray-400 font-semibold">Legal Hash:</span>
-              <span className="font-mono text-xs font-bold text-blue-900 dark:text-blue-400">{ocrData?.forensics_analysis?.integrity_hash ? ocrData.forensics_analysis.integrity_hash.slice(7, 18) + "..." : "SHA-256"}</span>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Format:</span>
+              <span className="font-bold text-gray-900 dark:text-gray-100">PNG</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Size:</span>
+              <span className="font-bold text-gray-900 dark:text-gray-100">-</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Created:</span>
+              <span className="font-bold text-gray-900 dark:text-gray-100">May 28, 2026</span>
             </div>
           </div>
 
-          {activeMode === "slip" && (
-            <Button
-              variant="outline"
-              className="w-full h-11 cursor-pointer font-bold tracking-wide backdrop-blur-sm bg-white/30 border-white/40 text-blue-950 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-blue-100 dark:hover:bg-white/10 rounded-xl transition-all duration-300 shadow-sm mt-4 disabled:opacity-40 disabled:pointer-events-none"
-              onClick={onDetail}
-              disabled={!isGenerated}
-            >
-              <Table className="w-4 h-4 mr-2" />
-              View Slip OCR Table
-            </Button>
-          )}
-
-          {activeMode === "chat" && (
-            <div className="text-[10.5px] text-gray-500 dark:text-gray-400 italic bg-white/15 dark:bg-white/2 p-3 rounded-xl border border-white/5 text-center mt-4">
-              Chat pagination calculates 23 content types to prevent cutting message bubbles.
-            </div>
-          )}
-        </CardContent>
-      </Card>
+          <Button
+            variant="outline"
+            className="w-full h-9 mt-4 text-xs font-medium border-gray-200 hover:bg-gray-50 text-gray-700 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-slate-700 rounded-md shadow-none transition-colors"
+            onClick={onDetail}
+            disabled={!isGenerated && activeMode === "slip"}
+          >
+            <FileText className="w-3.5 h-3.5 mr-2" />
+            View Full Details
+          </Button>
+        </div>
+      </div>
 
       {/* Send Project WinRAR */}
-      <Card className="glass-panel glass-panel-hover border-none rounded-2xl shadow-lg relative overflow-hidden">
-        <CardHeader className="pb-3 px-6 pt-5">
-          <CardTitle className="text-lg font-bold text-blue-950 dark:text-blue-200">Send Project</CardTitle>
-        </CardHeader>
-        <CardContent className="px-6 pb-5">
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">Send Project</h3>
+        </div>
+        <div className="p-6">
           <Button
-            className="w-full h-11 font-bold text-white bg-gradient-to-tr from-[#030213] to-blue-900 dark:from-blue-700 dark:to-blue-500 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md shadow-blue-500/15 cursor-pointer rounded-xl"
+            className="w-full h-10 font-medium text-white bg-[#1E3A8A] hover:bg-blue-900 transition-colors rounded-md shadow-none"
             onClick={onSend}
           >
-            <FileArchive className="w-4 h-4 mr-2" />
-            Send WinRAR Archive
+            <Send className="w-4 h-4 mr-2" />
+            Send to System
           </Button>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-2.5 text-center font-semibold uppercase tracking-wider">
-            Package SFX RAR with 3% Recovery
+          <p className="text-[11px] text-gray-400 mt-2 text-center">
+            Submit for processing
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

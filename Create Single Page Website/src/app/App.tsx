@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Header } from "./components/Header";
 import { UploadColumn } from "./components/UploadColumn";
@@ -329,26 +329,19 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-[#f3f4f6] dark:bg-[#030213] flex flex-col relative overflow-hidden transition-colors duration-300">
+      <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-900 flex flex-col relative overflow-hidden transition-colors duration-300">
         
-        {/* Layer 0: Aurora Glow Orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-blue-600/15 dark:bg-blue-600/10 blur-[100px] animate-float-slow" />
-          <div className="absolute top-[25%] left-[-15%] w-[600px] h-[600px] rounded-full bg-indigo-500/12 dark:bg-indigo-900/8 blur-[120px] animate-float-medium" />
-          <div className="absolute bottom-[-10%] right-[10%] w-[450px] h-[450px] rounded-full bg-sky-400/15 dark:bg-sky-900/10 blur-[90px] animate-float-fast" />
-        </div>
-
-        {/* Content Container (Layer 1+) */}
+        {/* Content Container */}
         <div className="relative z-10 flex-1 flex flex-col">
           <Header />
 
           <main className="flex-1 container mx-auto px-6 py-8">
             {/* Hero Section */}
             <div className="mb-8 text-center">
-              <h2 className="text-5xl font-black bg-gradient-to-r from-blue-950 via-slate-900 to-blue-900 dark:from-white dark:via-blue-100 dark:to-blue-300 bg-clip-text text-transparent tracking-widest uppercase">
+              <h2 className="text-4xl font-black text-[#1E3A8A] dark:text-blue-200 tracking-wider uppercase mb-1">
                 DIGITAL EVIDENCE
               </h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-2 text-xs font-semibold tracking-widest uppercase">
+              <p className="text-gray-500 dark:text-gray-400 text-sm">
                 Advanced Evidence Processing System
               </p>
             </div>
@@ -357,33 +350,23 @@ export default function App() {
             <div className="flex justify-center gap-4 mb-8">
               <button
                 onClick={() => handleModeChange("chat")}
-                className={`px-6 h-12 rounded-full font-bold tracking-wide transition-all duration-300 cursor-pointer shadow-sm border ${
+                className={`px-8 h-10 rounded-md font-medium text-sm transition-all duration-300 cursor-pointer border ${
                   activeMode === "chat"
-                    ? "bg-[#030213] text-white border-[#030213] dark:bg-blue-600 dark:border-blue-500 shadow-md shadow-blue-500/20 scale-105"
-                    : "backdrop-blur-md bg-white/40 border-white/50 text-blue-950 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-blue-100 dark:hover:bg-white/10"
+                    ? "bg-white text-[#1E3A8A] border-[#1E3A8A] shadow-sm"
+                    : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"
                 }`}
               >
-                Chat Paginator Mode
+                Chat
               </button>
               <button
                 onClick={() => handleModeChange("slip")}
-                className={`px-6 h-12 rounded-full font-bold tracking-wide transition-all duration-300 cursor-pointer shadow-sm border ${
+                className={`px-8 h-10 rounded-md font-medium text-sm transition-all duration-300 cursor-pointer border ${
                   activeMode === "slip"
-                    ? "bg-[#030213] text-white border-[#030213] dark:bg-blue-600 dark:border-blue-500 shadow-md shadow-blue-500/20 scale-105"
-                    : "backdrop-blur-md bg-white/40 border-white/50 text-blue-950 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-blue-100 dark:hover:bg-white/10"
+                    ? "bg-white text-[#1E3A8A] border-[#1E3A8A] shadow-sm"
+                    : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"
                 }`}
               >
-                Slip OCR Mode
-              </button>
-              <button
-                onClick={() => handleModeChange("notebooklm")}
-                className={`px-6 h-12 rounded-full font-bold tracking-wide transition-all duration-300 cursor-pointer shadow-sm border ${
-                  activeMode === "notebooklm"
-                    ? "bg-[#030213] text-white border-[#030213] dark:bg-blue-600 dark:border-blue-500 shadow-md shadow-blue-500/20 scale-105"
-                    : "backdrop-blur-md bg-white/40 border-white/50 text-blue-950 hover:bg-white/60 dark:bg-white/5 dark:border-white/10 dark:text-blue-100 dark:hover:bg-white/10"
-                }`}
-              >
-                NotebookLM Case Copilot
+                Slip
               </button>
             </div>
 

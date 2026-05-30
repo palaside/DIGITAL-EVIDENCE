@@ -47,15 +47,15 @@ export function UploadColumn({
   };
 
   return (
-    <div className="space-y-6 h-full flex flex-col justify-between">
+    <div className="space-y-6 h-full flex flex-col justify-start">
       {/* Upload Box */}
-      <Card className="glass-panel glass-panel-hover border-none rounded-2xl shadow-lg relative overflow-hidden">
-        <CardHeader className="pb-3 px-6 pt-5">
-          <CardTitle className="text-lg font-bold text-blue-950 dark:text-blue-200">
-            {activeMode === "chat" ? "Upload Chat Images" : "Upload Bank Slips"}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-6 pb-5 space-y-4">
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">
+            {activeMode === "chat" ? "Upload Chat Images" : "Upload Photo"}
+          </h3>
+        </div>
+        <div className="p-6">
           <label className="cursor-pointer block">
             <input
               type="file"
@@ -65,39 +65,34 @@ export function UploadColumn({
               onChange={handleFileUpload}
               disabled={isGenerating}
             />
-            <div className="backdrop-blur-md bg-white/20 dark:bg-white/5 border-2 border-dashed border-white/50 dark:border-white/10 hover:border-blue-600 dark:hover:border-blue-500 hover:bg-white/30 dark:hover:bg-white/8 transition-all duration-300 p-6 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer shadow-inner">
-              <div className="p-2.5 bg-white/50 dark:bg-white/5 rounded-full shadow-sm">
-                <Upload className="w-6 h-6 text-blue-900 dark:text-blue-400" />
-              </div>
-              <p className="text-xs font-bold text-blue-950 dark:text-blue-200 text-center">
-                Click to upload multiple images
+            <div className="bg-white dark:bg-slate-900 border-2 border-dashed border-gray-200 dark:border-gray-700 hover:border-gray-300 transition-all p-8 rounded-lg flex flex-col items-center justify-center gap-3">
+              <Upload className="w-8 h-8 text-gray-400" strokeWidth={1.5} />
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 text-center">
+                Click to upload or drag and drop
               </p>
-              <p className="text-[10px] text-gray-500 dark:text-gray-400">PNG, JPG up to 10MB each</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500">PNG, JPG up to 10MB</p>
             </div>
           </label>
 
           {/* Uploaded Files List */}
           {uploadedFiles.length > 0 && (
-            <div className="space-y-2 mt-2">
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-blue-900 dark:text-blue-400">
-                Uploaded Files ({uploadedFiles.length})
-              </h4>
-              <ScrollArea className="h-[120px] rounded-xl border border-white/20 dark:border-white/5 bg-white/10 dark:bg-white/2 p-2">
-                <div className="space-y-1.5">
+            <div className="space-y-2 mt-4">
+              <ScrollArea className="h-[120px] rounded-lg border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-slate-900/50 p-2">
+                <div className="space-y-1">
                   {uploadedFiles.map((file, idx) => (
                     <div 
                       key={idx} 
-                      className="flex justify-between items-center bg-white/30 dark:bg-white/5 p-2 rounded-lg text-xs"
+                      className="flex justify-between items-center bg-white dark:bg-slate-800 border border-gray-100 dark:border-gray-700 p-2 rounded-md text-xs"
                     >
-                      <span className="flex items-center gap-1.5 font-medium text-blue-950 dark:text-blue-200 truncate max-w-[80%]">
-                        <FileText className="w-3.5 h-3.5 text-blue-900 dark:text-blue-400 shrink-0" />
+                      <span className="flex items-center gap-2 text-gray-700 dark:text-gray-300 truncate max-w-[85%]">
+                        <FileText className="w-4 h-4 text-gray-400 shrink-0" />
                         <span className="truncate">{file.name}</span>
                       </span>
                       <button 
                         onClick={() => removeFile(idx)}
-                        className="text-red-500 hover:text-red-700 cursor-pointer p-0.5"
+                        className="text-gray-400 hover:text-red-500 transition-colors p-1"
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   ))}
@@ -105,54 +100,46 @@ export function UploadColumn({
               </ScrollArea>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Generate Action */}
-      <Card className="glass-panel glass-panel-hover border-none rounded-2xl shadow-lg relative overflow-hidden">
-        <CardHeader className="pb-3 px-6 pt-5">
-          <CardTitle className="text-lg font-bold text-blue-950 dark:text-blue-200">
-            {activeMode === "chat" ? "1. LINE Paginator" : "2. Thai Slip OCR"}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-6 pb-5 space-y-1">
-          <p className="text-[11px] text-gray-500 dark:text-gray-400 font-semibold mb-2">
-            {activeMode === "chat" 
-              ? "Process chat images into a beautifully structured A4 PDF evidence page." 
-              : "Scan bank slips to verify transaction legitimacy against official bank APIs."}
-          </p>
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">
+            Generate
+          </h3>
+        </div>
+        <div className="p-6">
           <Button
-            className="w-full h-11 font-bold text-white bg-gradient-to-tr from-[#030213] to-blue-900 dark:from-blue-700 dark:to-blue-500 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md shadow-blue-500/15 cursor-pointer rounded-xl disabled:opacity-40 disabled:pointer-events-none"
+            className="w-full h-10 font-medium text-white bg-[#8DA0CB] hover:bg-[#7A8EB9] dark:bg-[#475C8A] transition-colors rounded-md shadow-none"
             onClick={onGenerate}
             disabled={isGenerating || uploadedFiles.length === 0}
           >
-            <Play className="w-4 h-4 mr-2 fill-current" />
-            {isGenerating ? "Processing..." : `Run ${activeMode === "chat" ? "Paginator" : "Slip OCR"}`}
+            <Play className="w-4 h-4 mr-2" fill="currentColor" />
+            {isGenerating ? "Processing..." : "Start Generation"}
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Progress Bar */}
-      <Card className="glass-panel glass-panel-hover border-none rounded-2xl shadow-lg relative overflow-hidden flex-1">
-        <CardHeader className="pb-3 px-6 pt-5">
-          <CardTitle className="text-lg font-bold text-blue-950 dark:text-blue-200">Progress Tracker</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4 px-6 pb-6">
-          <Progress value={progress} className="w-full h-3 bg-white/30 dark:bg-white/5 border border-white/20 dark:border-white/5 shadow-inner" />
-          <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 flex justify-between">
-            <span>Status: <span className="font-bold text-blue-900 dark:text-blue-400">{isGenerating ? "Processing Tasks" : isGenerated ? "Ready" : "Idle"}</span></span>
-            <span className="font-bold">{progress}%</span>
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200">Progress</h3>
+        </div>
+        <div className="p-6 space-y-4">
+          <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gray-400 dark:bg-gray-500 transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
           </div>
-          {isGenerated && (
-            <div className="p-3 bg-green-500/10 dark:bg-green-500/10 border border-green-500/20 rounded-xl animate-in zoom-in-95 duration-300">
-              <p className="text-[11px] font-bold text-green-700 dark:text-green-400 flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4 shrink-0 text-green-600 animate-pulse" />
-                Evidence successfully processed.
-              </p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+          <div className="text-xs text-gray-500 dark:text-gray-400 flex flex-col gap-1">
+            <span>Status: {isGenerating ? "Processing" : isGenerated ? "Ready" : "Ready"}</span>
+            <span>{progress}% Complete</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
