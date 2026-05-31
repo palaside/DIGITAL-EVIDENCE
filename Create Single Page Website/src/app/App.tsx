@@ -87,7 +87,7 @@ function toSlipDetailRows(ocrData: any) {
         "receiverBank",
         "extracted_transaction_metadata.receiver_bank_name"
       ),
-      memo: readSlipField(result, "transaction_id", "ref_id", "memo"),
+      memo: readSlipField(result, "memo"),
       note: "",
     };
   });

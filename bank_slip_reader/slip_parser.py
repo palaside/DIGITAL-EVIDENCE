@@ -62,6 +62,13 @@ RECEIVER_LABELS = [
     "ถึง", "ผู้รับ", "โอนไปยัง", "to", "receiver", "ชื่อบัญชีปลายทาง",
     "receiver name", "บจก.", "บริษัท", "ไปยัง"
 ]
+MEMO_LABELS = [
+    "บันทึกช่วยจำ",
+    "บันทึกช่วยจํา",
+    "memo",
+    "note",
+]
+
 ACCOUNT_PAT     = r"(?:[A-Za-z]+\s)?[xX\d]{3}[-\s]?[xX\d]{1,7}[-\s]?[xX\d]{1,7}[-\s]?[xX\d]{0,2}"
 
 THAI_MONTH_MAP = {
@@ -188,6 +195,9 @@ class SlipParser:
         if not slip.receiver_account: slip.receiver_account = r_a
         if not slip.receiver_bank:
             slip.receiver_bank = self._parse_receiver_bank(lines)
+        # Memo extraction (rule based)
+        if slip.memo is None:
+            slip.memo = self._parse_memo(text)
 
         return slip
 
@@ -283,6 +293,40 @@ class SlipParser:
         return None
 
     def _parse_ref(self, text: str) -> Optional[str]:
+        for pat in REF_PAT:
+            m = re.search(pat, text, re.IGNORECASE)
+            if m:
+                return m.group(1).strip()
+        return None
+
+    # ─── Memo extraction ────────────────────────────────────────────────────────
+    def _parse_memo(self, text: str) -> Optional[str]:
+        """Extract memo field based on known label variations.
+        Returns the memo text if found, otherwise None.
+        """
+        lines = [ln.rstrip() for ln in text.splitlines()]
+        memo_labels = [lbl.lower() for lbl in MEMO_LABELS]
+        for i, line in enumerate(lines):
+            lower_line = line.lower()
+            if any(lbl in lower_line for lbl in memo_labels):
+                # Try to capture after label on same line
+                pattern = re.compile(r"(?:" + "|".join([re.escape(lbl) for lbl in MEMO_LABELS]) + r")[:\s]*([\S ].*)", re.IGNORECASE)
+                m = pattern.search(line)
+                candidate = m.group(1).strip() if m else None
+                if not candidate and i + 1 < len(lines):
+                    candidate = lines[i + 1].strip()
+                if candidate:
+                    # Filter out unwanted patterns (ref IDs, amounts, dates, times)
+                    if any(re.search(pat, candidate, re.IGNORECASE) for pat in REF_PAT):
+                        continue
+                    if any(re.search(pat, candidate, re.IGNORECASE) for pat in AMOUNT_PAT):
+                        continue
+                    if any(re.search(pat, candidate) for pat in DATE_PAT):
+                        continue
+                    if any(re.search(pat, candidate) for pat in TIME_PAT_LIST):
+                        continue
+                    return candidate
+        return None
         for pat in REF_PAT:
             m = re.search(pat, text, re.IGNORECASE)
             if m:
@@ -502,6 +546,7 @@ JSON Format:
         slip.receiver_name    = parsed.get("receiver_name")
         slip.receiver_account = parsed.get("receiver_account")
         slip.receiver_bank    = parsed.get("receiver_bank")
+        slip.memo             = parsed.get("memo")
 
         date_str = parsed.get("transaction_date")
         time_str = parsed.get("transaction_time", "00:00:00") or "00:00:00"
