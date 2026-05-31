@@ -4,6 +4,7 @@
 import os
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
@@ -14,10 +15,11 @@ load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from modules.preprocessor import preprocess_image
-from modules.thai_ocr import ThaiSlipOCR
 from modules.logo_detector import BankLogoDetector
 from modules.logo_matcher import BankLogoMatcher
 from database.db_manager import EvidenceDatabaseManager
+from bank_slip_reader.ocr_engine import OCREngine
+from bank_slip_reader.slip_parser import SlipParser
 
 app = Flask(__name__)
 
@@ -25,6 +27,9 @@ app = Flask(__name__)
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'temp_uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+MAX_BATCH_FILES = 500
+DEFAULT_MAX_CONCURRENCY = 8
 
 # CORS Headers manual setup to prevent origin blocks
 @app.after_request
@@ -44,6 +49,112 @@ def health_check():
         "ocr_method": "POST",
     }), 200
 
+
+def _build_combined_datetime(slip_dict: dict) -> tuple[str, str]:
+    date_str = slip_dict.get("transaction_date") or "UNKNOWN"
+    time_str = slip_dict.get("transaction_time") or ""
+    if date_str != "UNKNOWN" and time_str:
+        date_only = date_str.split("T")[0]
+        return f"{date_only}  /  {time_str}", time_str
+    return date_str, time_str
+
+
+def _process_saved_slip(
+    file_path: str,
+    filename: str,
+    detector: BankLogoDetector,
+    matcher: BankLogoMatcher,
+    ocr_engine: OCREngine,
+    parser: SlipParser,
+    db_manager: EvidenceDatabaseManager,
+):
+    start_time = time.time()
+    try:
+        preprocess_image(file_path)
+        detect_res = detector.detect_logo(file_path)
+        match_res = matcher.match_brand(detect_res.get("cropped_logo"))
+
+        import asyncio
+
+        full_text = asyncio.run(ocr_engine.extract_text(file_path))
+        result = asyncio.run(parser.parse(full_text, file_name=filename))
+        slip_dict = result.to_dict()
+        combined_datetime, time_str = _build_combined_datetime(slip_dict)
+
+        db_record = db_manager.save_record({
+            "bank_name": slip_dict.get("bank_name"),
+            "transaction_date": combined_datetime,
+            "sender_name": slip_dict.get("sender", {}).get("name"),
+            "receiver_name": slip_dict.get("receiver", {}).get("name"),
+            "amount": slip_dict.get("amount"),
+            "qr_payload": slip_dict.get("qr_payload"),
+            "transaction_id": slip_dict.get("transaction_id"),
+            "transaction_time": time_str,
+        })
+
+        processing_time_ms = int((time.time() - start_time) * 1000)
+
+        report = {
+            "source_file_name": filename,
+            "raw_text": full_text,
+            "bank_name": slip_dict.get("bank_name", "UNKNOWN"),
+            "bank_code": slip_dict.get("bank_code"),
+            "transaction_date": combined_datetime,
+            "transaction_time": time_str,
+            "sender_name": slip_dict.get("sender", {}).get("name"),
+            "sender_account": slip_dict.get("sender", {}).get("account"),
+            "sender_bank": slip_dict.get("sender", {}).get("bank"),
+            "receiver_name": slip_dict.get("receiver", {}).get("name"),
+            "receiver_account": slip_dict.get("receiver", {}).get("account"),
+            "receiver_bank": slip_dict.get("receiver", {}).get("bank"),
+            "amount": slip_dict.get("amount"),
+            "memo": slip_dict.get("memo"),
+            "currency": slip_dict.get("currency"),
+            "qr_payload": slip_dict.get("qr_payload"),
+            "transaction_id": slip_dict.get("transaction_id"),
+            "confidence": slip_dict.get("bank_confidence"),
+            "forensics_analysis": {
+                "case_number": db_record.case_number,
+                "database_record_id": db_record.id,
+                "processing_timestamp": db_record.created_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
+                "integrity_hash": "SHA256:7e8b23a9d98f7e2a87c102a1b5c68f9a2e31d4e8b09f1a23b4c5d6e7f8a901bc",
+            },
+            "bank_slip_verification": {
+                "bank_logo_detected": detect_res["success"],
+                "bank_logo_bbox": detect_res["bbox"],
+                "matched_bank_brand": slip_dict.get("bank_name"),
+                "brand_matching_confidence": f"{match_res['confidence'] * 100:.1f}%",
+                "brand_vector_features_dimensions": match_res["feature_vector_size"]
+            },
+            "extracted_transaction_metadata": {
+                "bank_name": slip_dict.get("bank_name"),
+                "transaction_date_time": combined_datetime,
+                "sender_name": slip_dict.get("sender", {}).get("name"),
+                "receiver_name": slip_dict.get("receiver", {}).get("name"),
+                "receiver_bank_name": slip_dict.get("receiver", {}).get("bank"),
+                "amount_transferred": f"{slip_dict['amount']:.2f} THB" if slip_dict.get("amount") is not None else None,
+                "qr_code_hash_payload": slip_dict.get("qr_payload"),
+                "memo": slip_dict.get("memo"),
+            },
+            "db_record": {
+                "case_number": db_record.case_number,
+                "record_id": db_record.id,
+                "created_at": db_record.created_at.isoformat()
+            },
+            "processing_time_ms": processing_time_ms,
+            "extraction_engine": {
+                "ocr_provider": "google_cloud_vision",
+                "parser": "rule_based"
+            },
+            "status": "OCR_EXTRACTED_REVIEW_REQUIRED"
+        }
+        return {"index": None, "result": report}
+    finally:
+        try:
+            os.remove(file_path)
+        except Exception:
+            pass
+
 @app.route('/api/ocr', methods=['GET', 'POST', 'OPTIONS'])
 def process_slip_ocr():
     if request.method == 'GET':
@@ -61,154 +172,74 @@ def process_slip_ocr():
     if 'image' not in request.files:
         return jsonify({"error": "No image files provided"}), 400
     files = request.files.getlist('image')
-    results = []
+    if len(files) > MAX_BATCH_FILES:
+        return jsonify({
+            "error": f"Too many files. Maximum batch size is {MAX_BATCH_FILES}."
+        }), 400
+
+    saved_files = []
     for file in files:
         if file.filename == '':
             continue
-        try:
-            filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        saved_files.append((len(saved_files), filename, file_path))
 
-            # 1. OpenCV Preprocessing
-            binarized_img = preprocess_image(file_path)
+    if not saved_files:
+        return jsonify({"error": "No valid image files provided"}), 400
 
-            # 2. YOLOv8 Logo Detection
-            detector = BankLogoDetector(model_path=None)
-            detect_res = detector.detect_logo(file_path)
+    detector = BankLogoDetector(model_path=None)
+    matcher = BankLogoMatcher()
+    ocr_engine = OCREngine(provider="google")
+    parser = SlipParser(mode="rule_based")
+    db_manager = EvidenceDatabaseManager("sqlite:///digital_evidence.db")
 
-            # 3. Faiss Brand Matching
-            matcher = BankLogoMatcher()
-            match_res = matcher.match_brand(detect_res.get("cropped_logo"))
+    max_workers = min(
+        len(saved_files),
+        max(1, int(os.getenv("SLIP_BATCH_MAX_CONCURRENCY", DEFAULT_MAX_CONCURRENCY))),
+    )
 
-            # 4. Extract Text with Google Cloud Vision and parse fields locally
-            import asyncio
-            from bank_slip_reader.ocr_engine import OCREngine
-            from bank_slip_reader.slip_parser import SlipParser
+    indexed_results = [None] * len(saved_files)
+    failed_files = []
 
-            async def parse_slip():
-                ocr_engine = OCREngine(provider="google")
-                full_text = await ocr_engine.extract_text(file_path)
-                
-                parser = SlipParser(mode="rule_based")
-                result = await parser.parse(full_text, file_name=filename)
-                
-                # Build full response object for each file
-                start_time = time.time()
-                # raw OCR text from Vision
-                raw_text = full_text
-                # Parse result to dict
-                slip_dict = result.to_dict()
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_map = {
+            executor.submit(
+                _process_saved_slip,
+                file_path,
+                filename,
+                detector,
+                matcher,
+                ocr_engine,
+                parser,
+                db_manager,
+            ): (index, filename)
+            for index, filename, file_path in saved_files
+        }
 
-                # Combine date and time
-                date_str = slip_dict.get("transaction_date") or "UNKNOWN"
-                time_str = slip_dict.get("transaction_time") or ""
-                if date_str != "UNKNOWN" and time_str:
-                    date_only = date_str.split("T")[0]
-                    combined_datetime = f"{date_only}  /  {time_str}"
-                else:
-                    combined_datetime = date_str
-
-                # Save to DB and get record meta
-                db = EvidenceDatabaseManager("sqlite:///digital_evidence.db")
-                db_record = db.save_record({
-                    "bank_name": slip_dict.get("bank_name"),
-                    "transaction_date": combined_datetime,
-                    "sender_name": slip_dict.get("sender", {}).get("name"),
-                    "receiver_name": slip_dict.get("receiver", {}).get("name"),
-                    "amount": slip_dict.get("amount"),
-                    "qr_payload": slip_dict.get("qr_payload"),
-                    "transaction_id": slip_dict.get("transaction_id"),
-                    "transaction_time": time_str,
-                })
-
-                processing_time_ms = int((time.time() - start_time) * 1000)
-
-                # Assemble full JSON for this slip
-                full_result = {
-                    "raw_text": raw_text,
-                    "bank_name": slip_dict.get("bank_name", "UNKNOWN"),
-                    "bank_code": slip_dict.get("bank_code"),
-                    "transaction_date": combined_datetime,
-                    "transaction_time": time_str,
-                    "sender_name": slip_dict.get("sender", {}).get("name"),
-                    "sender_account": slip_dict.get("sender", {}).get("account"),
-                    "receiver_name": slip_dict.get("receiver", {}).get("name"),
-                    "receiver_account": slip_dict.get("receiver", {}).get("account"),
-                    "receiver_bank": slip_dict.get("receiver", {}).get("bank"),
-                    "amount": slip_dict.get("amount"),
-                    "currency": slip_dict.get("currency"),
-                    "qr_payload": slip_dict.get("qr_payload"),
-                    "transaction_id": slip_dict.get("transaction_id"),
-                    "confidence": slip_dict.get("bank_confidence"),
-                    "logo_detection": {
-                        "brand": detect_res.get("brand"),
-                        "confidence": detect_res.get("confidence"),
-                        "bbox": detect_res.get("bbox")
-                    },
-                    "db_record": {
-                        "case_number": db_record.case_number,
-                        "record_id": db_record.id,
-                        "created_at": db_record.created_at.isoformat()
-                    },
-                    "processing_time_ms": processing_time_ms
-                }
-                
-                # Cleanup uploaded file
-                try:
-                    os.remove(file_path)
-                except Exception:
-                    pass
-
-                return full_result
-
+        for future in as_completed(future_map):
+            index, filename = future_map[future]
             try:
-                parsed_data = asyncio.run(parse_slip())
+                outcome = future.result()
+                indexed_results[index] = outcome["result"]
             except Exception as e:
-                raise RuntimeError(f"Google Cloud Vision / rule parser extraction failed: {str(e)}")
+                error_payload = {"error": str(e), "filename": filename}
+                indexed_results[index] = error_payload
+                failed_files.append(error_payload)
 
-
-            db = EvidenceDatabaseManager("sqlite:///digital_evidence.db")
-            db_record = db.save_record(parsed_data)
-
-            try:
-                os.remove(file_path)
-            except Exception:
-                pass
-
-            report = {
-                "forensics_analysis": {
-                    "case_number": db_record.case_number,
-                    "database_record_id": db_record.id,
-                    "processing_timestamp": db_record.created_at.strftime("%Y-%m-%d %H:%M:%S UTC"),
-                    "integrity_hash": "SHA256:7e8b23a9d98f7e2a87c102a1b5c68f9a2e31d4e8b09f1a23b4c5d6e7f8a901bc",
-                },
-                "bank_slip_verification": {
-                    "bank_logo_detected": detect_res["success"],
-                    "bank_logo_bbox": detect_res["bbox"],
-                    "matched_bank_brand": parsed_data["bank_name"],
-                    "brand_matching_confidence": f"{match_res['confidence'] * 100:.1f}%",
-                    "brand_vector_features_dimensions": match_res["feature_vector_size"]
-                },
-                "extracted_transaction_metadata": {
-                    "bank_name": parsed_data["bank_name"],
-                    "transaction_date_time": parsed_data["transaction_date"],
-                    "sender_name": parsed_data["sender_name"],
-                    "receiver_name": parsed_data["receiver_name"],
-                    "receiver_bank_name": parsed_data["receiver_bank"],
-                    "amount_transferred": f"{parsed_data['amount']:.2f} THB" if parsed_data.get("amount") is not None else None,
-                    "qr_code_hash_payload": parsed_data["qr_payload"]
-                },
-                "extraction_engine": {
-                    "ocr_provider": "google_cloud_vision",
-                    "parser": "rule_based"
-                },
-                "status": "OCR_EXTRACTED_REVIEW_REQUIRED"
-            }
-            results.append(report)
-        except Exception as e:
-            results.append({"error": str(e), "filename": file.filename})
-    merged = {"combined_results": results}
+    results = [result for result in indexed_results if result is not None]
+    merged = {
+        "combined_results": results,
+        "batch_summary": {
+            "total_files": len(saved_files),
+            "processed_files": len(results),
+            "success_count": len(results) - len(failed_files),
+            "failure_count": len(failed_files),
+            "failed_files": failed_files,
+            "max_concurrency": max_workers,
+        }
+    }
     return jsonify(merged), 200
 
 
