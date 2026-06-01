@@ -7,6 +7,20 @@
 export interface PageSegment {
   canvasDataUrl: string;
   pageNumber: number;
+  height?: number;
+}
+
+interface ChatFragment {
+  yTop: number;
+  yBottom: number;
+  objectHeight: number;
+  widestSpan: number;
+}
+
+interface ChatObject {
+  yTop: number;
+  yBottom: number;
+  mergedFrom: ChatFragment[];
 }
 
 export function segmentChatImage(
@@ -36,50 +50,80 @@ export function segmentChatImage(
         const width = canvas.width;
         const height = canvas.height;
 
-        // 1. Calculate horizontal variance for each row to find gaps
+        // 1. Calculate row activity from local edges instead of whole-row variance.
+        // LINE wallpaper textures can have enough color variance to be mistaken
+        // for content, so object detection must look for actual foreground edges.
         const rowSolidness: boolean[] = [];
-        const threshold = 15; // Max standard deviation to count as solid wallpaper background
+        const rowActivity: number[] = [];
+        const sampleStep = 4;
+        const edgeThreshold = 110;
+        const solidActivityThreshold = 0.015;
+        const minForegroundSpan = Math.round(width * 0.18);
+        const rowWideEdgeSpan: boolean[] = [];
+        const rowSpanWidths: number[] = [];
+        const rowActiveCounts: number[] = [];
 
         for (let y = 0; y < height; y++) {
-          let sumR = 0, sumG = 0, sumB = 0;
-          const pixelCount = width;
+          let activePixels = 0;
+          let sampleCount = 0;
+          let firstActiveX = -1;
+          let lastActiveX = -1;
 
-          // Sample pixels across the row
-          for (let x = 0; x < width; x++) {
+          for (let x = sampleStep; x < width; x += sampleStep) {
             const idx = (y * width + x) * 4;
-            sumR += data[idx];
-            sumG += data[idx + 1];
-            sumB += data[idx + 2];
+            const leftIdx = (y * width + (x - sampleStep)) * 4;
+            const upIdx = y > 0 ? (((y - 1) * width + x) * 4) : idx;
+
+            const horizontalContrast =
+              Math.abs(data[idx] - data[leftIdx]) +
+              Math.abs(data[idx + 1] - data[leftIdx + 1]) +
+              Math.abs(data[idx + 2] - data[leftIdx + 2]);
+
+            const verticalContrast =
+              Math.abs(data[idx] - data[upIdx]) +
+              Math.abs(data[idx + 1] - data[upIdx + 1]) +
+              Math.abs(data[idx + 2] - data[upIdx + 2]);
+
+            if (horizontalContrast + verticalContrast > edgeThreshold) {
+              activePixels += 1;
+              if (firstActiveX === -1) firstActiveX = x;
+              lastActiveX = x;
+            }
+            sampleCount += 1;
           }
 
-          const meanR = sumR / pixelCount;
-          const meanG = sumG / pixelCount;
-          const meanB = sumB / pixelCount;
+          rowActivity[y] = sampleCount > 0 ? activePixels / sampleCount : 0;
+          rowActiveCounts[y] = activePixels;
+          rowSpanWidths[y] =
+            firstActiveX !== -1 && lastActiveX !== -1 ? lastActiveX - firstActiveX : 0;
+          rowWideEdgeSpan[y] =
+            firstActiveX !== -1 &&
+            lastActiveX !== -1 &&
+            lastActiveX - firstActiveX >= minForegroundSpan &&
+            activePixels >= 2;
+        }
 
-          let diffSum = 0;
-          // Sample every 4th pixel for speed
-          for (let x = 0; x < width; x += 4) {
-            const idx = (y * width + x) * 4;
-            const rDiff = data[idx] - meanR;
-            const gDiff = data[idx + 1] - meanG;
-            const bDiff = data[idx + 2] - meanB;
-            diffSum += rDiff * rDiff + gDiff * gDiff + bDiff * bDiff;
+        for (let y = 0; y < height; y++) {
+          let smoothed = 0;
+          let weightTotal = 0;
+
+          for (let offset = -2; offset <= 2; offset++) {
+            const row = y + offset;
+            if (row < 0 || row >= height) continue;
+            const weight = offset === 0 ? 3 : Math.abs(offset) === 1 ? 2 : 1;
+            smoothed += rowActivity[row] * weight;
+            weightTotal += weight;
           }
 
-          const variance = diffSum / (pixelCount / 4);
-          const stdDev = Math.sqrt(variance);
-
-          // If standard deviation is low, it's a solid background color (a gap!)
-          rowSolidness[y] = stdDev < threshold;
+          const hasWideEdgeSpan = rowWideEdgeSpan[y];
+          rowSolidness[y] =
+            weightTotal > 0
+              ? smoothed / weightTotal < solidActivityThreshold && !hasWideEdgeSpan
+              : !hasWideEdgeSpan;
         }
 
         // 2. Identify "Objects" (contiguous non-solid rows)
-        interface ChatObject {
-          yTop: number;
-          yBottom: number;
-        }
-
-        const objects: ChatObject[] = [];
+        const rawObjects: Array<{ yTop: number; yBottom: number }> = [];
         let inObject = false;
         let objStart = 0;
 
@@ -95,54 +139,180 @@ export function segmentChatImage(
             inObject = false;
             const objEnd = y;
             if (objEnd - objStart >= minObjHeight) {
-              objects.push({ yTop: objStart, yBottom: objEnd });
+              rawObjects.push({ yTop: objStart, yBottom: objEnd });
             }
           }
         }
         if (inObject) {
-          objects.push({ yTop: objStart, yBottom: height });
+          rawObjects.push({ yTop: objStart, yBottom: height });
         }
 
-        // 3. Paginate into A4 sheets
-        // A4 aspect ratio is width:height = 1:1.414 (e.g. 800w x 1131h)
+        const objects: ChatObject[] = [];
+        const maxStatusWidth = Math.round(width * 0.18);
+        const maxStatusHeight = Math.max(92, Math.round(width * 0.115));
+        const maxCenteredLabelWidth = Math.round(width * 0.42);
+        const maxCenteredLabelHeight = Math.max(74, Math.round(width * 0.09));
+        const maxNoiseActivity = 3.2;
+        const filteredObjects = rawObjects
+          .map((obj) => {
+          const objectHeight = obj.yBottom - obj.yTop;
+          let widestSpan = 0;
+          let totalActivity = 0;
+          let denseRows = 0;
+
+          for (let y = obj.yTop; y < obj.yBottom; y++) {
+            widestSpan = Math.max(widestSpan, rowSpanWidths[y] ?? 0);
+            totalActivity += rowActivity[y] ?? 0;
+            if ((rowActiveCounts[y] ?? 0) >= 4) {
+              denseRows += 1;
+            }
+          }
+
+          const looksLikeTinyStatusOnly =
+            objectHeight <= maxStatusHeight &&
+            widestSpan <= maxStatusWidth &&
+            totalActivity <= maxNoiseActivity &&
+            denseRows <= Math.max(8, Math.round(objectHeight * 0.2));
+          const looksLikeCenteredDateLabel =
+            objectHeight <= maxCenteredLabelHeight &&
+            widestSpan <= maxCenteredLabelWidth &&
+            totalActivity <= maxNoiseActivity * 1.7 &&
+            denseRows <= Math.max(10, Math.round(objectHeight * 0.22));
+
+            return {
+              yTop: obj.yTop,
+              yBottom: obj.yBottom,
+              objectHeight,
+              widestSpan,
+              keep: !looksLikeTinyStatusOnly && !looksLikeCenteredDateLabel,
+            };
+          })
+          .filter((obj) => obj.keep);
+
+        // A single chat bubble, sticker, or media card can contain interior
+        // rows with very little edge activity. Merge nearby fragments back into
+        // one logical object before pagination so we do not cut through the
+        // middle of the same visible chat element.
+        const mergeGapHeight = Math.max(20, Math.round(width * 0.045));
+        for (const obj of filteredObjects) {
+          const previous = objects[objects.length - 1];
+          const shouldMerge =
+            previous &&
+            obj.yTop - previous.yBottom <= mergeGapHeight &&
+            !hasSafeGapValley(
+              previous.yBottom,
+              obj.yTop,
+              rowSolidness,
+              rowActivity,
+              rowWideEdgeSpan,
+              width
+            );
+
+          if (shouldMerge) {
+            previous.yBottom = obj.yBottom;
+            previous.mergedFrom.push({
+              yTop: obj.yTop,
+              yBottom: obj.yBottom,
+              objectHeight: obj.objectHeight,
+              widestSpan: obj.widestSpan,
+            });
+          } else {
+            objects.push({
+              yTop: obj.yTop,
+              yBottom: obj.yBottom,
+              mergedFrom: [
+                {
+                  yTop: obj.yTop,
+                  yBottom: obj.yBottom,
+                  objectHeight: obj.objectHeight,
+                  widestSpan: obj.widestSpan,
+                },
+              ],
+            });
+          }
+        }
+
+        // 3. Paginate into content-driven sheets
+        // Keep A4 as a soft target, but never create artificial wallpaper fill
+        // or split an object when we can keep the object whole and let the
+        // final renderer scale the page content down.
         const a4Height = Math.round(width * 1.414);
+        const topPadding = 14;
+        const bottomPadding = 18;
+        const shrinkAllowance = Math.round(a4Height * 1.12);
+        const smallObjectOverflowAllowance = a4Height + Math.max(220, Math.round(width * 0.28));
+        const preparedObjects = objects.flatMap((obj) =>
+          splitOversizedObject(
+            obj,
+            width,
+            shrinkAllowance,
+            rowSolidness,
+            rowActivity,
+            rowWideEdgeSpan
+          )
+        );
         const pages: PageSegment[] = [];
 
         let currentY = 0;
         let pageNum = 1;
 
         while (currentY < height) {
-          // Default target slice height
-          let targetCutY = currentY + a4Height;
-
-          // If this is the last page (remaining height is less than A4 height)
-          if (targetCutY >= height) {
-            targetCutY = height;
-          } else {
-            // Find a safe gap to slice
-            // Search in a window back up to 25% of the A4 height
-            const searchWindowMin = targetCutY - Math.round(a4Height * 0.25);
-            let safeCutY = -1;
-
-            // Find a gap that doesn't intersect any object
-            for (let y = targetCutY; y >= searchWindowMin; y--) {
-              const insideObject = objects.some(
-                (obj) => y >= obj.yTop && y <= obj.yBottom
-              );
-
-              if (!insideObject && rowSolidness[y]) {
-                safeCutY = y;
-                break;
-              }
-            }
-
-            // If found a safe gap, cut there! Otherwise, fall back to targetCutY
-            if (safeCutY !== -1) {
-              targetCutY = safeCutY;
-            }
+          const remainingObjects = preparedObjects.filter((obj) => obj.yBottom > currentY);
+          if (remainingObjects.length === 0) {
+            break;
           }
 
-          const sliceHeight = targetCutY - currentY;
+          const nextObject = remainingObjects[0];
+          const segmentStart =
+            pageNum === 1
+              ? 0
+              : Math.max(currentY, Math.max(0, nextObject.yTop - topPadding));
+
+          let targetCutY = height;
+          let lastIncludedObject: ChatObject | null = null;
+
+          for (const obj of remainingObjects) {
+            const paddedBottom = obj.yBottom + bottomPadding;
+            const projectedHeight = paddedBottom - segmentStart;
+
+            if (!lastIncludedObject) {
+              // Never split the first object on a page. Allow the renderer/PDF
+              // layer to scale the page down instead of cutting the object.
+              lastIncludedObject = obj;
+              targetCutY = paddedBottom;
+              continue;
+            }
+
+            if (projectedHeight <= a4Height) {
+              lastIncludedObject = obj;
+              targetCutY = paddedBottom;
+              continue;
+            }
+
+            // If the next full object only slightly exceeds A4, keep it whole.
+            const objectHeight = obj.yBottom - obj.yTop;
+            const canAbsorbSmallTailObject =
+              objectHeight <= Math.max(180, Math.round(width * 0.22)) &&
+              projectedHeight <= smallObjectOverflowAllowance;
+
+            if (canAbsorbSmallTailObject) {
+              lastIncludedObject = obj;
+              targetCutY = paddedBottom;
+              continue;
+            }
+
+            if (projectedHeight <= shrinkAllowance) {
+              lastIncludedObject = obj;
+              targetCutY = paddedBottom;
+            }
+            break;
+          }
+
+          if (lastIncludedObject) {
+            targetCutY = Math.min(height, lastIncludedObject.yBottom + bottomPadding);
+          }
+
+          const sliceHeight = targetCutY - segmentStart;
           if (sliceHeight <= 0) {
             break;
           }
@@ -150,23 +320,15 @@ export function segmentChatImage(
           // Create a canvas for this page segment
           const pageCanvas = document.createElement("canvas");
           pageCanvas.width = width;
-          pageCanvas.height = a4Height;
+          pageCanvas.height = sliceHeight;
           const pageCtx = pageCanvas.getContext("2d");
 
           if (pageCtx) {
-            // Fill background with the wallpaper color (sampled from the top row of the segment)
-            const bgIdx = (currentY * width + Math.floor(width / 2)) * 4;
-            const bgR = data[bgIdx];
-            const bgG = data[bgIdx + 1];
-            const bgB = data[bgIdx + 2];
-            pageCtx.fillStyle = `rgb(${bgR}, ${bgG}, ${bgB})`;
-            pageCtx.fillRect(0, 0, width, a4Height);
-
             // Draw the sliced section of the chat
             pageCtx.drawImage(
               canvas,
               0,
-              currentY,
+              segmentStart,
               width,
               sliceHeight,
               0,
@@ -178,13 +340,18 @@ export function segmentChatImage(
             pages.push({
               canvasDataUrl: pageCanvas.toDataURL("image/png"),
               pageNumber: pageNum++,
+              height: sliceHeight,
             });
           }
 
           currentY = targetCutY;
+          const futureObject = preparedObjects.find((obj) => obj.yBottom > currentY);
+          if (futureObject && futureObject.yTop - currentY > topPadding) {
+            currentY = Math.max(0, futureObject.yTop - topPadding);
+          }
         }
 
-        resolve(pages);
+        mergeTinyTailPages(pages, width).then(resolve).catch(reject);
       } catch (err) {
         reject(err);
       }
@@ -192,5 +359,179 @@ export function segmentChatImage(
 
     img.onerror = (err) => reject(err);
     img.src = imageUrl;
+  });
+}
+
+async function mergeTinyTailPages(pages: PageSegment[], width: number): Promise<PageSegment[]> {
+  const tinyHeightThreshold = Math.max(180, Math.round(width * 0.22));
+  const tailMergeHeightThreshold = Math.max(460, Math.round(width * 0.58));
+  const softA4Height = Math.round(width * 1.414);
+  const maxMergedTailHeight = Math.round(softA4Height * 1.52);
+  const merged: PageSegment[] = [];
+
+  for (const page of pages) {
+    const currentHeight = page.height ?? 0;
+    const previous = merged[merged.length - 1];
+    const previousHeight = previous?.height ?? 0;
+    const mergedHeight = previousHeight + currentHeight;
+    const shouldMergeTailPage =
+      previous &&
+      currentHeight > 0 &&
+      ((currentHeight <= tinyHeightThreshold) ||
+        (currentHeight <= tailMergeHeightThreshold && mergedHeight <= maxMergedTailHeight));
+
+    if (shouldMergeTailPage) {
+      merged[merged.length - 1] = await stitchPageSegments(previous, page, width);
+    } else {
+      merged.push(page);
+    }
+  }
+
+  return merged.map((page, index) => ({
+    ...page,
+    pageNumber: index + 1,
+  }));
+}
+
+function splitOversizedObject(
+  object: ChatObject,
+  width: number,
+  shrinkAllowance: number,
+  rowSolidness: boolean[],
+  rowActivity: number[],
+  rowWideEdgeSpan: boolean[]
+): ChatObject[] {
+  const objectHeight = object.yBottom - object.yTop;
+  if (objectHeight <= shrinkAllowance || object.mergedFrom.length < 2) {
+    return [object];
+  }
+
+  const fragments = object.mergedFrom;
+  const splitObjects: ChatObject[] = [];
+  const minChunkHeight = Math.max(320, Math.round(width * 0.4));
+  const baseGapThreshold = Math.max(12, Math.round(width * 0.015));
+  const wideGapThreshold = Math.max(18, Math.round(width * 0.022));
+  const wideFragmentThreshold = Math.round(width * 0.56);
+
+  let chunkStartIndex = 0;
+
+  for (let index = 1; index < fragments.length; index++) {
+    const previousFragment = fragments[index - 1];
+    const nextFragment = fragments[index];
+    const currentChunkTop = fragments[chunkStartIndex].yTop;
+    const currentChunkHeight = previousFragment.yBottom - currentChunkTop;
+    const projectedHeight = nextFragment.yBottom - currentChunkTop;
+
+    if (projectedHeight <= shrinkAllowance) {
+      continue;
+    }
+
+    const gapStart = previousFragment.yBottom;
+    const gapEnd = nextFragment.yTop;
+    const gapHeight = gapEnd - gapStart;
+    const requiresWideGap =
+      previousFragment.widestSpan >= wideFragmentThreshold ||
+      nextFragment.widestSpan >= wideFragmentThreshold;
+    const minimumGapHeight = requiresWideGap ? wideGapThreshold : baseGapThreshold;
+
+    const canSplitHere =
+      currentChunkHeight >= minChunkHeight &&
+      gapHeight >= minimumGapHeight &&
+      hasSafeGapValley(gapStart, gapEnd, rowSolidness, rowActivity, rowWideEdgeSpan, width);
+
+    if (!canSplitHere) {
+      continue;
+    }
+
+    const chunkFragments = fragments.slice(chunkStartIndex, index);
+    splitObjects.push({
+      yTop: chunkFragments[0].yTop,
+      yBottom: chunkFragments[chunkFragments.length - 1].yBottom,
+      mergedFrom: chunkFragments,
+    });
+    chunkStartIndex = index;
+  }
+
+  if (chunkStartIndex === 0) {
+    return [object];
+  }
+
+  const tailFragments = fragments.slice(chunkStartIndex);
+  splitObjects.push({
+    yTop: tailFragments[0].yTop,
+    yBottom: tailFragments[tailFragments.length - 1].yBottom,
+    mergedFrom: tailFragments,
+  });
+
+  return splitObjects;
+}
+
+function hasSafeGapValley(
+  startY: number,
+  endY: number,
+  rowSolidness: boolean[],
+  rowActivity: number[],
+  rowWideEdgeSpan: boolean[],
+  width: number
+): boolean {
+  const gapHeight = endY - startY;
+  const minGapHeight = Math.max(12, Math.round(width * 0.015));
+  if (gapHeight < minGapHeight) {
+    return false;
+  }
+
+  let solidRows = 0;
+  let totalActivity = 0;
+
+  for (let y = startY; y < endY; y++) {
+    if (rowWideEdgeSpan[y]) {
+      return false;
+    }
+    if (rowSolidness[y]) {
+      solidRows += 1;
+    }
+    totalActivity += rowActivity[y] ?? 0;
+  }
+
+  const averageActivity = totalActivity / gapHeight;
+  const solidRatio = solidRows / gapHeight;
+
+  return solidRatio >= 0.8 && averageActivity <= 0.0085;
+}
+
+async function stitchPageSegments(
+  upper: PageSegment,
+  lower: PageSegment,
+  width: number
+): Promise<PageSegment> {
+  const [upperImg, lowerImg] = await Promise.all([
+    loadSegmentImage(upper.canvasDataUrl),
+    loadSegmentImage(lower.canvasDataUrl),
+  ]);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = upperImg.naturalHeight + lowerImg.naturalHeight;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    return upper;
+  }
+
+  ctx.drawImage(upperImg, 0, 0, width, upperImg.naturalHeight);
+  ctx.drawImage(lowerImg, 0, upperImg.naturalHeight, width, lowerImg.naturalHeight);
+
+  return {
+    canvasDataUrl: canvas.toDataURL("image/png"),
+    pageNumber: upper.pageNumber,
+    height: canvas.height,
+  };
+}
+
+function loadSegmentImage(dataUrl: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = (error) => reject(error);
+    image.src = dataUrl;
   });
 }
