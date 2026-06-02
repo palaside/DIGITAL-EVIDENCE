@@ -23,6 +23,10 @@ interface ChatObject {
   mergedFrom: ChatFragment[];
 }
 
+const CHAT_FRAME_ASPECT_RATIO = 235 / 170;
+const SHRINK_STEP = 0.98;
+const MIN_SHRINK_SCALE = 0.5;
+
 export function segmentChatImage(
   imageUrl: string,
   targetWidth: number = 800
@@ -237,15 +241,16 @@ export function segmentChatImage(
         // or split an object when we can keep the object whole and let the
         // final renderer scale the page content down.
         const a4Height = Math.round(width * 1.414);
+        const frameFitHeight = Math.round(width * CHAT_FRAME_ASPECT_RATIO);
         const topPadding = 14;
         const bottomPadding = 18;
-        const shrinkAllowance = Math.round(a4Height * 1.12);
         const smallObjectOverflowAllowance = a4Height + Math.max(220, Math.round(width * 0.28));
+        const maxInternalObjectHeight = Math.round(frameFitHeight / MIN_SHRINK_SCALE);
         const preparedObjects = objects.flatMap((obj) =>
           splitOversizedObject(
             obj,
             width,
-            shrinkAllowance,
+            maxInternalObjectHeight,
             rowSolidness,
             rowActivity,
             rowWideEdgeSpan
@@ -270,22 +275,26 @@ export function segmentChatImage(
 
           let targetCutY = height;
           let lastIncludedObject: ChatObject | null = null;
+          let bestFitScale = 1;
 
           for (const obj of remainingObjects) {
             const paddedBottom = obj.yBottom + bottomPadding;
             const projectedHeight = paddedBottom - segmentStart;
+            const shrinkDecision = evaluateShrinkFit(projectedHeight, frameFitHeight);
 
             if (!lastIncludedObject) {
               // Never split the first object on a page. Allow the renderer/PDF
               // layer to scale the page down instead of cutting the object.
               lastIncludedObject = obj;
               targetCutY = paddedBottom;
+              bestFitScale = shrinkDecision.scale;
               continue;
             }
 
             if (projectedHeight <= a4Height) {
               lastIncludedObject = obj;
               targetCutY = paddedBottom;
+              bestFitScale = shrinkDecision.scale;
               continue;
             }
 
@@ -298,13 +307,25 @@ export function segmentChatImage(
             if (canAbsorbSmallTailObject) {
               lastIncludedObject = obj;
               targetCutY = paddedBottom;
+              bestFitScale = shrinkDecision.scale;
               continue;
             }
 
-            if (projectedHeight <= shrinkAllowance) {
+            if (
+              shrinkDecision.fits &&
+              shouldKeepObjectOnCurrentPage(
+                targetCutY - segmentStart,
+                objectHeight,
+                frameFitHeight,
+                shrinkDecision.scale
+              )
+            ) {
               lastIncludedObject = obj;
               targetCutY = paddedBottom;
+              bestFitScale = shrinkDecision.scale;
+              continue;
             }
+
             break;
           }
 
@@ -396,13 +417,13 @@ async function mergeTinyTailPages(pages: PageSegment[], width: number): Promise<
 function splitOversizedObject(
   object: ChatObject,
   width: number,
-  shrinkAllowance: number,
+  maxInternalObjectHeight: number,
   rowSolidness: boolean[],
   rowActivity: number[],
   rowWideEdgeSpan: boolean[]
 ): ChatObject[] {
   const objectHeight = object.yBottom - object.yTop;
-  if (objectHeight <= shrinkAllowance || object.mergedFrom.length < 2) {
+  if (objectHeight <= maxInternalObjectHeight || object.mergedFrom.length < 2) {
     return [object];
   }
 
@@ -412,6 +433,8 @@ function splitOversizedObject(
   const baseGapThreshold = Math.max(12, Math.round(width * 0.015));
   const wideGapThreshold = Math.max(18, Math.round(width * 0.022));
   const wideFragmentThreshold = Math.round(width * 0.56);
+  const mediaSpanThreshold = Math.round(width * 0.28);
+  const mediaGapProtection = Math.max(42, Math.round(width * 0.06));
 
   let chunkStartIndex = 0;
 
@@ -422,7 +445,7 @@ function splitOversizedObject(
     const currentChunkHeight = previousFragment.yBottom - currentChunkTop;
     const projectedHeight = nextFragment.yBottom - currentChunkTop;
 
-    if (projectedHeight <= shrinkAllowance) {
+    if (projectedHeight <= maxInternalObjectHeight) {
       continue;
     }
 
@@ -433,9 +456,14 @@ function splitOversizedObject(
       previousFragment.widestSpan >= wideFragmentThreshold ||
       nextFragment.widestSpan >= wideFragmentThreshold;
     const minimumGapHeight = requiresWideGap ? wideGapThreshold : baseGapThreshold;
+    const looksLikeContinuousMediaBody =
+      previousFragment.widestSpan >= mediaSpanThreshold &&
+      nextFragment.widestSpan >= mediaSpanThreshold &&
+      gapHeight <= mediaGapProtection;
 
     const canSplitHere =
       currentChunkHeight >= minChunkHeight &&
+      !looksLikeContinuousMediaBody &&
       gapHeight >= minimumGapHeight &&
       hasSafeGapValley(gapStart, gapEnd, rowSolidness, rowActivity, rowWideEdgeSpan, width);
 
@@ -497,6 +525,63 @@ function hasSafeGapValley(
   const solidRatio = solidRows / gapHeight;
 
   return solidRatio >= 0.8 && averageActivity <= 0.0085;
+}
+
+function evaluateShrinkFit(
+  contentHeight: number,
+  frameFitHeight: number
+): { fits: boolean; scale: number } {
+  if (contentHeight <= frameFitHeight) {
+    return { fits: true, scale: 1 };
+  }
+
+  let scale = 1;
+  while (contentHeight * scale > frameFitHeight && scale > MIN_SHRINK_SCALE) {
+    scale *= SHRINK_STEP;
+  }
+
+  if (contentHeight * scale > frameFitHeight) {
+    return { fits: false, scale };
+  }
+
+  return { fits: true, scale };
+}
+
+function shouldKeepObjectOnCurrentPage(
+  currentContentHeight: number,
+  candidateObjectHeight: number,
+  frameFitHeight: number,
+  candidateScale: number
+): boolean {
+  if (candidateScale < MIN_SHRINK_SCALE) {
+    return false;
+  }
+
+  const remainingFrameSpace = Math.max(0, frameFitHeight - currentContentHeight);
+  const visibleFraction =
+    candidateObjectHeight > 0 ? remainingFrameSpace / candidateObjectHeight : 0;
+
+  if (visibleFraction < 0.18 && candidateScale < 0.9) {
+    return false;
+  }
+
+  if (visibleFraction < 0.32 && candidateScale < 0.78) {
+    return false;
+  }
+
+  if (currentContentHeight >= frameFitHeight * 0.92 && candidateScale < 0.72) {
+    return false;
+  }
+
+  if (currentContentHeight <= frameFitHeight * 0.36) {
+    return candidateScale >= MIN_SHRINK_SCALE;
+  }
+
+  if (visibleFraction >= 0.42 && candidateScale >= 0.52) {
+    return true;
+  }
+
+  return candidateScale >= 0.58 || visibleFraction >= 0.6;
 }
 
 async function stitchPageSegments(

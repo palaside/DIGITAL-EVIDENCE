@@ -25,6 +25,11 @@ interface PdfExportOptions {
   slipRows: PdfSlipRow[];
 }
 
+export interface PdfExportResult {
+  blob: Blob;
+  filename: string;
+}
+
 function mm(value: number) {
   return value * MM_TO_PX;
 }
@@ -51,15 +56,20 @@ function drawContainedImage(
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  verticalAlign: "center" | "bottom" = "center"
 ) {
   const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
   const renderWidth = image.naturalWidth * scale;
   const renderHeight = image.naturalHeight * scale;
+  const renderY =
+    verticalAlign === "bottom"
+      ? y + (height - renderHeight)
+      : y + (height - renderHeight) / 2;
   context.drawImage(
     image,
     x + (width - renderWidth) / 2,
-    y + (height - renderHeight) / 2,
+    renderY,
     renderWidth,
     renderHeight
   );
@@ -141,7 +151,15 @@ async function createEvidencePage(
   context.strokeStyle = "#166534";
   context.lineWidth = mm(0.4);
   context.strokeRect(frame.x, frame.y, frame.width, frame.height);
-  drawContainedImage(context, await loadImage(imageUrl), frame.x, frame.y, frame.width, frame.height);
+  drawContainedImage(
+    context,
+    await loadImage(imageUrl),
+    frame.x,
+    frame.y,
+    frame.width,
+    frame.height,
+    modeLabel === "Chat Mode" ? "bottom" : "center"
+  );
 
   drawFooter(context, PAGE_WIDTH_MM, PAGE_HEIGHT_MM);
   return canvas;
@@ -248,7 +266,7 @@ function createSummaryPage(
   return canvas;
 }
 
-export async function exportEvidencePdf({ mode, sourceImages, slipRows }: PdfExportOptions) {
+export async function buildEvidencePdfBlob({ mode, sourceImages, slipRows }: PdfExportOptions): Promise<PdfExportResult> {
   if (sourceImages.length === 0) throw new Error("No evidence images are available for PDF export.");
 
   const { jsPDF } = await import("jspdf");
@@ -286,5 +304,21 @@ export async function exportEvidencePdf({ mode, sourceImages, slipRows }: PdfExp
     }
   }
 
-  document.save(mode === "chat" ? "LINE_Chat_Paginator_Evidence.pdf" : "Bank_Slip_OCR_Evidence.pdf");
+  const filename = mode === "chat" ? "LINE_Chat_Paginator_Evidence.pdf" : "Bank_Slip_OCR_Evidence.pdf";
+  const blob = document.output("blob");
+  return { blob, filename };
+}
+
+export async function exportEvidencePdf(options: PdfExportOptions) {
+  const { blob, filename } = await buildEvidencePdfBlob(options);
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return { blob, filename };
 }
