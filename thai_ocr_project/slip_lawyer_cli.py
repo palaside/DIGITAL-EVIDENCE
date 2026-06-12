@@ -43,6 +43,14 @@ SUPPORTED_IMAGE_EXTENSIONS = {
 DEFAULT_INPUT_DIR = r"D:\EDOK\Duplicates"
 DEFAULT_TARGET = "จิณห์นิภา  ประสาทเขตรการ"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "outputs" / "lawyer_slip_report"
+PROXY_ENV_VARS = (
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "ALL_PROXY",
+    "http_proxy",
+    "https_proxy",
+    "all_proxy",
+)
 
 PAGE_WIDTH = 1240
 PAGE_HEIGHT = 1754
@@ -121,6 +129,12 @@ def compute_file_hash(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def sanitize_slip_ocr_proxy_environment() -> None:
+    for name in PROXY_ENV_VARS:
+        os.environ.pop(name, None)
+    print("Slip OCR proxy environment sanitized")
 
 
 def scan_image_files(input_dir: Path) -> list[Path]:
@@ -374,6 +388,7 @@ async def process_images(
     max_files: Optional[int] = None,
 ) -> list[ProcessedSlip]:
     selected_files = files[:max_files] if max_files else files
+    sanitize_slip_ocr_proxy_environment()
     ocr_engine = OCREngine(provider="google")
     parser = SlipParser(mode="rule_based")
     results: list[ProcessedSlip] = []
