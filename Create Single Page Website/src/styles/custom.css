@@ -1,4 +1,50 @@
-/* custom background gradient */
 body {
-  background: linear-gradient(135deg, #f0f4ff 0%, #e0e5ff 100%);
+  background:
+    radial-gradient(circle at top left, rgba(110, 156, 220, 0.18), transparent 24%),
+    linear-gradient(180deg, #f3f6fb 0%, #e7edf5 52%, #dce4ee 100%);
+  color: #10233f;
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at top left, rgba(75, 132, 212, 0.16), transparent 22%),
+    linear-gradient(180deg, #101928 0%, #132033 44%, #17273d 100%);
+  color: #eef5ff;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.evidence-shell {
+  position: relative;
+}
+
+.evidence-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.22)),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 127px,
+      rgba(18, 40, 71, 0.04) 127px,
+      rgba(18, 40, 71, 0.04) 128px
+    );
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.dark .evidence-shell::before {
+  background:
+    linear-gradient(rgba(6, 10, 18, 0.12), rgba(6, 10, 18, 0.12)),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 127px,
+      rgba(255, 255, 255, 0.03) 127px,
+      rgba(255, 255, 255, 0.03) 128px
+    );
 }

@@ -7,13 +7,15 @@ import { ActionsColumn } from "./components/ActionsColumn";
 import { NotebookLMPanel } from "./components/NotebookLMPanel";
 import { Toaster } from "./components/ui/sonner";
 import { toast } from "sonner";
-import { X, Table, Cpu, ShieldAlert, FileArchive } from "lucide-react";
-import { segmentChatImage, PageSegment } from "./utils/pagination";
+import { X, Table, Cpu, ShieldAlert, FileArchive, LayoutTemplate, MessagesSquare, ReceiptText, Workflow, LockKeyhole, Package2 } from "lucide-react";
+import { segmentChatImage, PageSegment, PaginationValidationError, detectCrossFileOverlap, trimImageTop } from "./utils/pagination";
 import { validateSlipData } from "./utils/slipValidatorEngine";
 import { scanQrFromDataUrl } from "./utils/qrScanner";
 import { parseEMVCoPayload } from "./utils/emvcoParser";
-import { exportEvidencePdf } from "./utils/pdfExport";
+import { buildEvidencePdfBlob, exportEvidencePdf } from "./utils/pdfExport";
+import { calculateSlipTotal, formatSlipTotal } from "./utils/slipTotals";
 import JsonViewer from "./components/JsonViewer";
+import { Input } from "./components/ui/input";
 
 const EMPTY_CELL = "-";
 
@@ -52,8 +54,11 @@ function toSlipDetailRows(ocrData: any) {
     );
     const { date, time } = splitSlipDateTime(dateTime);
 
-    return {
+    const row = {
       no: index + 1,
+      sourceFileName: result?.source_file_name || `Slip ${index + 1}`,
+      status: result?.status || "",
+      error: result?.error || "",
       date,
       time,
       senderBank: readSlipField(
@@ -90,6 +95,22 @@ function toSlipDetailRows(ocrData: any) {
       memo: readSlipField(result, "memo"),
       note: "",
     };
+
+    const hasExtractedData = [
+      row.date,
+      row.time,
+      row.senderBank,
+      row.senderName,
+      row.amount,
+      row.receiverName,
+      row.receiverBank,
+      row.memo,
+    ].some((value) => value !== EMPTY_CELL);
+
+    return {
+      ...row,
+      hasExtractedData,
+    };
   });
 }
 
@@ -99,14 +120,23 @@ export default function App() {
   const [paginatedPages, setPaginatedPages] = useState<PageSegment[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [statusText, setStatusText] = useState("");
   const [isGenerated, setIsGenerated] = useState(false);
   const [ocrData, setOcrData] = useState<any>(null);
+  const [batchSummary, setBatchSummary] = useState<any>(null);
   const [showRawJson, setShowRawJson] = useState(false);
   
   // Modals state
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressProgress, setCompressProgress] = useState(0);
+  const [showPackageModal, setShowPackageModal] = useState(false);
+  const [packageOptions, setPackageOptions] = useState({
+    archiveName: "digital-evidence-package",
+    archiveFormat: "zip" as "zip" | "rar",
+    password: "",
+    includePdf: true,
+  });
 
   const handleModeChange = (mode: "chat" | "slip" | "notebooklm") => {
     setActiveMode(mode);
@@ -114,9 +144,12 @@ export default function App() {
     setPaginatedPages([]);
     setIsGenerating(false);
     setProgress(0);
+    setStatusText("");
     setIsGenerated(false);
     setOcrData(null);
+    setBatchSummary(null);
     setShowDetailModal(false);
+    setShowPackageModal(false);
   };
 
   const dataURLtoBlob = (dataurl: string) => {
@@ -131,6 +164,36 @@ export default function App() {
     return new Blob([u8arr], { type: mime });
   };
 
+  const triggerBlobDownload = (blob: Blob, filename: string) => {
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = filename;
+    anchor.style.display = "none";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  const withTimeout = <T,>(promise: Promise<T>, timeoutMs: number, errorMsg: string): Promise<T> => {
+    return new Promise<T>((resolve, reject) => {
+      const timer = setTimeout(() => {
+        reject(new Error(errorMsg));
+      }, timeoutMs);
+
+      promise
+        .then((res) => {
+          clearTimeout(timer);
+          resolve(res);
+        })
+        .catch((err) => {
+          clearTimeout(timer);
+          reject(err);
+        });
+    });
+  };
+
   const handleGenerate = async () => {
     if (uploadedFiles.length === 0) {
       toast.error("Please upload at least one image file first!");
@@ -138,19 +201,133 @@ export default function App() {
     }
     setIsGenerating(true);
     setProgress(0);
+    setStatusText("Initializing...");
     setIsGenerated(false);
     setShowDetailModal(false);
     setShowRawJson(false);
+    setBatchSummary(null);
 
     if (activeMode === "chat") {
       try {
-        const allSegments: PageSegment[] = [];
+        // ── Guard: reject duplicate filenames before processing ──────────────
+        // If the same file was uploaded twice every page it produces will be a
+        // content duplicate. Catch here so the user can remove the copy.
+        const fileNames = uploadedFiles.map((f) => f.name.trim().toLowerCase());
+        const seenNames = new Set<string>();
+        const duplicateNames: string[] = [];
+        for (const name of fileNames) {
+          if (seenNames.has(name)) {
+            if (!duplicateNames.includes(name)) duplicateNames.push(name);
+          } else {
+            seenNames.add(name);
+          }
+        }
+        if (duplicateNames.length > 0) {
+          toast.error(
+            `Duplicate files detected: ${duplicateNames.join(", ")}. Remove copies before generating.`
+          );
+          setIsGenerating(false);
+          return;
+        }
+
+        // ── Phase 0: Cross-file visual overlap detection (0-15%) ─────────────
+        // For each adjacent file pair, compare the tail of file[i] with the head
+        // of file[i+1] using a sliding-window MAD pixel comparison. If overlap
+        // is detected, trim that many pixels from the TOP of file[i+1] before
+        // pagination, so the same chat content never appears on two pages.
+        const trimOffsets: number[] = new Array(uploadedFiles.length).fill(0);
+        const autoTrimLog: { file: string; trimPx: number; confidence: number }[] = [];
+
+        for (let i = 0; i < uploadedFiles.length - 1; i++) {
+          setProgress(Math.round((i / Math.max(1, uploadedFiles.length - 1)) * 15));
+          setStatusText(`Checking visual overlap: ${i + 1}/${uploadedFiles.length - 1}`);
+          const result = await detectCrossFileOverlap(
+            uploadedFiles[i].url,
+            uploadedFiles[i + 1].url
+          );
+          if (result.overlapPixels > 0) {
+            trimOffsets[i + 1] = result.overlapPixels;
+            autoTrimLog.push({
+              file: uploadedFiles[i + 1].name,
+              trimPx: result.overlapPixels,
+              confidence: result.confidence,
+            });
+            console.log(
+              `[CrossFileOverlap] Auto-trim "${uploadedFiles[i + 1].name}": ` +
+              `${result.overlapPixels}px from top ` +
+              `(confidence=${result.confidence.toFixed(2)}, MAD-match)`
+            );
+          }
+        }
+
+        // ── Phase 1: Per-file segmentation with trim (15-90%) ────────────────
+        // Tag every segment with the source file name so the global ledger
+        // can attribute pages to their origin and detect cross-file issues.
+        const allSegments: (PageSegment & { sourceFileId: string })[] = [];
 
         for (let i = 0; i < uploadedFiles.length; i++) {
           const file = uploadedFiles[i];
-          setProgress(Math.round((i / uploadedFiles.length) * 90));
-          const segments = await segmentChatImage(file.url);
-          allSegments.push(...segments);
+          setProgress(15 + Math.round((i / uploadedFiles.length) * 75));
+          setStatusText(`Processing ${i + 1}/${uploadedFiles.length}: ${file.name}`);
+          console.log(`[ChatPagination] Processing ${i + 1}/${uploadedFiles.length}: ${file.name}`);
+
+          const processFile = async () => {
+            // Apply auto-trim if overlap was detected with the previous file
+            const imageUrl =
+              trimOffsets[i] > 0
+                ? await trimImageTop(file.url, trimOffsets[i])
+                : file.url;
+
+            return await segmentChatImage(imageUrl);
+          };
+
+          const segments = await withTimeout(
+            processFile(),
+            35000,
+            `Generation stopped at file ${i + 1}/${uploadedFiles.length}: ${file.name} (processing timeout)`
+          );
+
+          const taggedSegments = segments.map((seg) => ({
+            ...seg,
+            sourceFileId: file.name,
+          }));
+          allSegments.push(...taggedSegments);
+        }
+
+        // ── Phase 2: Global ledger — cross-file objectId dedup check (90%) ───
+        // Per-file pagination validates within each file. This pass
+        // confirms no objectId appears across files (algorithm invariant).
+        const globalObjectIds = new Set<string>();
+        const globalDuplicates: string[] = [];
+        for (const seg of allSegments) {
+          for (const id of seg.objectIds) {
+            if (globalObjectIds.has(id)) {
+              globalDuplicates.push(`"${id}" (file: ${seg.sourceFileId})`);
+            } else {
+              globalObjectIds.add(id);
+            }
+          }
+        }
+        if (globalDuplicates.length > 0) {
+          throw new PaginationValidationError(
+            "Cross-file duplicate objectIds detected",
+            globalDuplicates.map((d) => `Global duplicate objectId: ${d}`)
+          );
+        }
+
+        // Cross-file boundary log (warn, not block)
+        const crossFileWarnings: string[] = [];
+        for (let i = 0; i < allSegments.length - 1; i++) {
+          const curr = allSegments[i];
+          const next = allSegments[i + 1];
+          if (curr.sourceFileId !== next.sourceFileId) {
+            crossFileWarnings.push(
+              `"${curr.sourceFileId}" -> "${next.sourceFileId}" at pages ${i + 1}/${i + 2}`
+            );
+          }
+        }
+        if (crossFileWarnings.length > 0) {
+          console.warn("[ChatPagination] Cross-file boundaries:", crossFileWarnings);
         }
 
         const renumberedSegments = allSegments.map((segment, index) => ({
@@ -160,20 +337,55 @@ export default function App() {
 
         setPaginatedPages(renumberedSegments);
         setProgress(100);
+        setStatusText("Ready");
         setIsGenerating(false);
         setIsGenerated(true);
-        toast.success(`LINE chat paginated ${uploadedFiles.length} file(s) into ${renumberedSegments.length} A4 page(s).`);
+        setBatchSummary({
+          total_files: uploadedFiles.length,
+          processed_files: uploadedFiles.length,
+          success_count: uploadedFiles.length,
+          failure_count: 0,
+        });
+
+        // Build informative toast
+        const trimNote =
+          autoTrimLog.length > 0
+            ? ` — auto-trimmed ${autoTrimLog.length} file(s) (overlap removed)`
+            : "";
+        const boundaryNote =
+          crossFileWarnings.length > 0 && autoTrimLog.length === 0
+            ? ` (${crossFileWarnings.length} cross-file boundary — check console)`
+            : "";
+        toast.success(
+          `LINE chat paginated ${uploadedFiles.length} file(s) into ${renumberedSegments.length} A4 page(s).${trimNote}${boundaryNote}`
+        );
       } catch (error) {
-        console.error("Error paginating chat:", error);
-        toast.error("Failed to process Object-Aware Pagination on the uploaded image.");
+        setProgress(0);
+        setStatusText("Error");
+        if (error instanceof PaginationValidationError) {
+          console.error("[ChatPagination] Validation failed:", error.validationErrors);
+          const firstError = error.validationErrors[0] ?? "unknown validation error";
+          toast.error(
+            `Generation blocked — ${firstError}${
+              error.validationErrors.length > 1
+                ? ` (+${error.validationErrors.length - 1} more)`
+                : ""
+            }`
+          );
+        } else {
+          console.error("Error paginating chat:", error);
+          const errMsg = error instanceof Error ? error.message : "Failed to process Object-Aware Pagination on the uploaded image.";
+          toast.error(errMsg);
+        }
         setIsGenerating(false);
       }
+
     } else if (activeMode === "slip") {
       setOcrData(uploadedFiles.map((file, index) => ({
         source_file_name: file.name || `Slip ${index + 1}`,
         status: "Processing OCR...",
       })));
-      setShowDetailModal(true);
+      setShowDetailModal(false);
       setProgress(10);
       let qrPayload = "";
       let qrAmount = "";
@@ -215,6 +427,7 @@ export default function App() {
           });
           if (!res.ok) throw new Error('OCR Server returned error');
           const data = await res.json();
+          setBatchSummary(data.batch_summary ?? null);
           ocrResults = data.combined_results ? data.combined_results : [data];
           setProgress(70);
         } catch (backendErr) {
@@ -262,10 +475,11 @@ export default function App() {
 
           setProgress(90);
           setProgress(100);
+          setStatusText("Ready");
           setIsGenerating(false);
           setIsGenerated(true);
           setShowRawJson(false);
-          setShowDetailModal(true);
+          setShowDetailModal(false);
           toast.success(`Bank slip OCR analysis completed for ${normalizedResults.length} slip(s).`);
         } else {
           throw new Error("OCR Failed completely.");
@@ -273,117 +487,242 @@ export default function App() {
       } catch (err) {
         console.error('Error running Slip OCR:', err);
         setProgress(0);
+        setStatusText("Error");
         setIsGenerating(false);
         setOcrData(uploadedFiles.map((file, index) => ({
           source_file_name: file.name || `Slip ${index + 1}`,
           error: err instanceof Error ? err.message : "OCR processing failed",
         })));
-        setShowDetailModal(true);
+        setShowDetailModal(false);
         toast.error("Failed to process image. OCR Server is offline and local fallback failed.");
       }
     }
   };
 
-  const handleSavePDF = async () => {
-    if (!isGenerated) {
-      toast.error("Please generate the evidence preview first!");
+const handleSavePDF = async () => {
+  if (!isGenerated) {
+    toast.error("Please generate the evidence preview first!");
+    return;
+  }
+
+  // Determine mode and source images
+  const mode = activeMode === "chat" ? "chat" : "slip";
+  const sourceImages =
+    mode === "chat" && paginatedPages.length > 0
+      ? paginatedPages.map((page) => page.canvasDataUrl)
+      : uploadedFiles.map((file) => file.url);
+
+  // Defensive checks
+  if (sourceImages.length === 0) {
+    toast.error("No images available for PDF export.");
+    return;
+  }
+
+  if (mode === "chat") {
+    // Verify page count matches
+    if (sourceImages.length !== paginatedPages.length) {
+      toast.error(`Preview page count (${paginatedPages.length}) does not match export image count (${sourceImages.length}).`);
       return;
     }
-
-    try {
-      const mode = activeMode === "chat" ? "chat" : "slip";
-      const sourceImages =
-        mode === "chat" && paginatedPages.length > 0
-          ? paginatedPages.map((page) => page.canvasDataUrl)
-          : uploadedFiles.map((file) => file.url);
-
-      await exportEvidencePdf({
-        mode,
-        sourceImages,
-        slipRows: mode === "slip" ? slipDetailRows : [],
-      });
-
-      toast.success("Evidence PDF saved successfully.");
-    } catch (error) {
-      console.error("Error exporting evidence PDF:", error);
-      toast.error("Unable to create the evidence PDF.");
+    // Verify sequential page order starting at 1
+    const orderMismatch = paginatedPages.some((p, i) => p.pageNumber !== i + 1);
+    if (orderMismatch) {
+      toast.error("Page order mismatch detected in paginated preview. Export blocked.");
+      return;
     }
-  };
+  }
+
+  try {
+    await exportEvidencePdf({
+      mode,
+      sourceImages,
+      slipRows: mode === "slip" ? slipDetailRows : [],
+    });
+    toast.success("Evidence PDF saved successfully.");
+  } catch (error) {
+    console.error("Error exporting evidence PDF:", error);
+    toast.error("Unable to create the evidence PDF.");
+  }
+};
 
   const handleSendProject = () => {
     if (uploadedFiles.length === 0) {
       toast.error("No evidence files to package!");
       return;
     }
+    setShowPackageModal(true);
+  };
 
+  const handleConfirmPackageProject = async () => {
+    if (uploadedFiles.length === 0) {
+      toast.error("No evidence files to package!");
+      return;
+    }
+
+    const safeArchiveName = packageOptions.archiveName.trim() || "digital-evidence-package";
+    setShowPackageModal(false);
     setIsCompressing(true);
-    setCompressProgress(0);
+    setCompressProgress(10);
 
-    const interval = setInterval(() => {
-      setCompressProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            setIsCompressing(false);
-            toast.success("WinRAR SFX archive (.exe/.rar) generated and sent to system successfully!");
-          }, 500);
-          return 100;
-        }
-        return prev + 20;
+    try {
+      const formData = new FormData();
+      formData.append("archive_name", safeArchiveName);
+      formData.append("archive_format", packageOptions.archiveFormat);
+      if (packageOptions.archiveFormat === "rar" && packageOptions.password.trim()) {
+        formData.append("password", packageOptions.password.trim());
+      }
+      formData.append("mode", activeMode);
+
+      uploadedFiles.forEach((file, index) => {
+        const blob = dataURLtoBlob(file.url);
+        formData.append("source_files", blob, file.name || `source-${index + 1}.png`);
       });
-    }, 150);
+
+      if (activeMode === "chat" && paginatedPages.length > 0) {
+        paginatedPages.forEach((page, index) => {
+          const blob = dataURLtoBlob(page.canvasDataUrl);
+          formData.append("artifacts", blob, `chat-page-${index + 1}.png`);
+        });
+      }
+
+      if (activeMode === "slip" && ocrData) {
+        const metadataBlob = new Blob([JSON.stringify(ocrData, null, 2)], { type: "application/json" });
+        formData.append("artifacts", metadataBlob, "slip-ocr-analysis.json");
+      }
+
+      if (packageOptions.includePdf && isGenerated) {
+        setCompressProgress(35);
+        const { blob, filename } = await buildEvidencePdfBlob({
+          mode: activeMode === "chat" ? "chat" : "slip",
+          sourceImages:
+            activeMode === "chat" && paginatedPages.length > 0
+              ? paginatedPages.map((page) => page.canvasDataUrl)
+              : uploadedFiles.map((file) => file.url),
+          slipRows: activeMode === "slip" ? slipDetailRows : [],
+        });
+        formData.append("artifacts", blob, filename);
+      }
+
+      setCompressProgress(65);
+      const response = await fetch("http://localhost:5000/api/package-project", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || "Package creation failed");
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get("Content-Disposition") || "";
+      const filenameMatch = disposition.match(/filename=\"?([^"]+)\"?/i);
+      const filename = filenameMatch?.[1] || `${safeArchiveName}.${packageOptions.archiveFormat}`;
+      triggerBlobDownload(blob, filename);
+
+      setCompressProgress(100);
+      setTimeout(() => {
+        setIsCompressing(false);
+        toast.success("Project archive exported successfully.");
+      }, 400);
+    } catch (error) {
+      console.error("Error packaging project:", error);
+      setCompressProgress(0);
+      setIsCompressing(false);
+      toast.error(error instanceof Error ? error.message : "Failed to package the project.");
+    }
   };
 
   const slipDetailRows = toSlipDetailRows(ocrData);
+  const processingRows = slipDetailRows.filter((row) => row.status);
+  const errorRows = slipDetailRows.filter((row) => row.error);
+  const completedRows = slipDetailRows.filter((row) => row.hasExtractedData);
+  const slipTotalAmount = calculateSlipTotal(completedRows);
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-900 flex flex-col relative overflow-hidden transition-colors duration-300">
+      <div className="evidence-shell min-h-screen flex flex-col relative overflow-hidden transition-colors duration-300">
         
         {/* Content Container */}
         <div className="relative z-10 flex-1 flex flex-col">
           <Header />
 
-          <main className="flex-1 container mx-auto px-6 py-8">
-            {/* Hero Section */}
-            <div className="mb-8 text-center">
-              <h2 className="text-4xl font-black text-[#1E3A8A] dark:text-blue-200 tracking-wider uppercase mb-1">
-                DIGITAL EVIDENCE
-              </h2>
-              <p className="text-gray-500 dark:text-gray-400 text-sm">
-                Advanced Evidence Processing System
-              </p>
-            </div>
-
-            {/* Toggle Mode Buttons */}
-            <div className="flex justify-center gap-4 mb-8">
-              <button
-                onClick={() => handleModeChange("chat")}
-                className={`px-8 h-10 rounded-md font-medium text-sm transition-all duration-300 cursor-pointer border ${
-                  activeMode === "chat"
-                    ? "bg-white text-[#1E3A8A] border-[#1E3A8A] shadow-sm"
-                    : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                Chat
-              </button>
-              <button
-                onClick={() => handleModeChange("slip")}
-                className={`px-8 h-10 rounded-md font-medium text-sm transition-all duration-300 cursor-pointer border ${
-                  activeMode === "slip"
-                    ? "bg-white text-[#1E3A8A] border-[#1E3A8A] shadow-sm"
-                    : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                Slip
-              </button>
+          <main className="flex-1 mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6 md:py-8">
+            <div className="glass-toolbar mb-6 rounded-[28px] p-4 md:p-5">
+              <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+                <div className="space-y-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                    Document Evidence Workstation
+                  </p>
+                  <h2 className="text-2xl font-semibold tracking-[0.08em] text-[#112f59] dark:text-slate-100 md:text-[32px]">
+                    Review, paginate, and validate source evidence
+                  </h2>
+                  <p className="max-w-3xl text-sm leading-6 text-slate-500 dark:text-slate-300">
+                    Use the left rail to upload source files, keep the center focused on A4 output, and inspect OCR details and batch status from the right rail.
+                  </p>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-3 xl:min-w-[520px]">
+                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
+                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                      <Workflow className="h-3.5 w-3.5 text-[#2d5e9a]" />
+                      Active mode
+                    </div>
+                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">{activeMode === "chat" ? "Chat processing" : activeMode === "slip" ? "Slip processing" : "NotebookLM"}</p>
+                  </div>
+                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
+                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                      <LayoutTemplate className="h-3.5 w-3.5 text-[#2d5e9a]" />
+                      Workspace
+                    </div>
+                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">Document-first shell</p>
+                  </div>
+                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
+                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                      <ReceiptText className="h-3.5 w-3.5 text-[#2d5e9a]" />
+                      Batch state
+                    </div>
+                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      {batchSummary?.processed_files ? `${batchSummary.processed_files} processed` : `${uploadedFiles.length} staged`}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-5 flex flex-col gap-3 border-t border-white/35 pt-4 dark:border-slate-700/70 lg:flex-row lg:items-center lg:justify-between">
+                <div className="glass-segment inline-flex rounded-2xl p-1.5">
+                  <button
+                    onClick={() => handleModeChange("chat")}
+                    className={`flex min-w-[160px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
+                      activeMode === "chat"
+                        ? "bg-[#12335f] text-white shadow-[0_14px_28px_-20px_rgba(18,51,95,0.85)]"
+                        : "text-slate-500 hover:bg-white/60 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <MessagesSquare className="h-4 w-4" />
+                    Chat
+                  </button>
+                  <button
+                    onClick={() => handleModeChange("slip")}
+                    className={`flex min-w-[160px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
+                      activeMode === "slip"
+                        ? "bg-[#12335f] text-white shadow-[0_14px_28px_-20px_rgba(18,51,95,0.85)]"
+                        : "text-slate-500 hover:bg-white/60 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <ReceiptText className="h-4 w-4" />
+                    Slip
+                  </button>
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">
+                  Chat and Slip modes carry equal priority in this workspace; the center rail always remains the main review surface.
+                </div>
+              </div>
             </div>
 
             {/* Three Column Layout or NotebookLM Panel */}
             {activeMode === "notebooklm" ? (
               <NotebookLMPanel />
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                 {/* Column 1: Upload, Generate, Progress */}
                 <div className="lg:col-span-3">
                   <UploadColumn 
@@ -392,6 +731,7 @@ export default function App() {
                     setUploadedFiles={setUploadedFiles}
                     isGenerating={isGenerating}
                     progress={progress}
+                    statusText={statusText}
                     isGenerated={isGenerated}
                     onGenerate={handleGenerate}
                   />
@@ -413,10 +753,12 @@ export default function App() {
                   <ActionsColumn 
                     activeMode={activeMode as "chat" | "slip"}
                     isGenerated={isGenerated}
+                    hasUploads={uploadedFiles.length > 0}
                     onSave={handleSavePDF}
                     onDetail={() => setShowDetailModal(true)}
                     onSend={handleSendProject}
                     ocrData={ocrData}
+                    batchSummary={batchSummary}
                   />
                 </div>
               </div>
@@ -440,25 +782,25 @@ export default function App() {
             }}
           >
             <div
-              className="glass-panel relative w-full max-w-6xl border-none shadow-2xl rounded-2xl p-6 overflow-hidden"
+              className="glass-panel relative w-full border-none shadow-2xl rounded-[24px] p-4 overflow-hidden"
               style={{
                 position: "relative",
-                width: "min(98vw, 1500px)",
-                maxHeight: "88vh",
+                width: "min(98vw, 1480px)",
+                maxHeight: "94vh",
                 overflow: "auto",
-                borderRadius: "16px",
-                padding: "24px",
-                background: "rgba(255, 255, 255, 0.96)",
-                color: "#0f172a",
+                borderRadius: "24px",
+                padding: "16px",
+                background: "#f8fafc",
+                color: "#111827",
                 boxShadow: "0 24px 80px rgba(15, 23, 42, 0.35)",
               }}
             >
-              <div className="flex justify-between items-center border-b border-white/20 dark:border-white/5 pb-4 mb-4">
-                <h3 className="text-xl font-bold flex items-center gap-2 text-blue-950 dark:text-blue-200">
-                  <Table className="w-5 h-5 text-blue-900 dark:text-blue-400" />
+              <div className="sticky top-0 z-10 mb-3 flex items-center justify-between border-b border-slate-200 bg-[#f8fafc]/95 pb-3 backdrop-blur-sm">
+                <h3 className="text-lg font-bold flex items-center gap-2 text-slate-950">
+                  <Table className="w-4 h-4 text-[#1f5fa9]" />
                   Slip OCR Data Analysis
                 </h3>
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <button 
                     onClick={() => {
                       const el = document.createElement('textarea');
@@ -468,74 +810,132 @@ export default function App() {
                       document.execCommand('copy');
                       document.body.removeChild(el);
                     }}
-                    className="px-3 py-1 text-sm font-bold rounded bg-blue-600/10 hover:bg-blue-600/20 text-blue-700 dark:text-blue-300 transition-colors"
+                    className="px-2.5 py-1 text-xs font-bold rounded bg-blue-600/10 hover:bg-blue-600/20 text-blue-700 transition-colors"
                   >Copy JSON</button>
                   <button 
                     onClick={() => setShowRawJson(!showRawJson)}
-                    className="px-3 py-1 text-sm font-bold rounded bg-gray-500/10 hover:bg-gray-500/20 text-gray-700 dark:text-gray-300 transition-colors"
+                    className="px-2.5 py-1 text-xs font-bold rounded bg-gray-500/10 hover:bg-gray-500/20 text-gray-700 transition-colors"
                   >{showRawJson ? 'Hide Raw JSON' : 'Show Full JSON'}</button>
                   <button 
                     onClick={() => setShowDetailModal(false)}
-                    className="p-1.5 rounded-lg bg-white/30 hover:bg-white/50 dark:bg-white/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 cursor-pointer transition-all"
+                    className="p-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-gray-500 cursor-pointer transition-all"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
 
-              <div className="overflow-x-auto rounded-xl border border-white/20 dark:border-white/5 bg-white/20 dark:bg-white/2">
+              <div className="mb-3 grid gap-2 md:grid-cols-3">
+                <div className="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">Uploaded slips</div>
+                  <div className="mt-1 text-base font-semibold text-slate-950">{uploadedFiles.length}</div>
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">Extracted rows</div>
+                  <div className="mt-1 text-base font-semibold text-slate-950">{completedRows.length}</div>
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">Batch status</div>
+                  <div className="mt-1 text-xs font-semibold text-slate-950">
+                    {processingRows.length > 0
+                      ? `Processing ${processingRows.length} file(s)`
+                      : errorRows.length > 0
+                        ? `Review ${errorRows.length} failed file(s)`
+                        : completedRows.length > 0
+                          ? "OCR data extracted"
+                          : "Waiting for OCR result"}
+                  </div>
+                </div>
+              </div>
+
+              {processingRows.length > 0 && (
+                <div className="mb-3 max-h-28 overflow-auto rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs leading-5 text-slate-950">
+                  กำลังประมวลผล {processingRows.length} ภาพ:
+                  <span className="ml-2 font-medium">{processingRows.map((row) => row.sourceFileName).join(", ")}</span>
+                </div>
+              )}
+
+              {errorRows.length > 0 && (
+                <div className="mb-3 max-h-28 overflow-auto rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs leading-5 text-slate-950">
+                  OCR ล้มเหลว {errorRows.length} ภาพ:
+                  <span className="ml-2 font-medium">
+                    {errorRows.map((row) => `${row.sourceFileName}${row.error ? ` (${row.error})` : ""}`).join(", ")}
+                  </span>
+                </div>
+              )}
+
+              <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
                 <table
-                  className="w-full border-collapse text-xs text-left"
-                  style={{ minWidth: "1450px", tableLayout: "fixed" }}
+                  className="w-full border-collapse text-[11px] text-left text-slate-950"
+                  style={{ minWidth: "1320px", tableLayout: "fixed" }}
                 >
-                  <thead>
-                    <tr className="bg-white/40 dark:bg-white/5 border-b border-white/20 dark:border-white/5">
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ลำดับ</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">วันที่</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">เวลา</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ธนาคารผู้โอน</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ชื่อผู้โอน</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">จำนวนเงิน</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ชื่อผู้รับ</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">ธนาคารผู้รับ</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">บันทึกช่วยจำ</th>
-                      <th className="p-3 font-bold text-blue-950 dark:text-blue-200 break-words">หมายเหตุ</th>
+                  <thead className="sticky top-0 z-[1]">
+                    <tr className="border-b border-slate-200 bg-slate-100">
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[56px]">ลำดับ</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[112px]">วันที่</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[74px]">เวลา</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[170px]">ธนาคารผู้โอน</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[180px]">ชื่อผู้โอน</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[138px]">จำนวนเงิน</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[180px]">ชื่อผู้รับ</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[156px]">ธนาคารผู้รับ</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[164px]">บันทึกช่วยจำ</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[110px]">หมายเหตุ</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/10">
-                    {slipDetailRows.length > 0 ? (
-                      slipDetailRows.map((row) => (
+                  <tbody className="divide-y divide-slate-200">
+                    {completedRows.length > 0 ? (
+                      completedRows.map((row) => (
                         <tr key={row.no}>
-                          <td className="p-3 font-semibold text-gray-600 dark:text-gray-400">{row.no}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.date}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.time}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.senderBank}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.senderName}</td>
-                          <td className="p-3 font-bold text-green-700 dark:text-green-400 break-words">{row.amount}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.receiverName}</td>
-                          <td className="p-3 text-blue-950 dark:text-blue-100 break-words">{row.receiverBank}</td>
-                          <td className="p-3 text-gray-600 dark:text-gray-300 break-words">{row.memo}</td>
-                          <td className="p-3 text-gray-600 dark:text-gray-300"></td>
+                          <td className="px-2 py-2 font-semibold text-slate-700">{row.no}</td>
+                          <td className="px-2 py-2 text-slate-950 break-words">{row.date}</td>
+                          <td className="px-2 py-2 text-slate-950 break-words">{row.time}</td>
+                          <td className="px-2 py-2 text-slate-950 break-words">{row.senderBank}</td>
+                          <td className="px-2 py-2 text-slate-950 break-words">{row.senderName}</td>
+                          <td className="px-2 py-2 font-bold text-emerald-700 break-words">{row.amount}</td>
+                          <td className="px-2 py-2 text-slate-950 break-words">{row.receiverName}</td>
+                          <td className="px-2 py-2 text-slate-950 break-words">{row.receiverBank}</td>
+                          <td className="px-2 py-2 text-slate-700 break-words">{row.memo}</td>
+                          <td className="px-2 py-2 text-slate-700">{row.note}</td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td className="p-3 text-center text-gray-500" colSpan={10}>
-                          ยังไม่มีผล OCR จากสลิปที่อัปโหลด
+                        <td className="p-4 text-center text-slate-600" colSpan={10}>
+                          {processingRows.length > 0
+                            ? "กำลังรอผล OCR จากสลิปที่อัปโหลด"
+                            : errorRows.length > 0
+                              ? "ไม่พบข้อมูลที่สกัดได้จากสลิปที่อัปโหลด"
+                              : "ยังไม่มีผล OCR จากสลิปที่อัปโหลด"}
                         </td>
                       </tr>
                     )}
                   </tbody>
+                  {completedRows.length > 0 && (
+                    <tfoot>
+                      <tr className="border-t-2 border-slate-300 bg-slate-100">
+                        <td className="px-2 py-2 font-bold text-slate-950" colSpan={5}>
+                          รวมเงิน
+                        </td>
+                        <td className="px-2 py-2 font-extrabold text-emerald-700 break-words">
+                          {formatSlipTotal(slipTotalAmount)}
+                        </td>
+                        <td className="px-2 py-2 text-slate-500" colSpan={4}>
+                          รวมจากรายการที่สกัดข้อมูลได้ {completedRows.length} รายการ
+                        </td>
+                      </tr>
+                    </tfoot>
+                  )}
                 </table>
               </div>
 
               {showRawJson && (
-                <div className="mt-4 max-h-[300px] overflow-auto rounded-lg border border-white/10 p-2">
+                <div className="mt-4 max-h-[300px] overflow-auto rounded-lg border border-slate-200 bg-white p-2">
                   <JsonViewer data={ocrData} />
                 </div>
               )}
 
-              <div className="mt-4 flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400 font-semibold bg-amber-500/5 p-3 rounded-xl border border-amber-500/10">
+              <div className="mt-4 flex items-center gap-2 text-xs text-amber-700 font-semibold bg-amber-50 p-3 rounded-xl border border-amber-200">
                 <Cpu className="w-4 h-4 animate-pulse" />
                 <span>OCR result from uploaded slip. Please review extracted fields before using as evidence.</span>
               </div>
@@ -566,6 +966,131 @@ export default function App() {
                 <span className="text-xs font-bold text-blue-900 dark:text-blue-400 mt-1">
                   Compressing... {compressProgress}%
                 </span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showPackageModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/50 animate-in fade-in duration-200">
+            <div className="glass-panel relative w-full max-w-2xl rounded-[28px] border-none p-6 shadow-2xl">
+              <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+                <div>
+                  <h3 className="flex items-center gap-2 text-xl font-bold text-slate-100">
+                    <Package2 className="h-5 w-5 text-[#7fb7ef]" />
+                    Package Project
+                  </h3>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Configure archive name, format, password, and included evidence outputs.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowPackageModal(false)}
+                  className="rounded-lg bg-white/5 p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-slate-200"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Archive name</label>
+                  <Input
+                    value={packageOptions.archiveName}
+                    onChange={(event) =>
+                      setPackageOptions((current) => ({
+                        ...current,
+                        archiveName: event.target.value,
+                      }))
+                    }
+                    className="glass-input h-11 border-white/10 bg-slate-900/70 text-slate-100"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Archive format</label>
+                  <div className="glass-segment inline-flex rounded-2xl p-1.5">
+                    <button
+                      onClick={() =>
+                        setPackageOptions((current) => ({
+                          ...current,
+                          archiveFormat: "zip",
+                          password: "",
+                        }))
+                      }
+                      className={`min-w-[108px] rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
+                        packageOptions.archiveFormat === "zip"
+                          ? "bg-[#12335f] text-white"
+                          : "text-slate-300 hover:bg-white/10"
+                      }`}
+                    >
+                      ZIP
+                    </button>
+                    <button
+                      onClick={() => setPackageOptions((current) => ({ ...current, archiveFormat: "rar" }))}
+                      className={`min-w-[108px] rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
+                        packageOptions.archiveFormat === "rar"
+                          ? "bg-[#12335f] text-white"
+                          : "text-slate-300 hover:bg-white/10"
+                      }`}
+                    >
+                      RAR
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    <LockKeyhole className="h-3.5 w-3.5 text-[#7fb7ef]" />
+                    Archive password (RAR only)
+                  </label>
+                  <Input
+                    type="password"
+                    value={packageOptions.password}
+                    disabled={packageOptions.archiveFormat !== "rar"}
+                    onChange={(event) =>
+                      setPackageOptions((current) => ({
+                        ...current,
+                        password: event.target.value,
+                      }))
+                    }
+                    placeholder={
+                      packageOptions.archiveFormat === "rar"
+                        ? "Optional password for RAR export"
+                        : "Password is available when RAR is selected"
+                    }
+                    className="glass-input h-11 border-white/10 bg-slate-900/70 text-slate-100 placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+                  />
+                </div>
+                <div className="md:col-span-2 rounded-2xl border border-white/10 bg-slate-950/55 px-4 py-3 text-sm text-slate-300">
+                  <label className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={packageOptions.includePdf}
+                      onChange={(event) =>
+                        setPackageOptions((current) => ({
+                          ...current,
+                          includePdf: event.target.checked,
+                        }))
+                      }
+                      className="h-4 w-4 rounded border-slate-600 bg-slate-900"
+                    />
+                    Include generated evidence PDF in the archive
+                  </label>
+                </div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-3">
+                <button
+                  onClick={() => setShowPackageModal(false)}
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:bg-white/10"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmPackageProject}
+                  className="rounded-xl border border-[#2d5e9a]/30 bg-[#12335f] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#153d73]"
+                >
+                  Create Archive
+                </button>
               </div>
             </div>
           </div>

@@ -171,7 +171,7 @@ export function NotebookLMPanel() {
 
   // Podcast progress timer
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval> | undefined;
     if (podcastPlaying && activeView === "podcast") {
       interval = setInterval(() => {
         setPodcastProgress((prev) => {

@@ -10,6 +10,7 @@ interface UploadColumnProps {
   progress: number;
   isGenerated: boolean;
   onGenerate: () => void;
+  statusText?: string;
 }
 
 export function UploadColumn({
@@ -20,6 +21,7 @@ export function UploadColumn({
   progress,
   isGenerated,
   onGenerate,
+  statusText,
 }: UploadColumnProps) {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -161,7 +163,7 @@ export function UploadColumn({
             <div className="flex flex-col gap-1">
               <span className="inline-flex items-center gap-1.5">
                 {isGenerating ? <LoaderCircle className="h-3.5 w-3.5 animate-spin text-[#2d5e9a]" /> : <Files className="h-3.5 w-3.5 text-[#2d5e9a]" />}
-                Status: {isGenerating ? "Processing" : isGenerated ? "Ready" : "Ready"}
+                Status: {isGenerating ? (statusText || "Processing") : "Ready"}
               </span>
               <span>{uploadedFiles.length} uploaded item(s)</span>
             </div>
