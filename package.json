@@ -4,6 +4,8 @@
   "description": "Electron app for Digital Evidence processing",
   "main": "EVIDENCE For EXE/main.js",
   "scripts": {
+    "test": "npm --prefix \"Create Single Page Website\" run test:e2e",
+    "build": "npm --prefix \"Create Single Page Website\" run build",
     "start": "electron .",
     "dev": "electron .",
     "proxy": "node proxy-server.js"
