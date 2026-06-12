@@ -29,7 +29,7 @@ test("send project posts canonical source files and generated artifacts to Flask
   await page.getByRole("button", { name: /Create Archive/i }).click();
   const download = await downloadPromise;
 
-  expect(download.suggestedFilename()).toBe("acceptance-package.zip");
+  expect(download.suggestedFilename()).toBe("digital-evidence-package.zip");
   expect(capturedMultipartBody).toContain('name="archive_format"');
   expect(capturedMultipartBody).toContain("zip");
   expect(capturedMultipartBody).toContain('name="mode"');
