@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Evidence Processor</title>
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <h1 class="title">DIGITAL EVIDENCE PROCESSOR</h1>
+    <div class="toolbar">
+      <input type="file" id="fileInput" multiple accept="image/*" style="display:none" />
+      <button id="selectBtn">Select Images</button>
+      <button id="clearBtn">Clear</button>
+      <button id="exportBtn">Export PDF</button>
+    </div>
+    <p id="status" class="status"></p>
+    <div id="preview" class="preview"></div>
+    <div id="errorBox" class="error-box" style="display:none"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="/src/main.js"></script>
+</body>
+</html>

@@ -4,6 +4,10 @@
 import os
 import sys
 import time
+import shutil
+import tempfile
+import subprocess
+import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -12,7 +16,7 @@ sys.path.insert(0, CURRENT_DIR)
 sys.path.insert(1, PROJECT_ROOT)
 load_dotenv(os.path.join(PROJECT_ROOT, '.env'))
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, after_this_request
 from werkzeug.utils import secure_filename
 from modules.preprocessor import preprocess_image
 from modules.logo_detector import BankLogoDetector
@@ -30,6 +34,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 MAX_BATCH_FILES = 500
 DEFAULT_MAX_CONCURRENCY = 8
+RAR_PATHS = [
+    r"C:\Program Files\WinRAR\Rar.exe",
+    r"C:\Program Files (x86)\WinRAR\Rar.exe",
+]
 
 # CORS Headers manual setup to prevent origin blocks
 @app.after_request
@@ -57,6 +65,16 @@ def _build_combined_datetime(slip_dict: dict) -> tuple[str, str]:
         date_only = date_str.split("T")[0]
         return f"{date_only}  /  {time_str}", time_str
     return date_str, time_str
+
+
+def _resolve_rar_path() -> str:
+    for candidate in RAR_PATHS:
+        if os.path.exists(candidate):
+            return candidate
+    found = shutil.which("Rar.exe") or shutil.which("rar.exe")
+    if found:
+        return found
+    raise FileNotFoundError("Rar.exe was not found on this machine.")
 
 
 def _process_saved_slip(
@@ -243,6 +261,82 @@ def process_slip_ocr():
     return jsonify(merged), 200
 
 
+@app.route('/api/package-project', methods=['POST', 'OPTIONS'])
+def package_project():
+    if request.method == 'OPTIONS':
+        return jsonify({"status": "preflight"}), 200
+
+    archive_name = secure_filename(request.form.get("archive_name", "digital-evidence-package")) or "digital-evidence-package"
+    archive_format = request.form.get("archive_format", "zip").lower()
+    password = request.form.get("password", "")
+
+    if archive_format not in {"zip", "rar"}:
+        return jsonify({"error": "Unsupported archive format"}), 400
+
+    files = request.files.getlist("source_files") + request.files.getlist("artifacts")
+    if not files:
+        return jsonify({"error": "No files provided for packaging"}), 400
+
+    staging_dir = tempfile.mkdtemp(prefix="digital-evidence-package-")
+    archive_dir = tempfile.mkdtemp(prefix="digital-evidence-output-")
+    archive_path = os.path.join(archive_dir, f"{archive_name}.{archive_format}")
+
+    try:
+        staged_names = []
+        for file in files:
+            if not file or not file.filename:
+                continue
+            filename = secure_filename(file.filename) or f"file-{len(staged_names) + 1}"
+            file_path = os.path.join(staging_dir, filename)
+            file.save(file_path)
+            staged_names.append(filename)
+
+        if not staged_names:
+            return jsonify({"error": "No valid files provided for packaging"}), 400
+
+        if archive_format == "zip":
+            if password:
+                return jsonify({"error": "ZIP password packaging is not supported. Please choose RAR to use a password."}), 400
+
+            with zipfile.ZipFile(archive_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+                for staged_name in staged_names:
+                    archive.write(os.path.join(staging_dir, staged_name), arcname=staged_name)
+        else:
+            rar_path = _resolve_rar_path()
+            command = [rar_path, "a", "-idq", "-y"]
+            if password:
+                command.append(f"-hp{password}")
+            command.extend([archive_path, *staged_names])
+
+            result = subprocess.run(
+                command,
+                cwd=staging_dir,
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
+
+            if result.returncode != 0 or not os.path.exists(archive_path):
+                stderr = (result.stderr or result.stdout or "").strip()
+                return jsonify({"error": stderr or "RAR failed to create the archive"}), 500
+
+        @after_this_request
+        def cleanup_archive(response):
+            shutil.rmtree(archive_dir, ignore_errors=True)
+            return response
+
+        return send_file(
+            archive_path,
+            as_attachment=True,
+            download_name=os.path.basename(archive_path),
+            mimetype="application/octet-stream",
+        )
+    finally:
+        shutil.rmtree(staging_dir, ignore_errors=True)
+
+
 if __name__ == '__main__':
-    # Listen on port 5000
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    debug_enabled = os.getenv("DIGITAL_EVIDENCE_OCR_DEBUG", "0") == "1"
+    host = "127.0.0.1" if os.getenv("DIGITAL_EVIDENCE_OCR_LOCALONLY", "1") == "1" else "0.0.0.0"
+    port = int(os.getenv("PORT", "5000"))
+    app.run(host=host, port=port, debug=debug_enabled, use_reloader=debug_enabled)

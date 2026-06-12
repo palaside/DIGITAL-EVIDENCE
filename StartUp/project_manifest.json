@@ -1,0 +1,38 @@
+{
+  "generated_from": "ข้อความที่วาง (1).txt",
+  "required_outputs": [
+    "package.json",
+    "src/main.js",
+    "src/index.html",
+    "src/styles.css",
+    "src/renderer.js",
+    "Start_Evidence.bat",
+    "README.md",
+    "audit_log.json"
+  ],
+  "core_logic": [
+    "Iterative Packing",
+    "Boundary Gate",
+    "Smart Gap Search",
+    "Gap Valley",
+    "Tail Fragment Prevention",
+    "Auto-Stitching",
+    "PDF Pagination",
+    "Timestamp Footer",
+    "Audit Log"
+  ],
+  "folders": [
+    "INPUT",
+    "ANALYZE",
+    "CLASSIFY",
+    "GENERATE_FILES",
+    "GENERATE_PROJECT",
+    "INSTALL_DEPENDENCIES",
+    "BUILD",
+    "START",
+    "LOGS",
+    "OUTPUT",
+    "TEMPLATES",
+    "RUNTIME"
+  ]
+}

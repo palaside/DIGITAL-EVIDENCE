@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Evidence Processor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="evidence-shell">
+    <header class="header">
+      <div class="brand">
+        <span class="icon">🔒</span>
+        <h1>Chat Evidence Processor</h1>
+      </div>
+      <div class="sub-brand">Digital Evidence Workstation</div>
+    </header>
+
+    <main class="main-content">
+      <div class="control-panel">
+        <div class="card status-card">
+          <h2>System Status</h2>
+          <div class="status-info">
+            <p><strong>Workstation Folder:</strong> <span class="path-text" id="project-path">Loading...</span></p>
+            <p><strong>Staged Files (inputs/):</strong> <span class="count-badge" id="file-count">0 files</span></p>
+            <p><strong>Last Output:</strong> <span class="path-text" id="last-output">None</span></p>
+          </div>
+        </div>
+
+        <div class="card action-card">
+          <h2>Actions</h2>
+          <div class="actions-group">
+            <button id="btn-scan" class="btn btn-secondary">Scan Staged Files</button>
+            <button id="btn-process" class="btn btn-primary">Start Evidence Generation</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-panel card">
+        <h2>Process Logs</h2>
+        <div id="log-output" class="log-output">
+          <div class="log-line system">[System] Application initialized. Waiting for action...</div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>Click "Start Evidence Generation" to run vertical stitching, boundary checks, and export to outputs/evidence.pdf.</p>
+    </footer>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

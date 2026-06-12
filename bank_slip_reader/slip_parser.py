@@ -19,13 +19,13 @@ from .bank_detector import BankDetector
 #  Helper regexes
 # ──────────────────────────────────────────────────────────────────────────────
 AMOUNT_PAT = [
-    r"จำนวนเงิน[:\s]*([\d,]+\.?\d*)",
-    r"ยอดโอน[:\s]*([\d,]+\.?\d*)",
-    r"ยอดชำระ[:\s]*([\d,]+\.?\d*)",
-    r"amount[:\s]*([\d,]+\.?\d*)",
-    r"([\d,]+\.\d{2})\s*(?:บาท|thb|baht)",
-    r"([\d,.]+)\s*(?:บาท|thb|baht)",
-    r"([\d,]+)\s*บาท"
+    r"จำนวนเงิน[: \t]*([\d,]+\.?\d*)",
+    r"ยอดโอน[: \t]*([\d,]+\.?\d*)",
+    r"ยอดชำระ[: \t]*([\d,]+\.?\d*)",
+    r"amount[: \t]*([\d,]+\.?\d*)",
+    r"([\d,]+\.\d{2})[ \t]*(?:บาท|thb|baht)",
+    r"([\d,.]+)[ \t]*(?:บาท|thb|baht)",
+    r"([\d,]+)[ \t]*บาท"
 ]
 
 DATE_PAT = [
@@ -84,6 +84,8 @@ THAI_MONTH_MAP = {
     "ตุลาคม": 10, "ต.ค.": 10, "ต.ค": 10,
     "พฤศจิกายน": 11, "พ.ย.": 11, "พ.ย": 11,
     "ธันวาคม": 12, "ธ.ค.": 12, "ธ.ค": 12,
+    # Common Google Vision OCR confusion for "พ.ค." on TTB slips.
+    "W.A.": 5, "W.A": 5, "w.a.": 5, "w.a": 5,
 }
 
 
@@ -148,6 +150,39 @@ class SlipParser:
 
         return False
 
+    def _is_account_like_line(self, value: str, account_pattern: re.Pattern) -> bool:
+        stripped = value.strip()
+        if not stripped:
+            return False
+
+        account_match = account_pattern.search(stripped)
+        if not account_match:
+            return False
+
+        compact_line = re.sub(r"\s+", "", stripped)
+        compact_account = re.sub(r"\s+", "", account_match.group(0))
+        account_chars = len(re.sub(r"[^A-Za-z0-9xX-]", "", compact_account))
+        line_chars = len(re.sub(r"[^A-Za-z0-9ก-๙xX\.-]", "", compact_line))
+
+        if compact_account.lower() == compact_line.lower():
+            return True
+        if line_chars and account_chars / line_chars >= 0.65:
+            return True
+
+        return False
+
+    def _has_receiver_label(self, line: str) -> bool:
+        lower_line = line.lower()
+        for label in RECEIVER_LABELS:
+            lower_label = label.lower()
+            if lower_label == "to":
+                if re.search(r"\bto\s*[:：]", lower_line):
+                    return True
+                continue
+            if lower_label in lower_line:
+                return True
+        return False
+
     # ─── Public ──────────────────────────────────────────────────────────────
     async def parse(self, raw_text: str, file_name: str = "") -> BankSlipData:
         slip = BankSlipData(raw_text=raw_text, file_name=file_name)
@@ -195,6 +230,12 @@ class SlipParser:
         if not slip.receiver_account: slip.receiver_account = r_a
         if not slip.receiver_bank:
             slip.receiver_bank = self._parse_receiver_bank(lines)
+        if (
+            slip.receiver_bank
+            and self._is_merchant_payment(text, slip.receiver_name)
+            and slip.receiver_bank == slip.bank_name.value
+        ):
+            slip.receiver_bank = None
         # Memo extraction (rule based)
         if slip.memo is None:
             slip.memo = self._parse_memo(text)
@@ -207,7 +248,7 @@ class SlipParser:
 
         for line in lines:
             lower_line = line.lower()
-            if "ไปยัง" in lower_line or any(lbl in lower_line for lbl in RECEIVER_LABELS):
+            if "ไปยัง" in lower_line or self._has_receiver_label(line):
                 receiver_section = True
                 receiver_lines.append(line)
                 continue
@@ -215,10 +256,38 @@ class SlipParser:
                 receiver_lines.append(line)
 
         if not receiver_lines:
-            return None
+            account_indexes = [
+                i for i, line in enumerate(lines)
+                if re.search(ACCOUNT_PAT, line)
+            ]
+            if len(account_indexes) >= 2:
+                receiver_account_index = account_indexes[1]
+                receiver_lines = lines[receiver_account_index:receiver_account_index + 4]
+            else:
+                return None
 
         bank, _ = self.detector.detect("\n".join(receiver_lines[:6]))
         return None if bank == BankName.UNKNOWN else bank.value
+
+    def _is_merchant_payment(self, text: str, receiver_name: Optional[str]) -> bool:
+        merchant_markers = [
+            "จ่ายบิลสำเร็จ",
+            "เติมเงินสำเร็จ",
+            "รหัสร้านค้า",
+            "รหัสธุรกรรมถุงเงิน",
+            "tungngern",
+            "truemoney shop",
+            "พร้อมเพย์ e-wallet",
+        ]
+        lower_text = text.lower()
+        lower_receiver = (receiver_name or "").lower()
+        if any(marker in lower_text for marker in merchant_markers):
+            return True
+        if any(marker in lower_receiver for marker in ["tungngern", "truemoney", "e-wallet"]):
+            return True
+        if receiver_name and re.search(r"[A-Za-z]{2,}\s+[A-Za-z]{2,}", receiver_name):
+            return True
+        return False
 
     def _parse_time(self, text: str) -> Optional[str]:
         """Extract time from OCR text.
@@ -236,25 +305,51 @@ class SlipParser:
         """Parse amount from OCR text using AMOUNT_PAT patterns.
         Returns a float or None.
         """
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        skip_line = re.compile(r"ค่าธรรมเนียม|fee|รหัส|อ้างอิง|reference|ref|บัญชี|account", re.IGNORECASE)
+
+        for line in lines:
+            if skip_line.search(line):
+                continue
+            label_match = re.search(r"(?:จำนวนเงิน|ยอดโอน|ยอดชำระ|amount)[: \t]*([\d,]+\.?\d*)", line, re.IGNORECASE)
+            if label_match:
+                amount = self._parse_amount_candidate(label_match.group(1))
+                if amount is not None and amount > 0:
+                    return amount
+
+            decimal_match = re.search(r"(?<![\d-])([\d,]+\.\d{2})(?!\d)", line)
+            if decimal_match:
+                amount = self._parse_amount_candidate(decimal_match.group(1))
+                if amount is not None and amount > 0:
+                    return amount
+
         for pat in AMOUNT_PAT:
-            m = re.search(pat, text, re.IGNORECASE)
-            if m:
-                try:
-                    return float(m.group(1).replace(",", ""))
-                except ValueError:
-                    pass
-        # fallback: largest money-like number not a year
+            for m in re.finditer(pat, text, re.IGNORECASE):
+                amount = self._parse_amount_candidate(m.group(1))
+                if amount is not None and amount > 0:
+                    return amount
+
         candidates = re.findall(r"[\d,]+\.\d{2}", text)
         best = None
         for c in candidates:
-            try:
-                v = float(c.replace(",", ""))
-                if not (2000 <= v <= 2100):
-                    if best is None or v > best:
-                        best = v
-            except ValueError:
-                pass
+            v = self._parse_amount_candidate(c)
+            if v is not None and v > 0 and not (2000 <= v <= 2100):
+                if best is None or v > best:
+                    best = v
         return best
+
+    def _parse_amount_candidate(self, value: str) -> Optional[float]:
+        normalized = value.replace(",", "").strip()
+        digits = re.sub(r"\D", "", normalized.split(".")[0])
+        if len(digits) > 9:
+            return None
+        try:
+            amount = float(normalized)
+        except ValueError:
+            return None
+        if amount < 0 or amount > 999_999_999:
+            return None
+        return amount
 
     def _parse_date(self, text: str) -> Optional[datetime]:
         # Pattern 1: dd/mm/yyyy or dd/mm/yy
@@ -283,12 +378,33 @@ class SlipParser:
             m = re.search(pat, text)
             if m:
                 d, y = int(m.group(1)), int(m.group(2))
+                if y < 100:
+                    y += 2500
                 if y > 2100:
                     y -= 543
                 try:
                     return datetime(y, month_num, d)
                 except ValueError:
                     pass
+
+        for m in re.finditer(r"(20\d{2})(0[1-9]|1[0-2])([0-2]\d|3[01])", text):
+            y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            try:
+                return datetime(y, mo, d)
+            except ValueError:
+                continue
+
+        for line in text.splitlines():
+            if not re.search(r"รหัส|อ้างอิง|reference|ref", line, re.IGNORECASE):
+                continue
+            m = re.search(r"\b(2\d)(0[1-9]|1[0-2])([0-2]\d|3[01])\d{6,}", line)
+            if not m:
+                continue
+            y, mo, d = int(m.group(1)) + 2000, int(m.group(2)), int(m.group(3))
+            try:
+                return datetime(y, mo, d)
+            except ValueError:
+                continue
 
         return None
 
@@ -343,8 +459,72 @@ class SlipParser:
         acc_re = re.compile(ACCOUNT_PAT)
 
         # รูปแบบ: "Mr. Somchai Meesook" หรือ "นาย สมชาย มีสุข"
+        def _clean_person_name(value: str) -> str:
+            tokens = re.split(r"\s+", value.strip())
+            if not tokens:
+                return value.strip()
+
+            cleaned = []
+            for token in tokens:
+                stripped_token = token.strip()
+                if not stripped_token:
+                    continue
+                if not cleaned and re.fullmatch(r"(นาย|นางสาว|นาง|น\.ส\.|ด\.ช\.|ด\.ญ\.)", stripped_token):
+                    cleaned.append(stripped_token)
+                    continue
+                if re.fullmatch(r"[ก-๙]{2,}", stripped_token):
+                    cleaned.append(stripped_token)
+                    continue
+                if cleaned:
+                    break
+
+            return " ".join(cleaned).strip() or value.strip()
+
+        def _clean_latin_merchant(value: str) -> Optional[str]:
+            cleaned = re.sub(r"\b(?:ttb|tbb|tub|thb|tb|b)\b", " ", value, flags=re.IGNORECASE)
+            cleaned = re.sub(r"[^A-Za-z0-9&.,'() -]+", " ", cleaned)
+            cleaned = re.sub(r"\s+", " ", cleaned).strip(" -.,")
+            if len(re.findall(r"\d", cleaned)) >= 8:
+                return None
+            cleaned = " ".join(
+                token for token in cleaned.split()
+                if len(token) > 1 or re.search(r"\d", token)
+            )
+            words = re.findall(r"[A-Za-z]{2,}", cleaned)
+            if len(words) < 2:
+                return None
+            if self._is_bank_or_header_name(cleaned):
+                return None
+            return cleaned
+
         def _grab_name(line: str) -> Optional[str]:
             stripped = re.sub(r"^[^:：]*[:：]\s*", "", line).strip()
+            if self._is_account_like_line(stripped, acc_re):
+                return None
+            has_person_prefix = re.search(
+                r"(?:นาย|นางสาว|นาง|น\.ส\.|ด\.ช\.|ด\.ญ\.|สิบตรี|สิบเอก|สิบจ่า|ด\.ร\.|ร\.ต\.|พ\.ต\.)",
+                stripped,
+            )
+            if re.search(r"\d", stripped) and not has_person_prefix and not re.search(r"[ก-๙]", stripped):
+                latin_merchant = _clean_latin_merchant(stripped)
+                if latin_merchant:
+                    return latin_merchant
+            if re.search(r"\d", stripped) and not has_person_prefix:
+                return None
+            if re.search(r"[ก-๙]", stripped):
+                thai_candidate = re.sub(r"\s+", " ", stripped).strip()
+                looks_like_transaction_line = (
+                    re.search(r"\d{1,2}[:.]\d{2}", thai_candidate)
+                    or re.search(r"\d[\d,]*\.\d{2}", thai_candidate)
+                    or re.search(r"\d{6,}", thai_candidate)
+                )
+                if (
+                    len(thai_candidate) >= 4
+                    and has_person_prefix
+                    and not looks_like_transaction_line
+                    and not self._is_bank_or_header_name(thai_candidate)
+                ):
+                    return _clean_person_name(thai_candidate)
             m = thai_name.search(stripped)
             if m:
                 name = m.group(0).strip()
@@ -352,14 +532,18 @@ class SlipParser:
                 noise = [
                     "ธนาคาร", "Bank", "BANK", "Trading", "Co.,", "Ltd.", "NAME", "KBANK", "SCB", "KTB",
                     "ไปยัง", "โอนเงิน", "รหัส", "อ้างอิง", "จํานวนเงิน", "ค่าธรรมเนียม", "วันที่ทำรายการ",
-                    "ถึง", "จาก", "โอนไป", "สำเร็จ", "success", "รายการ", "เวลา", "จำนวนเงิน", "โอน"
+                    "ถึง", "จาก", "โอนไป", "สำเร็จ", "success", "รายการ", "เวลา", "จำนวนเงิน", "โอน", "ยอด"
                 ]
                 if (
                     len(name) >= 4
                     and not any(n in name for n in noise)
                     and not self._is_bank_or_header_name(name)
+                    and not self._is_account_like_line(name, acc_re)
                 ):
-                    return name
+                    return _clean_person_name(name)
+            latin_merchant = _clean_latin_merchant(stripped)
+            if latin_merchant:
+                return latin_merchant
             return None
 
         def _grab_acc(line: str) -> Optional[str]:
@@ -376,7 +560,7 @@ class SlipParser:
                 if sender_acc is None:
                     sender_acc  = _grab_acc(line) or _grab_acc(next_line)
 
-            if any(lbl in ll for lbl in RECEIVER_LABELS):
+            if self._has_receiver_label(line):
                 if receiver_name is None:
                     receiver_name = _grab_name(line) or _grab_name(next_line)
                 if receiver_acc is None:
@@ -390,7 +574,7 @@ class SlipParser:
                 name_candidate = _grab_name(line)
                 acc_candidate = _grab_acc(line)
                 if name_candidate and acc_candidate:
-                    if any(lbl in line.lower() for lbl in RECEIVER_LABELS):
+                    if self._has_receiver_label(line):
                         continue
                     if sender_name is None:
                         sender_name = name_candidate
@@ -404,7 +588,7 @@ class SlipParser:
                     acc_candidate = _grab_acc(lines[i + 2])
                 
                 if name_candidate and acc_candidate:
-                    if any(lbl in line.lower() for lbl in RECEIVER_LABELS):
+                    if self._has_receiver_label(line):
                         continue
                     if sender_name is None:
                         sender_name = name_candidate
@@ -417,7 +601,7 @@ class SlipParser:
             receiver_section = False
             for i, line in enumerate(lines):
                 # Detect start of receiver section
-                if "ไปยัง" in line.lower() or any(lbl in line.lower() for lbl in RECEIVER_LABELS):
+                if "ไปยัง" in line.lower() or self._has_receiver_label(line):
                     receiver_section = True
                     continue
                 if not receiver_section:
@@ -456,13 +640,15 @@ class SlipParser:
                     if any(lbl in line.lower() for lbl in SENDER_LABELS):
                         # Avoid confusing sender as receiver
                         continue
+                    if sender_acc and acc_candidate == sender_acc:
+                        continue
                     if receiver_name is None:
                         receiver_name = name_candidate
                     if receiver_acc is None:
                         receiver_acc = acc_candidate
                     continue
                 # Detect cue for receiver section
-                if "ไปยัง" in line.lower() or any(lbl in line.lower() for lbl in RECEIVER_LABELS):
+                if "ไปยัง" in line.lower() or self._has_receiver_label(line):
                     receiver_section = True
                     continue
                 if receiver_section:
@@ -471,13 +657,42 @@ class SlipParser:
                     acc_candidate = _grab_acc(lines[i + 1] if i + 1 < len(lines) else "")
                     if not acc_candidate and i + 2 < len(lines):
                         acc_candidate = _grab_acc(lines[i + 2])
-                        
+
                     if name_candidate and acc_candidate:
+                        if sender_acc and acc_candidate == sender_acc:
+                            continue
                         if receiver_name is None:
                             receiver_name = name_candidate
                         if receiver_acc is None:
-                            receiver_acc = acc_candidate
+                                receiver_acc = acc_candidate
                         break
+
+        if receiver_name is None or receiver_acc is None:
+            sender_account_index = None
+            if sender_acc:
+                for i, line in enumerate(lines):
+                    if sender_acc in line:
+                        sender_account_index = i
+                        break
+
+            search_start = (sender_account_index + 1) if sender_account_index is not None else 0
+            for i in range(search_start, len(lines)):
+                name_candidate = _grab_name(lines[i])
+                if not name_candidate:
+                    continue
+
+                acc_candidate = _grab_acc(lines[i])
+                if not acc_candidate and i + 1 < len(lines):
+                    acc_candidate = _grab_acc(lines[i + 1])
+                if not acc_candidate and i + 2 < len(lines):
+                    acc_candidate = _grab_acc(lines[i + 2])
+
+                if acc_candidate and acc_candidate != sender_acc:
+                    if receiver_name is None:
+                        receiver_name = name_candidate
+                    if receiver_acc is None:
+                        receiver_acc = acc_candidate
+                    break
 
         return sender_name, sender_acc, receiver_name, receiver_acc
 

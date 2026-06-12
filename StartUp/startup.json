@@ -1,0 +1,17 @@
+{
+  "project_name": "DIGITAL EVIDENCE - Chat Evidence Processor",
+  "target_path": "D:\\Project\\หลักฐานดิจิทัล  DIGITAL EVIDENCE\\StartUp",
+  "workflow": [
+    "INPUT",
+    "ANALYZE",
+    "CLASSIFY",
+    "GENERATE_FILES",
+    "GENERATE_PROJECT",
+    "INSTALL_DEPENDENCIES",
+    "BUILD",
+    "START"
+  ],
+  "runtime": "Node.js + Electron automation pipeline",
+  "goal": "นำข้อมูลดิบมาวิเคราะห์ จำแนก แตกไฟล์ สร้างโปรเจกต์ ติดตั้ง dependency build และ start แบบคลิกเดียว",
+  "status": "READY_TEMPLATE"
+}

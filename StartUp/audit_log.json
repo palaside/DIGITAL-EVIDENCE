@@ -1,0 +1,804 @@
+[
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T06:12:41.309Z",
+    "end": "2026-06-09T06:12:41.311Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T06:12:41.312Z",
+    "end": "2026-06-09T06:12:41.312Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T06:12:41.312Z",
+    "end": "2026-06-09T06:12:41.312Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T06:12:41.312Z",
+    "end": "2026-06-09T06:12:41.313Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T06:12:41.313Z",
+    "end": "2026-06-09T06:12:41.313Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T06:12:41.313Z",
+    "end": "2026-06-09T06:12:44.738Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T06:12:44.738Z",
+    "end": "2026-06-09T06:12:44.739Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T06:12:44.739Z",
+    "end": "2026-06-09T06:12:44.751Z",
+    "status": "ERROR",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T06:14:28.949Z",
+    "end": "2026-06-09T06:14:28.951Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T06:14:28.951Z",
+    "end": "2026-06-09T06:14:28.951Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T06:14:28.952Z",
+    "end": "2026-06-09T06:14:28.952Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T06:14:28.952Z",
+    "end": "2026-06-09T06:14:28.952Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T06:14:28.952Z",
+    "end": "2026-06-09T06:14:28.953Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T06:14:28.953Z",
+    "end": "2026-06-09T06:14:32.597Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T06:14:32.598Z",
+    "end": "2026-06-09T06:14:32.598Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T06:17:02.522Z",
+    "end": "2026-06-09T06:17:02.524Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T06:17:02.525Z",
+    "end": "2026-06-09T06:17:02.525Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T06:17:02.525Z",
+    "end": "2026-06-09T06:17:02.525Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T06:17:02.526Z",
+    "end": "2026-06-09T06:17:02.526Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T06:17:02.526Z",
+    "end": "2026-06-09T06:17:02.526Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T06:17:02.527Z",
+    "end": "2026-06-09T06:17:05.485Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T06:17:05.486Z",
+    "end": "2026-06-09T06:17:05.486Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T06:24:16.532Z",
+    "end": "2026-06-09T06:24:16.534Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T06:24:16.534Z",
+    "end": "2026-06-09T06:24:16.535Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T06:24:16.535Z",
+    "end": "2026-06-09T06:24:16.535Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T06:24:16.535Z",
+    "end": "2026-06-09T06:24:16.535Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T06:24:16.536Z",
+    "end": "2026-06-09T06:24:16.536Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T06:24:16.536Z",
+    "end": "2026-06-09T06:24:19.504Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T06:24:19.505Z",
+    "end": "2026-06-09T06:24:19.505Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T06:24:19.505Z",
+    "end": "2026-06-09T06:24:19.545Z",
+    "status": "START_COMMAND_FAILED",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T06:25:51.203Z",
+    "end": "2026-06-09T06:25:51.205Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T06:25:51.206Z",
+    "end": "2026-06-09T06:25:51.206Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T06:25:51.206Z",
+    "end": "2026-06-09T06:25:51.206Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T06:25:51.207Z",
+    "end": "2026-06-09T06:25:51.207Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T06:25:51.207Z",
+    "end": "2026-06-09T06:25:51.207Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T06:25:51.207Z",
+    "end": "2026-06-09T06:25:54.516Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T06:25:54.517Z",
+    "end": "2026-06-09T06:25:54.517Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T06:25:54.517Z",
+    "end": "2026-06-09T06:25:54.555Z",
+    "status": "START_COMMAND_FAILED",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T06:27:48.745Z",
+    "end": "2026-06-09T06:27:48.746Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T06:27:48.747Z",
+    "end": "2026-06-09T06:27:48.747Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T06:27:48.747Z",
+    "end": "2026-06-09T06:27:48.747Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T06:27:48.748Z",
+    "end": "2026-06-09T06:27:48.748Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T06:27:48.748Z",
+    "end": "2026-06-09T06:27:48.748Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T06:27:48.749Z",
+    "end": "2026-06-09T06:27:52.043Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T06:27:52.043Z",
+    "end": "2026-06-09T06:27:52.043Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "ELECTRON_BINARY_DOWNLOAD_FAILED",
+    "status": "PASS"
+  },
+  {
+    "stage": "WEB_UI_FALLBACK_ENABLED",
+    "status": "PASS"
+  },
+  {
+    "stage": "START_WEB_UI_PASS",
+    "status": "PASS"
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T06:27:52.044Z",
+    "end": "2026-06-09T06:27:52.070Z",
+    "status": "START_WEB_UI_PASS",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T06:32:35.581Z",
+    "end": "2026-06-09T06:32:35.585Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T06:32:35.586Z",
+    "end": "2026-06-09T06:32:35.586Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T06:32:35.587Z",
+    "end": "2026-06-09T06:32:35.587Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T06:32:35.587Z",
+    "end": "2026-06-09T06:32:35.588Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T06:32:35.588Z",
+    "end": "2026-06-09T06:32:35.588Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T06:32:35.589Z",
+    "end": "2026-06-09T06:32:38.835Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T06:32:38.836Z",
+    "end": "2026-06-09T06:32:38.837Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "ELECTRON_BINARY_DOWNLOAD_FAILED",
+    "status": "PASS"
+  },
+  {
+    "stage": "WEB_UI_FALLBACK_ENABLED",
+    "status": "PASS"
+  },
+  {
+    "stage": "START_WEB_UI_PASS",
+    "status": "PASS"
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T06:32:38.837Z",
+    "end": "2026-06-09T06:32:38.863Z",
+    "status": "START_WEB_UI_PASS",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T08:20:37.810Z",
+    "end": "2026-06-09T08:20:37.813Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T08:20:37.813Z",
+    "end": "2026-06-09T08:20:37.813Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T08:20:37.814Z",
+    "end": "2026-06-09T08:20:37.814Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T08:20:37.814Z",
+    "end": "2026-06-09T08:20:37.814Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T08:20:37.815Z",
+    "end": "2026-06-09T08:20:37.815Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T08:20:37.815Z",
+    "end": "2026-06-09T08:20:41.389Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T08:20:41.389Z",
+    "end": "2026-06-09T08:20:41.389Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "ELECTRON_BINARY_DOWNLOAD_FAILED",
+    "status": "PASS"
+  },
+  {
+    "stage": "WEB_UI_FALLBACK_ENABLED",
+    "status": "PASS"
+  },
+  {
+    "stage": "START_WEB_UI_PASS",
+    "status": "PASS"
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T08:20:41.390Z",
+    "end": "2026-06-09T08:20:41.454Z",
+    "status": "START_WEB_UI_PASS",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T08:21:23.023Z",
+    "end": "2026-06-09T08:21:23.027Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T08:21:23.027Z",
+    "end": "2026-06-09T08:21:23.027Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T08:21:23.028Z",
+    "end": "2026-06-09T08:21:23.028Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T08:21:23.028Z",
+    "end": "2026-06-09T08:21:23.028Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T08:21:23.029Z",
+    "end": "2026-06-09T08:21:23.029Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T08:21:23.029Z",
+    "end": "2026-06-09T08:21:26.118Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T08:21:26.118Z",
+    "end": "2026-06-09T08:21:26.119Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "ELECTRON_BINARY_DOWNLOAD_FAILED",
+    "status": "PASS"
+  },
+  {
+    "stage": "WEB_UI_FALLBACK_ENABLED",
+    "status": "PASS"
+  },
+  {
+    "stage": "START_WEB_UI_PASS",
+    "status": "PASS"
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T08:21:26.119Z",
+    "end": "2026-06-09T08:21:26.179Z",
+    "status": "START_WEB_UI_PASS",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T08:36:01.896Z",
+    "end": "2026-06-09T08:36:01.900Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T08:36:01.901Z",
+    "end": "2026-06-09T08:36:01.901Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T08:36:01.902Z",
+    "end": "2026-06-09T08:36:01.902Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T08:36:01.902Z",
+    "end": "2026-06-09T08:36:01.902Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T08:36:01.903Z",
+    "end": "2026-06-09T08:36:01.903Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T08:36:01.903Z",
+    "end": "2026-06-09T08:36:04.899Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T08:36:04.900Z",
+    "end": "2026-06-09T08:36:04.900Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "ELECTRON_BINARY_DOWNLOAD_FAILED",
+    "status": "PASS"
+  },
+  {
+    "stage": "WEB_UI_FALLBACK_ENABLED",
+    "status": "PASS"
+  },
+  {
+    "stage": "START_WEB_UI_PASS",
+    "status": "PASS"
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T08:36:04.900Z",
+    "end": "2026-06-09T08:36:04.959Z",
+    "status": "START_WEB_UI_PASS",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T08:38:14.269Z",
+    "end": "2026-06-09T08:38:14.271Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T08:38:14.271Z",
+    "end": "2026-06-09T08:38:14.272Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T08:38:14.272Z",
+    "end": "2026-06-09T08:38:14.272Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T08:38:14.273Z",
+    "end": "2026-06-09T08:38:14.273Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T08:38:14.273Z",
+    "end": "2026-06-09T08:38:14.273Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T08:38:14.274Z",
+    "end": "2026-06-09T08:38:17.559Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T08:38:17.559Z",
+    "end": "2026-06-09T08:38:17.560Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "ELECTRON_BINARY_DOWNLOAD_FAILED",
+    "status": "PASS"
+  },
+  {
+    "stage": "WEB_UI_FALLBACK_ENABLED",
+    "status": "PASS"
+  },
+  {
+    "stage": "START_WEB_UI_PASS",
+    "status": "PASS"
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T08:38:17.560Z",
+    "end": "2026-06-09T08:38:17.624Z",
+    "status": "START_WEB_UI_PASS",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T08:39:31.269Z",
+    "end": "2026-06-09T08:39:31.272Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T08:39:31.273Z",
+    "end": "2026-06-09T08:39:31.273Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T08:39:31.274Z",
+    "end": "2026-06-09T08:39:31.274Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T08:39:31.274Z",
+    "end": "2026-06-09T08:39:31.274Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T08:39:31.275Z",
+    "end": "2026-06-09T08:39:31.275Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T08:39:31.275Z",
+    "end": "2026-06-09T08:39:34.280Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T08:39:34.280Z",
+    "end": "2026-06-09T08:39:34.281Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "ELECTRON_BINARY_DOWNLOAD_FAILED",
+    "status": "PASS"
+  },
+  {
+    "stage": "WEB_UI_FALLBACK_ENABLED",
+    "status": "PASS"
+  },
+  {
+    "stage": "START_WEB_UI_PASS",
+    "status": "PASS"
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T08:39:34.281Z",
+    "end": "2026-06-09T08:39:34.340Z",
+    "status": "START_WEB_UI_PASS",
+    "error": null
+  },
+  {
+    "stage": "INPUT",
+    "start": "2026-06-09T08:47:05.075Z",
+    "end": "2026-06-09T08:47:05.077Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "ANALYZE",
+    "start": "2026-06-09T08:47:05.077Z",
+    "end": "2026-06-09T08:47:05.077Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "CLASSIFY",
+    "start": "2026-06-09T08:47:05.078Z",
+    "end": "2026-06-09T08:47:05.078Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_FILES",
+    "start": "2026-06-09T08:47:05.078Z",
+    "end": "2026-06-09T08:47:05.078Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "GENERATE_PROJECT",
+    "start": "2026-06-09T08:47:05.078Z",
+    "end": "2026-06-09T08:47:05.079Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "INSTALL_DEPENDENCIES",
+    "start": "2026-06-09T08:47:05.079Z",
+    "end": "2026-06-09T08:47:08.156Z",
+    "status": "PASS",
+    "error": null
+  },
+  {
+    "stage": "BUILD",
+    "start": "2026-06-09T08:47:08.156Z",
+    "end": "2026-06-09T08:47:08.157Z",
+    "status": "SKIPPED_NO_BUILD_SCRIPT",
+    "error": null
+  },
+  {
+    "stage": "START_WEB_UI_FAILED_PORT_NOT_LISTENING",
+    "status": "FAIL"
+  },
+  {
+    "stage": "START",
+    "start": "2026-06-09T08:47:08.157Z",
+    "end": "2026-06-09T08:47:08.215Z",
+    "status": "START_WEB_UI_FAILED_PORT_NOT_LISTENING",
+    "error": null
+  }
+]

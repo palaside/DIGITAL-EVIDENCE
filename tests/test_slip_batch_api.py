@@ -1,4 +1,5 @@
 import io
+import hashlib
 import sys
 import types
 import unittest
@@ -92,6 +93,7 @@ class SlipBatchApiTests(unittest.TestCase):
              }), \
              patch("bank_slip_reader.ocr_engine.OCREngine.extract_text", new=AsyncMock(side_effect=fake_extract_text)), \
              patch("bank_slip_reader.slip_parser.SlipParser.parse", new=AsyncMock(side_effect=fake_parse)), \
+             patch.object(app_module.EvidenceDatabaseManager, "__init__", return_value=None), \
              patch.object(app_module.EvidenceDatabaseManager, "save_record", new=fake_save_record):
             response = self.client.post(
                 "/api/ocr",
@@ -119,6 +121,70 @@ class SlipBatchApiTests(unittest.TestCase):
         self.assertEqual(payload["combined_results"][0]["memo"], "Shoppy 12/1800 ด.")
         self.assertIsNone(payload["combined_results"][1]["memo"])
         self.assertEqual(len(save_calls), 2)
+
+    def test_post_ocr_acceptance_requires_real_source_hash_per_uploaded_file(self):
+        save_calls = []
+        placeholder_hash = "SHA256:7e8b23a9d98f7e2a87c102a1b5c68f9a2e31d4e8b09f1a23b4c5d6e7f8a901bc"
+        first_bytes = b"acceptance-proof-slip-1"
+        second_bytes = b"acceptance-proof-slip-2"
+        expected_hashes = [
+            f"SHA256:{hashlib.sha256(first_bytes).hexdigest()}",
+            f"SHA256:{hashlib.sha256(second_bytes).hexdigest()}",
+        ]
+
+        async def fake_extract_text(image_path: str) -> str:
+            return f"OCR::{Path(image_path).name}"
+
+        async def fake_parse(raw_text: str, file_name: str = ""):
+            return _FakeParsedSlip(file_name, None)
+
+        def fake_save_record(_self, record_data: dict):
+            save_calls.append(record_data)
+            return _FakeRecord(len(save_calls))
+
+        with patch.object(app_module, "preprocess_image", return_value=None), \
+             patch.object(app_module.BankLogoDetector, "detect_logo", return_value={
+                 "success": True,
+                 "bbox": [1, 2, 3, 4],
+                 "cropped_logo": "logo",
+                 "brand": "Krungthai",
+                 "confidence": 0.95,
+             }), \
+             patch.object(app_module.BankLogoMatcher, "match_brand", return_value={
+                 "brand": "Krungthai",
+                 "confidence": 0.95,
+                 "feature_vector_size": 64,
+             }), \
+             patch("bank_slip_reader.ocr_engine.OCREngine.extract_text", new=AsyncMock(side_effect=fake_extract_text)), \
+             patch("bank_slip_reader.slip_parser.SlipParser.parse", new=AsyncMock(side_effect=fake_parse)), \
+             patch.object(app_module.EvidenceDatabaseManager, "__init__", return_value=None), \
+             patch.object(app_module.EvidenceDatabaseManager, "save_record", new=fake_save_record):
+            response = self.client.post(
+                "/api/ocr",
+                data={
+                    "image": [
+                        (io.BytesIO(first_bytes), "acceptance-1.jpeg"),
+                        (io.BytesIO(second_bytes), "acceptance-2.jpeg"),
+                    ]
+                },
+                content_type="multipart/form-data",
+            )
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.get_json()
+        results = payload["combined_results"]
+
+        self.assertEqual(len(results), 2)
+        for index, expected_hash in enumerate(expected_hashes):
+            actual_hash = results[index]["forensics_analysis"]["integrity_hash"]
+            self.assertEqual(actual_hash, expected_hash)
+            self.assertNotEqual(actual_hash, placeholder_hash)
+
+        self.assertEqual([call.get("source_file_hash") for call in save_calls], expected_hashes)
+        self.assertEqual(
+            [call.get("source_file_name") for call in save_calls],
+            ["acceptance-1.jpeg", "acceptance-2.jpeg"],
+        )
 
 
 if __name__ == "__main__":

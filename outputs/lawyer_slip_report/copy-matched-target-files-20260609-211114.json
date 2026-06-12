@@ -1,0 +1,4440 @@
+{
+  "mode": "dry_run",
+  "generated_at": "2026-06-09T21:11:14",
+  "list_path": "outputs\\lawyer_slip_report\\matched-target-files-885.txt",
+  "source_dir": "D:\\EDOK\\Duplicates",
+  "dest_dir": "D:\\EDOK\\Matched_Jinhipa_885",
+  "requested_names": 885,
+  "copied_files": 885,
+  "missing_names": 0,
+  "duplicate_name_groups": 0,
+  "missing": [],
+  "duplicate_names": [],
+  "copied": [
+    {
+      "file_name": "04807B50-B46E-4407-8341-4B9272054B91.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\04807B50-B46E-4407-8341-4B9272054B91.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\04807B50-B46E-4407-8341-4B9272054B91.JPEG"
+    },
+    {
+      "file_name": "24C99580-0AA6-42C0-B138-CA81FAB15524.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\24C99580-0AA6-42C0-B138-CA81FAB15524.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\24C99580-0AA6-42C0-B138-CA81FAB15524.JPEG"
+    },
+    {
+      "file_name": "7FF32AF0-F7E8-4F6A-8561-25E46570A588.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\7FF32AF0-F7E8-4F6A-8561-25E46570A588.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\7FF32AF0-F7E8-4F6A-8561-25E46570A588.JPEG"
+    },
+    {
+      "file_name": "A4_04807B50-B46E-4407-8341-4B9272054B91(1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_04807B50-B46E-4407-8341-4B9272054B91(1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_04807B50-B46E-4407-8341-4B9272054B91(1).JPEG"
+    },
+    {
+      "file_name": "A4_04807B50-B46E-4407-8341-4B9272054B91.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_04807B50-B46E-4407-8341-4B9272054B91.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_04807B50-B46E-4407-8341-4B9272054B91.JPEG"
+    },
+    {
+      "file_name": "A4_048B9F1B-49F7-4178-B05B-9A28892D55A9(1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_048B9F1B-49F7-4178-B05B-9A28892D55A9(1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_048B9F1B-49F7-4178-B05B-9A28892D55A9(1).JPEG"
+    },
+    {
+      "file_name": "A4_048B9F1B-49F7-4178-B05B-9A28892D55A9.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_048B9F1B-49F7-4178-B05B-9A28892D55A9.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_048B9F1B-49F7-4178-B05B-9A28892D55A9.JPEG"
+    },
+    {
+      "file_name": "A4_1FA2B0D6-6729-4998-916F-D267B5D9DD62(1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_1FA2B0D6-6729-4998-916F-D267B5D9DD62(1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_1FA2B0D6-6729-4998-916F-D267B5D9DD62(1).JPEG"
+    },
+    {
+      "file_name": "A4_1FA2B0D6-6729-4998-916F-D267B5D9DD62.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_1FA2B0D6-6729-4998-916F-D267B5D9DD62.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_1FA2B0D6-6729-4998-916F-D267B5D9DD62.JPEG"
+    },
+    {
+      "file_name": "A4_24C99580-0AA6-42C0-B138-CA81FAB15524(1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_24C99580-0AA6-42C0-B138-CA81FAB15524(1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_24C99580-0AA6-42C0-B138-CA81FAB15524(1).JPEG"
+    },
+    {
+      "file_name": "A4_24C99580-0AA6-42C0-B138-CA81FAB15524.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_24C99580-0AA6-42C0-B138-CA81FAB15524.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_24C99580-0AA6-42C0-B138-CA81FAB15524.JPEG"
+    },
+    {
+      "file_name": "A4_7FF32AF0-F7E8-4F6A-8561-25E46570A588(1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_7FF32AF0-F7E8-4F6A-8561-25E46570A588(1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_7FF32AF0-F7E8-4F6A-8561-25E46570A588(1).JPEG"
+    },
+    {
+      "file_name": "A4_7FF32AF0-F7E8-4F6A-8561-25E46570A588.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_7FF32AF0-F7E8-4F6A-8561-25E46570A588.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_7FF32AF0-F7E8-4F6A-8561-25E46570A588.JPEG"
+    },
+    {
+      "file_name": "A4_D45B0D31-7B31-41E2-B425-2D006A685D44(1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_D45B0D31-7B31-41E2-B425-2D006A685D44(1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_D45B0D31-7B31-41E2-B425-2D006A685D44(1).JPEG"
+    },
+    {
+      "file_name": "A4_D45B0D31-7B31-41E2-B425-2D006A685D44.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_D45B0D31-7B31-41E2-B425-2D006A685D44.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_D45B0D31-7B31-41E2-B425-2D006A685D44.JPEG"
+    },
+    {
+      "file_name": "A4_E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9(1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9(1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9(1).JPEG"
+    },
+    {
+      "file_name": "A4_E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\A4_E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9.JPEG"
+    },
+    {
+      "file_name": "A4_IMG_0437.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0437.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0437.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0443.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0443.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0443.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0444.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0444.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0444.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0465.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0465.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0465.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0468.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0468.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0468.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0481.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0481.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0481.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0488.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0488.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0488.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0497.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0497.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0497.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0507.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0507.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0507.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0518.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0518.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0518.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0638.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0638.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0638.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0672.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0672.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0672.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0690.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0690.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0690.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0766.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0766.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0766.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0791.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0791.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0791.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0793.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0793.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0793.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0794.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0794.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0794.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0795.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0795.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0795.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0824.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0824.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0824.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0855.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0855.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0855.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0857.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0857.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0857.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0934.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0934.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0934.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0968.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0968.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0968.JPG"
+    },
+    {
+      "file_name": "A4_IMG_0984.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_0984.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_0984.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1005.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1005.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1005.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1021.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1021.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1021.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1044.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1044.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1044.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1112.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1112.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1112.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1136.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1136.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1136.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1149.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1149.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1149.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1163.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1163.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1163.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1167.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1167.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1167.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1266.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1266.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1266.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1270.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1270.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1270.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1359.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1359.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1359.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1370.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1370.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1370.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1381.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1381.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1381.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1387.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1387.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1387.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1407.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1407.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1407.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1854.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1854.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1854.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1855.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1855.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1855.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1857.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1857.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1857.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1869.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1869.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1869.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1876.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1876.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1876.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1882.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1882.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1882.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1883.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1883.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1883.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1890.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1890.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1890.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1897.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1897.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1897.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1915.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1915.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1915.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1924.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1924.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1924.JPG"
+    },
+    {
+      "file_name": "A4_IMG_1929.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_1929.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_1929.JPG"
+    },
+    {
+      "file_name": "A4_IMG_2002.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2002.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2002.JPG"
+    },
+    {
+      "file_name": "A4_IMG_2015.jpg",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2015.jpg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2015.jpg"
+    },
+    {
+      "file_name": "A4_IMG_2025.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2025.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2025.JPG"
+    },
+    {
+      "file_name": "A4_IMG_2041.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2041.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2041.JPG"
+    },
+    {
+      "file_name": "A4_IMG_2267.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2267.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2267.JPG"
+    },
+    {
+      "file_name": "A4_IMG_2278.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2278.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2278.JPG"
+    },
+    {
+      "file_name": "A4_IMG_2520.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2520.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2520.JPG"
+    },
+    {
+      "file_name": "A4_IMG_2536.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2536.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2536.JPG"
+    },
+    {
+      "file_name": "A4_IMG_2610(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2610(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2610(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2610.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2610.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2610.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2612(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2612(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2612(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2612.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2612.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2612.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2614(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2614(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2614(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2614.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2614.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2614.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2616(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2616(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2616(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2616.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2616.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2616.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2617(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2617(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2617(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2617.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2617.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2617.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2618(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2618(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2618(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2618.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2618.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2618.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2619(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2619(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2619(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2619.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2619.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2619.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2620(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2620(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2620(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2620.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2620.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2620.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2621(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2621(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2621(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2621.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2621.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2621.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2622(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2622(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2622(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2622.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2622.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2622.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2623(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2623(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2623(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2623.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2623.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2623.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2624(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2624(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2624(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2624.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2624.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2624.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2625(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2625(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2625(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2625.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2625.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2625.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2626(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2626(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2626(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2626.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2626.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2626.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2627(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2627(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2627(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2627.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2627.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2627.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2628(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2628(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2628(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2628.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2628.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2628.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2629(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2629(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2629(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2629.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2629.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2629.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2630(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2630(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2630(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2630.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2630.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2630.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2631(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2631(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2631(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2631.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2631.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2631.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2632(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2632(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2632(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_2632.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2632.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2632.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2800.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2800.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2800.PNG"
+    },
+    {
+      "file_name": "A4_IMG_2903.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_2903.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_2903.JPG"
+    },
+    {
+      "file_name": "A4_IMG_3156.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3156.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3156.JPG"
+    },
+    {
+      "file_name": "A4_IMG_3376.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3376.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3376.PNG"
+    },
+    {
+      "file_name": "A4_IMG_3825(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3825(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3825(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_3825.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3825.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3825.PNG"
+    },
+    {
+      "file_name": "A4_IMG_3826(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3826(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3826(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_3826.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3826.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3826.PNG"
+    },
+    {
+      "file_name": "A4_IMG_3827(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3827(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3827(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_3827.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3827.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3827.PNG"
+    },
+    {
+      "file_name": "A4_IMG_3828(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3828(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3828(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_3828.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3828.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3828.PNG"
+    },
+    {
+      "file_name": "A4_IMG_3829(1).PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3829(1).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3829(1).PNG"
+    },
+    {
+      "file_name": "A4_IMG_3829.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_3829.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_3829.PNG"
+    },
+    {
+      "file_name": "A4_IMG_8927.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_8927.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_8927.PNG"
+    },
+    {
+      "file_name": "A4_IMG_8936.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_8936.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_8936.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9007.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9007.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9007.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9073.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9073.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9073.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9074.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9074.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9074.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9098.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9098.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9098.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9119.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9119.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9119.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9127.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9127.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9127.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9129.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9129.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9129.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9130.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9130.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9130.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9131.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9131.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9131.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9132.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9132.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9132.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9133.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9133.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9133.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9134.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9134.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9134.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9135.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9135.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9135.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9136.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9136.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9136.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9137.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9137.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9137.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9138.JPG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9138.JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9138.JPG"
+    },
+    {
+      "file_name": "A4_IMG_9144.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9144.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9144.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9195.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9195.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9195.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9294.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9294.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9294.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9344.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9344.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9344.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9765.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9765.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9765.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9790.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9790.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9790.PNG"
+    },
+    {
+      "file_name": "A4_IMG_9808.PNG",
+      "source": "D:\\EDOK\\Duplicates\\A4_IMG_9808.PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\A4_IMG_9808.PNG"
+    },
+    {
+      "file_name": "D45B0D31-7B31-41E2-B425-2D006A685D44.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\D45B0D31-7B31-41E2-B425-2D006A685D44.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\D45B0D31-7B31-41E2-B425-2D006A685D44.JPEG"
+    },
+    {
+      "file_name": "E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9.JPEG",
+      "source": "D:\\EDOK\\Duplicates\\E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9.JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\E8A0D9C3-FB21-4004-A4C7-2BDFF58196A9.JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (1).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (10).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (10).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (10).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (102).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (102).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (102).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (106).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (106).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (106).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (107).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (107).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (107).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (107).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (107).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (107).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (109).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (109).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (109).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (11).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (11).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (11).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (113).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (113).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (113).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (114).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (114).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (114).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (12).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (12).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (12).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (12).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (12).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (12).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (12).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (12).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (12).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (123).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (123).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (123).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (126).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (126).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (126).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (13).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (13).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (13).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (13).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (13).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (13).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (13).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (13).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (13).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (130).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (130).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (130).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (131).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (131).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (131).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (133).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (133).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (133).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (135).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (135).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (135).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (136).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (136).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (136).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (138).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (138).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (138).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (14).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (14).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (14).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (141).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (141).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (141).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (142).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (142).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (142).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (159).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (159).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (159).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (16).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (16).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (16).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (16).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (16).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (16).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (160).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (160).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (160).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (17).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (17).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (17).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (17).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (17).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (17).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (170).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (170).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (170).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (171).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (171).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (171).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (175).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (175).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (175).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (177).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (177).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (177).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (18).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (18).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (18).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (18).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (18).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (18).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (183).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (183).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (183).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (187).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (187).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (187).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (188).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (188).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (188).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (189).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (189).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (189).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (19).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (19).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (19).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (190).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (190).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (190).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (192).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (192).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (192).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (193).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (193).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (193).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (194).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (194).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (194).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (195).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (195).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (195).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (196).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (196).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (196).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (197).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (197).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (197).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (198).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (198).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (198).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (199).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (199).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (199).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (2).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (2).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (2).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (20).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (20).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (20).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (200).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (200).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (200).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (201).jpg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (201).jpg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (201).jpg"
+    },
+    {
+      "file_name": "EDOKFINAL (202).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (202).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (202).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (203).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (203).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (203).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (206).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (206).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (206).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (207).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (207).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (207).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (21).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (21).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (21).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (213).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (213).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (213).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (219).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (219).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (219).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (22).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (22).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (22).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (22).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (22).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (22).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (23).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (23).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (23).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (24).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (24).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (24).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (24).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (24).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (24).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (242).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (242).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (242).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (25).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (25).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (25).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (26).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (26).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (26).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (261).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (261).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (261).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (27).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (27).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (27).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (28).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (28).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (28).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (29).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (29).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (29).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (3).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (3).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (3).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (3).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (3).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (3).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (30).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (30).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (30).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (31).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (31).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (31).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (31).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (31).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (31).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (32).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (32).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (32).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (33).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (33).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (33).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (34).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (34).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (34).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (35).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (35).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (35).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (36).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (36).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (36).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (37).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (37).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (37).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (38).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (38).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (38).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (39).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (39).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (39).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (393).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (393).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (393).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (394).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (394).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (394).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (395).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (395).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (395).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (396).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (396).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (396).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (397).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (397).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (397).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (398).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (398).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (398).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (399).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (399).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (399).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (4).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (4).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (4).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (4).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (4).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (4).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (40).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (40).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (40).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (400).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (400).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (400).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (401).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (401).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (401).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (41).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (41).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (41).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (42).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (42).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (42).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (43).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (43).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (43).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (44).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (44).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (44).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (45).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (45).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (45).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (46).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (46).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (46).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (47).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (47).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (47).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (48).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (48).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (48).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (49).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (49).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (49).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (49).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (49).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (49).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (5).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (5).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (5).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (5).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (5).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (5).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (5).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (5).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (5).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (50).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (50).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (50).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (51).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (51).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (51).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (52).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (52).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (52).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (53).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (53).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (53).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (54).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (54).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (54).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (54).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (54).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (54).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (55).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (55).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (55).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (56).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (56).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (56).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (57).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (57).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (57).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (58).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (58).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (58).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (59).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (59).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (59).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (6).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (6).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (6).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (6).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (6).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (6).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (60).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (60).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (60).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (61).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (61).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (61).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (62).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (62).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (62).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (63).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (63).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (63).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (7).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (7).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (7).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (72).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (72).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (72).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (76).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (76).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (76).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (77).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (77).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (77).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (78).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (78).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (78).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (8).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (8).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (8).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (8).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (8).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (8).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (82).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (82).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (82).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (82).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (82).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (82).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (83).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (83).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (83).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (84).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (84).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (84).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (85).JPG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (85).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (85).JPG"
+    },
+    {
+      "file_name": "EDOKFINAL (86).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (86).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (86).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (87).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (87).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (87).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (88).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (88).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (88).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (9).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (9).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (9).JPEG"
+    },
+    {
+      "file_name": "EDOKFINAL (9).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (9).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (9).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (90).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (90).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (90).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (91).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (91).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (91).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (93).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (93).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (93).PNG"
+    },
+    {
+      "file_name": "EDOKFINAL (94).PNG",
+      "source": "D:\\EDOK\\Duplicates\\EDOKFINAL (94).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKFINAL (94).PNG"
+    },
+    {
+      "file_name": "EDOKORIGI (1).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (1).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (1).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (10).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (10).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (10).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (10).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (10).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (10).png"
+    },
+    {
+      "file_name": "EDOKORIGI (11).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (11).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (11).png"
+    },
+    {
+      "file_name": "EDOKORIGI (112).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (112).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (112).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (12).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (12).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (12).png"
+    },
+    {
+      "file_name": "EDOKORIGI (13).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (13).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (13).png"
+    },
+    {
+      "file_name": "EDOKORIGI (14).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (14).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (14).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (14).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (14).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (14).png"
+    },
+    {
+      "file_name": "EDOKORIGI (15).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (15).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (15).png"
+    },
+    {
+      "file_name": "EDOKORIGI (16).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (16).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (16).png"
+    },
+    {
+      "file_name": "EDOKORIGI (17).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (17).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (17).png"
+    },
+    {
+      "file_name": "EDOKORIGI (18).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (18).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (18).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (18).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (18).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (18).png"
+    },
+    {
+      "file_name": "EDOKORIGI (19).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (19).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (19).png"
+    },
+    {
+      "file_name": "EDOKORIGI (2).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (2).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (2).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (2).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (2).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (2).png"
+    },
+    {
+      "file_name": "EDOKORIGI (20).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (20).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (20).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (20).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (20).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (20).png"
+    },
+    {
+      "file_name": "EDOKORIGI (21).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (21).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (21).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (21).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (21).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (21).png"
+    },
+    {
+      "file_name": "EDOKORIGI (22).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (22).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (22).png"
+    },
+    {
+      "file_name": "EDOKORIGI (23).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (23).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (23).png"
+    },
+    {
+      "file_name": "EDOKORIGI (24).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (24).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (24).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (24).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (24).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (24).png"
+    },
+    {
+      "file_name": "EDOKORIGI (25).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (25).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (25).png"
+    },
+    {
+      "file_name": "EDOKORIGI (26).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (26).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (26).png"
+    },
+    {
+      "file_name": "EDOKORIGI (28).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (28).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (28).png"
+    },
+    {
+      "file_name": "EDOKORIGI (29).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (29).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (29).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (29).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (29).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (29).png"
+    },
+    {
+      "file_name": "EDOKORIGI (3).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (3).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (3).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (30).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (30).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (30).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (30).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (30).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (30).png"
+    },
+    {
+      "file_name": "EDOKORIGI (31).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (31).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (31).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (31).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (31).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (31).png"
+    },
+    {
+      "file_name": "EDOKORIGI (32).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (32).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (32).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (32).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (32).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (32).png"
+    },
+    {
+      "file_name": "EDOKORIGI (33).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (33).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (33).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (33).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (33).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (33).png"
+    },
+    {
+      "file_name": "EDOKORIGI (34).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (34).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (34).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (34).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (34).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (34).png"
+    },
+    {
+      "file_name": "EDOKORIGI (35).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (35).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (35).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (35).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (35).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (35).png"
+    },
+    {
+      "file_name": "EDOKORIGI (36).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (36).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (36).png"
+    },
+    {
+      "file_name": "EDOKORIGI (37).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (37).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (37).png"
+    },
+    {
+      "file_name": "EDOKORIGI (38).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (38).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (38).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (4).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (4).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (4).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (4).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (4).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (4).png"
+    },
+    {
+      "file_name": "EDOKORIGI (44).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (44).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (44).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (5).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (5).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (5).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (50).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (50).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (50).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (6).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (6).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (6).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (6).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (6).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (6).png"
+    },
+    {
+      "file_name": "EDOKORIGI (7).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (7).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (7).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (74).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (74).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (74).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (8).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (8).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (8).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (8).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (8).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (8).png"
+    },
+    {
+      "file_name": "EDOKORIGI (9).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (9).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (9).jpeg"
+    },
+    {
+      "file_name": "EDOKORIGI (9).png",
+      "source": "D:\\EDOK\\Duplicates\\EDOKORIGI (9).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\EDOKORIGI (9).png"
+    },
+    {
+      "file_name": "Repeat (1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (1).JPEG"
+    },
+    {
+      "file_name": "Repeat (10).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (10).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (10).JPEG"
+    },
+    {
+      "file_name": "Repeat (102).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (102).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (102).JPG"
+    },
+    {
+      "file_name": "Repeat (106).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (106).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (106).JPG"
+    },
+    {
+      "file_name": "Repeat (106).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (106).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (106).PNG"
+    },
+    {
+      "file_name": "Repeat (107).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (107).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (107).JPG"
+    },
+    {
+      "file_name": "Repeat (108).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (108).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (108).PNG"
+    },
+    {
+      "file_name": "Repeat (11).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (11).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (11).JPEG"
+    },
+    {
+      "file_name": "Repeat (112).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (112).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (112).PNG"
+    },
+    {
+      "file_name": "Repeat (114).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (114).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (114).JPG"
+    },
+    {
+      "file_name": "Repeat (12).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (12).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (12).JPEG"
+    },
+    {
+      "file_name": "Repeat (12).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (12).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (12).JPG"
+    },
+    {
+      "file_name": "Repeat (12).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (12).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (12).PNG"
+    },
+    {
+      "file_name": "Repeat (123).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (123).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (123).JPG"
+    },
+    {
+      "file_name": "Repeat (126).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (126).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (126).JPG"
+    },
+    {
+      "file_name": "Repeat (13).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (13).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (13).JPEG"
+    },
+    {
+      "file_name": "Repeat (13).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (13).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (13).JPG"
+    },
+    {
+      "file_name": "Repeat (13).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (13).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (13).PNG"
+    },
+    {
+      "file_name": "Repeat (130).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (130).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (130).JPG"
+    },
+    {
+      "file_name": "Repeat (131).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (131).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (131).JPG"
+    },
+    {
+      "file_name": "Repeat (133).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (133).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (133).JPG"
+    },
+    {
+      "file_name": "Repeat (135).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (135).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (135).JPG"
+    },
+    {
+      "file_name": "Repeat (136).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (136).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (136).JPG"
+    },
+    {
+      "file_name": "Repeat (138).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (138).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (138).JPG"
+    },
+    {
+      "file_name": "Repeat (14).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (14).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (14).JPEG"
+    },
+    {
+      "file_name": "Repeat (141).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (141).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (141).JPG"
+    },
+    {
+      "file_name": "Repeat (142).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (142).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (142).JPG"
+    },
+    {
+      "file_name": "Repeat (159).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (159).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (159).JPG"
+    },
+    {
+      "file_name": "Repeat (16).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (16).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (16).JPG"
+    },
+    {
+      "file_name": "Repeat (16).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (16).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (16).PNG"
+    },
+    {
+      "file_name": "Repeat (160).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (160).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (160).JPG"
+    },
+    {
+      "file_name": "Repeat (17).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (17).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (17).JPG"
+    },
+    {
+      "file_name": "Repeat (17).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (17).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (17).PNG"
+    },
+    {
+      "file_name": "Repeat (170).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (170).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (170).JPG"
+    },
+    {
+      "file_name": "Repeat (171).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (171).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (171).JPG"
+    },
+    {
+      "file_name": "Repeat (175).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (175).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (175).JPG"
+    },
+    {
+      "file_name": "Repeat (177).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (177).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (177).JPG"
+    },
+    {
+      "file_name": "Repeat (18).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (18).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (18).JPG"
+    },
+    {
+      "file_name": "Repeat (18).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (18).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (18).PNG"
+    },
+    {
+      "file_name": "Repeat (183).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (183).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (183).JPG"
+    },
+    {
+      "file_name": "Repeat (187).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (187).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (187).JPG"
+    },
+    {
+      "file_name": "Repeat (188).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (188).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (188).JPG"
+    },
+    {
+      "file_name": "Repeat (189).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (189).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (189).JPG"
+    },
+    {
+      "file_name": "Repeat (19).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (19).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (19).PNG"
+    },
+    {
+      "file_name": "Repeat (190).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (190).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (190).JPG"
+    },
+    {
+      "file_name": "Repeat (192).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (192).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (192).JPG"
+    },
+    {
+      "file_name": "Repeat (193).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (193).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (193).JPG"
+    },
+    {
+      "file_name": "Repeat (194).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (194).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (194).JPG"
+    },
+    {
+      "file_name": "Repeat (195).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (195).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (195).JPG"
+    },
+    {
+      "file_name": "Repeat (196).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (196).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (196).JPG"
+    },
+    {
+      "file_name": "Repeat (197).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (197).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (197).JPG"
+    },
+    {
+      "file_name": "Repeat (198).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (198).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (198).JPG"
+    },
+    {
+      "file_name": "Repeat (199).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (199).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (199).JPG"
+    },
+    {
+      "file_name": "Repeat (2).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (2).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (2).JPEG"
+    },
+    {
+      "file_name": "Repeat (20).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (20).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (20).PNG"
+    },
+    {
+      "file_name": "Repeat (200).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (200).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (200).JPG"
+    },
+    {
+      "file_name": "Repeat (201).jpg",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (201).jpg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (201).jpg"
+    },
+    {
+      "file_name": "Repeat (202).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (202).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (202).JPG"
+    },
+    {
+      "file_name": "Repeat (203).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (203).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (203).JPG"
+    },
+    {
+      "file_name": "Repeat (206).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (206).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (206).JPG"
+    },
+    {
+      "file_name": "Repeat (207).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (207).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (207).JPG"
+    },
+    {
+      "file_name": "Repeat (21).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (21).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (21).PNG"
+    },
+    {
+      "file_name": "Repeat (213).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (213).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (213).JPG"
+    },
+    {
+      "file_name": "Repeat (219).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (219).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (219).JPG"
+    },
+    {
+      "file_name": "Repeat (22).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (22).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (22).JPG"
+    },
+    {
+      "file_name": "Repeat (22).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (22).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (22).PNG"
+    },
+    {
+      "file_name": "Repeat (23).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (23).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (23).PNG"
+    },
+    {
+      "file_name": "Repeat (24).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (24).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (24).JPG"
+    },
+    {
+      "file_name": "Repeat (24).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (24).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (24).PNG"
+    },
+    {
+      "file_name": "Repeat (242).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (242).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (242).JPG"
+    },
+    {
+      "file_name": "Repeat (25).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (25).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (25).PNG"
+    },
+    {
+      "file_name": "Repeat (26).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (26).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (26).PNG"
+    },
+    {
+      "file_name": "Repeat (261).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (261).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (261).JPG"
+    },
+    {
+      "file_name": "Repeat (27).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (27).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (27).PNG"
+    },
+    {
+      "file_name": "Repeat (28).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (28).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (28).PNG"
+    },
+    {
+      "file_name": "Repeat (29).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (29).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (29).PNG"
+    },
+    {
+      "file_name": "Repeat (3).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (3).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (3).JPEG"
+    },
+    {
+      "file_name": "Repeat (3).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (3).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (3).JPG"
+    },
+    {
+      "file_name": "Repeat (30).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (30).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (30).PNG"
+    },
+    {
+      "file_name": "Repeat (31).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (31).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (31).JPG"
+    },
+    {
+      "file_name": "Repeat (31).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (31).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (31).PNG"
+    },
+    {
+      "file_name": "Repeat (32).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (32).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (32).PNG"
+    },
+    {
+      "file_name": "Repeat (33).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (33).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (33).PNG"
+    },
+    {
+      "file_name": "Repeat (34).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (34).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (34).PNG"
+    },
+    {
+      "file_name": "Repeat (35).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (35).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (35).PNG"
+    },
+    {
+      "file_name": "Repeat (36).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (36).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (36).PNG"
+    },
+    {
+      "file_name": "Repeat (37).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (37).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (37).PNG"
+    },
+    {
+      "file_name": "Repeat (38).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (38).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (38).PNG"
+    },
+    {
+      "file_name": "Repeat (39).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (39).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (39).PNG"
+    },
+    {
+      "file_name": "Repeat (393).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (393).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (393).JPG"
+    },
+    {
+      "file_name": "Repeat (394).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (394).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (394).JPG"
+    },
+    {
+      "file_name": "Repeat (395).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (395).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (395).JPG"
+    },
+    {
+      "file_name": "Repeat (396).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (396).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (396).JPG"
+    },
+    {
+      "file_name": "Repeat (397).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (397).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (397).JPG"
+    },
+    {
+      "file_name": "Repeat (398).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (398).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (398).JPG"
+    },
+    {
+      "file_name": "Repeat (399).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (399).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (399).JPG"
+    },
+    {
+      "file_name": "Repeat (4).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (4).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (4).JPEG"
+    },
+    {
+      "file_name": "Repeat (4).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (4).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (4).PNG"
+    },
+    {
+      "file_name": "Repeat (40).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (40).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (40).PNG"
+    },
+    {
+      "file_name": "Repeat (400).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (400).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (400).JPG"
+    },
+    {
+      "file_name": "Repeat (401).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (401).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (401).JPG"
+    },
+    {
+      "file_name": "Repeat (402).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (402).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (402).JPG"
+    },
+    {
+      "file_name": "Repeat (41).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (41).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (41).PNG"
+    },
+    {
+      "file_name": "Repeat (42).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (42).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (42).PNG"
+    },
+    {
+      "file_name": "Repeat (43).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (43).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (43).PNG"
+    },
+    {
+      "file_name": "Repeat (44).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (44).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (44).PNG"
+    },
+    {
+      "file_name": "Repeat (45).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (45).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (45).PNG"
+    },
+    {
+      "file_name": "Repeat (46).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (46).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (46).PNG"
+    },
+    {
+      "file_name": "Repeat (47).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (47).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (47).PNG"
+    },
+    {
+      "file_name": "Repeat (48).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (48).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (48).PNG"
+    },
+    {
+      "file_name": "Repeat (49).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (49).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (49).JPG"
+    },
+    {
+      "file_name": "Repeat (49).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (49).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (49).PNG"
+    },
+    {
+      "file_name": "Repeat (5).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (5).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (5).JPEG"
+    },
+    {
+      "file_name": "Repeat (5).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (5).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (5).JPG"
+    },
+    {
+      "file_name": "Repeat (5).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (5).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (5).PNG"
+    },
+    {
+      "file_name": "Repeat (50).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (50).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (50).PNG"
+    },
+    {
+      "file_name": "Repeat (51).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (51).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (51).PNG"
+    },
+    {
+      "file_name": "Repeat (52).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (52).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (52).PNG"
+    },
+    {
+      "file_name": "Repeat (53).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (53).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (53).PNG"
+    },
+    {
+      "file_name": "Repeat (54).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (54).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (54).JPG"
+    },
+    {
+      "file_name": "Repeat (54).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (54).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (54).PNG"
+    },
+    {
+      "file_name": "Repeat (55).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (55).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (55).PNG"
+    },
+    {
+      "file_name": "Repeat (56).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (56).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (56).PNG"
+    },
+    {
+      "file_name": "Repeat (57).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (57).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (57).PNG"
+    },
+    {
+      "file_name": "Repeat (58).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (58).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (58).PNG"
+    },
+    {
+      "file_name": "Repeat (59).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (59).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (59).PNG"
+    },
+    {
+      "file_name": "Repeat (6).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (6).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (6).JPEG"
+    },
+    {
+      "file_name": "Repeat (6).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (6).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (6).JPG"
+    },
+    {
+      "file_name": "Repeat (60).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (60).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (60).PNG"
+    },
+    {
+      "file_name": "Repeat (61).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (61).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (61).PNG"
+    },
+    {
+      "file_name": "Repeat (62).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (62).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (62).PNG"
+    },
+    {
+      "file_name": "Repeat (63).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (63).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (63).PNG"
+    },
+    {
+      "file_name": "Repeat (7).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (7).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (7).JPEG"
+    },
+    {
+      "file_name": "Repeat (72).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (72).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (72).PNG"
+    },
+    {
+      "file_name": "Repeat (76).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (76).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (76).PNG"
+    },
+    {
+      "file_name": "Repeat (77).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (77).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (77).PNG"
+    },
+    {
+      "file_name": "Repeat (78).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (78).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (78).JPG"
+    },
+    {
+      "file_name": "Repeat (8).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (8).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (8).JPEG"
+    },
+    {
+      "file_name": "Repeat (8).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (8).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (8).PNG"
+    },
+    {
+      "file_name": "Repeat (82).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (82).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (82).JPG"
+    },
+    {
+      "file_name": "Repeat (82).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (82).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (82).PNG"
+    },
+    {
+      "file_name": "Repeat (83).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (83).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (83).JPG"
+    },
+    {
+      "file_name": "Repeat (84).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (84).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (84).JPG"
+    },
+    {
+      "file_name": "Repeat (85).JPG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (85).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (85).JPG"
+    },
+    {
+      "file_name": "Repeat (85).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (85).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (85).PNG"
+    },
+    {
+      "file_name": "Repeat (86).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (86).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (86).PNG"
+    },
+    {
+      "file_name": "Repeat (87).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (87).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (87).PNG"
+    },
+    {
+      "file_name": "Repeat (89).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (89).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (89).PNG"
+    },
+    {
+      "file_name": "Repeat (9).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (9).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (9).JPEG"
+    },
+    {
+      "file_name": "Repeat (9).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (9).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (9).PNG"
+    },
+    {
+      "file_name": "Repeat (90).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (90).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (90).PNG"
+    },
+    {
+      "file_name": "Repeat (92).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (92).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (92).PNG"
+    },
+    {
+      "file_name": "Repeat (93).PNG",
+      "source": "D:\\EDOK\\Duplicates\\Repeat (93).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\Repeat (93).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (1).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (10).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (10).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (10).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (102).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (102).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (102).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (106).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (106).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (106).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (107).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (107).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (107).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (107).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (107).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (107).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (109).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (109).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (109).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (11).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (11).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (11).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (113).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (113).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (113).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (114).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (114).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (114).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (12).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (12).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (12).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (12).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (12).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (12).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (12).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (12).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (12).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (123).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (123).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (123).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (126).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (126).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (126).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (13).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (13).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (13).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (13).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (13).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (13).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (13).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (13).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (13).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (130).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (130).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (130).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (131).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (131).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (131).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (133).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (133).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (133).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (135).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (135).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (135).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (136).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (136).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (136).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (138).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (138).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (138).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (14).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (14).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (14).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (141).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (141).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (141).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (142).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (142).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (142).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (159).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (159).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (159).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (16).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (16).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (16).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (16).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (16).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (16).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (160).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (160).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (160).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (17).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (17).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (17).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (17).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (17).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (17).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (170).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (170).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (170).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (171).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (171).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (171).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (175).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (175).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (175).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (177).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (177).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (177).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (18).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (18).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (18).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (18).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (18).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (18).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (183).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (183).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (183).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (187).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (187).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (187).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (188).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (188).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (188).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (189).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (189).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (189).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (19).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (19).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (19).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (190).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (190).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (190).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (192).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (192).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (192).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (193).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (193).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (193).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (194).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (194).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (194).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (195).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (195).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (195).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (196).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (196).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (196).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (197).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (197).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (197).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (198).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (198).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (198).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (199).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (199).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (199).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (2).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (2).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (2).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (20).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (20).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (20).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (200).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (200).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (200).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (201).jpg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (201).jpg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (201).jpg"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (202).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (202).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (202).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (203).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (203).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (203).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (206).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (206).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (206).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (207).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (207).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (207).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (21).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (21).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (21).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (213).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (213).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (213).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (219).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (219).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (219).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (22).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (22).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (22).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (22).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (22).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (22).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (23).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (23).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (23).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (24).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (24).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (24).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (24).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (24).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (24).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (242).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (242).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (242).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (25).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (25).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (25).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (26).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (26).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (26).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (261).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (261).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (261).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (27).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (27).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (27).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (28).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (28).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (28).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (29).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (29).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (29).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (3).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (3).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (3).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (3).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (3).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (3).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (30).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (30).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (30).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (31).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (31).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (31).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (31).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (31).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (31).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (32).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (32).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (32).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (33).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (33).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (33).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (34).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (34).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (34).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (35).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (35).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (35).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (36).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (36).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (36).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (37).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (37).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (37).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (38).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (38).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (38).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (39).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (39).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (39).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (393).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (393).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (393).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (394).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (394).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (394).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (395).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (395).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (395).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (396).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (396).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (396).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (397).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (397).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (397).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (398).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (398).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (398).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (399).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (399).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (399).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (4).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (4).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (4).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (4).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (4).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (4).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (40).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (40).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (40).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (400).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (400).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (400).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (401).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (401).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (401).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (41).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (41).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (41).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (42).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (42).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (42).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (43).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (43).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (43).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (44).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (44).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (44).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (45).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (45).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (45).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (46).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (46).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (46).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (47).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (47).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (47).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (48).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (48).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (48).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (49).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (49).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (49).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (49).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (49).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (49).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (5).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (5).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (5).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (5).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (5).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (5).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (5).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (5).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (5).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (50).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (50).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (50).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (51).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (51).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (51).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (52).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (52).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (52).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (53).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (53).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (53).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (54).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (54).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (54).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (54).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (54).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (54).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (55).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (55).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (55).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (56).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (56).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (56).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (57).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (57).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (57).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (58).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (58).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (58).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (59).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (59).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (59).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (6).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (6).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (6).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (6).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (6).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (6).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (60).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (60).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (60).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (61).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (61).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (61).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (62).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (62).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (62).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (63).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (63).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (63).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (7).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (7).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (7).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (72).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (72).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (72).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (76).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (76).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (76).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (77).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (77).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (77).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (78).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (78).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (78).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (8).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (8).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (8).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (8).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (8).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (8).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (82).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (82).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (82).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (82).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (82).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (82).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (83).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (83).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (83).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (84).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (84).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (84).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (85).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (85).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (85).JPG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (86).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (86).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (86).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (87).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (87).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (87).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (88).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (88).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (88).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (9).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (9).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (9).JPEG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (9).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (9).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (9).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (90).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (90).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (90).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (91).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (91).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (91).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (93).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (93).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (93).PNG"
+    },
+    {
+      "file_name": "dup_EDOKFINAL (94).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKFINAL (94).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKFINAL (94).PNG"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (1).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (1).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (1).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (10).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (10).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (10).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (10).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (10).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (10).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (11).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (11).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (11).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (112).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (112).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (112).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (12).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (12).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (12).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (13).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (13).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (13).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (14).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (14).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (14).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (14).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (14).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (14).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (15).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (15).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (15).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (16).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (16).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (16).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (17).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (17).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (17).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (18).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (18).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (18).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (18).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (18).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (18).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (19).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (19).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (19).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (2).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (2).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (2).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (2).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (2).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (2).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (20).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (20).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (20).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (20).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (20).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (20).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (21).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (21).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (21).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (21).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (21).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (21).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (22).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (22).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (22).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (23).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (23).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (23).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (24).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (24).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (24).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (24).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (24).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (24).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (25).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (25).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (25).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (26).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (26).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (26).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (28).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (28).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (28).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (29).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (29).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (29).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (29).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (29).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (29).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (3).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (3).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (3).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (30).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (30).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (30).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (30).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (30).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (30).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (31).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (31).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (31).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (31).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (31).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (31).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (32).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (32).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (32).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (32).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (32).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (32).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (33).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (33).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (33).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (33).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (33).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (33).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (34).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (34).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (34).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (34).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (34).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (34).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (35).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (35).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (35).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (35).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (35).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (35).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (36).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (36).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (36).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (37).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (37).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (37).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (38).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (38).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (38).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (4).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (4).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (4).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (4).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (4).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (4).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (44).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (44).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (44).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (5).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (5).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (5).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (50).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (50).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (50).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (6).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (6).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (6).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (6).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (6).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (6).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (7).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (7).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (7).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (74).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (74).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (74).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (8).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (8).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (8).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (8).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (8).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (8).png"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (9).jpeg",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (9).jpeg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (9).jpeg"
+    },
+    {
+      "file_name": "dup_EDOKORIGI (9).png",
+      "source": "D:\\EDOK\\Duplicates\\dup_EDOKORIGI (9).png",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_EDOKORIGI (9).png"
+    },
+    {
+      "file_name": "dup_Repeat (1).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (1).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (1).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (10).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (10).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (10).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (102).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (102).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (102).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (106).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (106).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (106).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (106).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (106).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (106).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (107).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (107).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (107).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (108).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (108).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (108).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (11).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (11).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (11).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (112).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (112).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (112).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (114).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (114).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (114).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (12).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (12).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (12).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (12).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (12).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (12).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (12).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (12).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (12).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (123).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (123).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (123).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (126).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (126).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (126).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (13).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (13).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (13).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (13).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (13).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (13).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (13).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (13).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (13).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (130).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (130).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (130).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (131).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (131).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (131).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (133).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (133).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (133).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (135).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (135).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (135).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (136).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (136).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (136).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (138).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (138).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (138).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (14).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (14).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (14).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (141).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (141).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (141).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (142).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (142).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (142).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (159).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (159).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (159).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (16).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (16).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (16).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (16).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (16).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (16).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (160).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (160).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (160).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (17).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (17).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (17).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (17).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (17).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (17).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (170).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (170).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (170).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (171).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (171).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (171).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (175).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (175).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (175).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (177).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (177).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (177).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (18).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (18).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (18).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (18).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (18).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (18).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (183).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (183).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (183).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (187).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (187).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (187).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (188).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (188).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (188).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (189).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (189).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (189).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (19).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (19).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (19).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (190).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (190).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (190).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (192).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (192).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (192).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (193).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (193).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (193).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (194).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (194).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (194).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (195).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (195).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (195).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (196).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (196).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (196).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (197).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (197).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (197).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (198).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (198).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (198).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (199).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (199).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (199).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (2).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (2).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (2).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (20).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (20).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (20).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (200).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (200).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (200).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (201).jpg",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (201).jpg",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (201).jpg"
+    },
+    {
+      "file_name": "dup_Repeat (202).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (202).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (202).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (203).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (203).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (203).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (206).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (206).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (206).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (207).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (207).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (207).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (21).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (21).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (21).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (213).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (213).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (213).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (219).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (219).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (219).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (22).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (22).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (22).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (22).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (22).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (22).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (23).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (23).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (23).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (24).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (24).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (24).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (24).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (24).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (24).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (242).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (242).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (242).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (25).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (25).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (25).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (26).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (26).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (26).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (261).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (261).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (261).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (27).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (27).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (27).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (28).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (28).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (28).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (29).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (29).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (29).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (3).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (3).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (3).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (3).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (3).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (3).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (30).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (30).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (30).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (31).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (31).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (31).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (31).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (31).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (31).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (32).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (32).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (32).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (33).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (33).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (33).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (34).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (34).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (34).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (35).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (35).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (35).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (36).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (36).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (36).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (37).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (37).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (37).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (38).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (38).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (38).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (39).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (39).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (39).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (393).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (393).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (393).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (394).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (394).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (394).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (395).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (395).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (395).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (396).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (396).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (396).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (397).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (397).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (397).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (398).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (398).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (398).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (399).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (399).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (399).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (4).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (4).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (4).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (4).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (4).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (4).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (40).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (40).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (40).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (400).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (400).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (400).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (401).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (401).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (401).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (402).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (402).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (402).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (41).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (41).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (41).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (42).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (42).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (42).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (43).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (43).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (43).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (44).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (44).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (44).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (45).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (45).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (45).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (46).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (46).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (46).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (47).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (47).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (47).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (48).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (48).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (48).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (49).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (49).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (49).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (49).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (49).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (49).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (5).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (5).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (5).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (5).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (5).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (5).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (5).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (5).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (5).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (50).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (50).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (50).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (51).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (51).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (51).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (52).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (52).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (52).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (53).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (53).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (53).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (54).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (54).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (54).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (54).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (54).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (54).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (55).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (55).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (55).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (56).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (56).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (56).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (57).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (57).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (57).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (58).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (58).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (58).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (59).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (59).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (59).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (6).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (6).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (6).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (6).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (6).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (6).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (60).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (60).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (60).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (61).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (61).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (61).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (62).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (62).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (62).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (63).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (63).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (63).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (7).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (7).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (7).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (72).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (72).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (72).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (76).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (76).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (76).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (77).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (77).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (77).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (78).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (78).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (78).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (8).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (8).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (8).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (8).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (8).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (8).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (82).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (82).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (82).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (82).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (82).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (82).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (83).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (83).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (83).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (84).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (84).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (84).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (85).JPG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (85).JPG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (85).JPG"
+    },
+    {
+      "file_name": "dup_Repeat (85).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (85).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (85).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (86).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (86).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (86).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (87).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (87).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (87).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (89).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (89).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (89).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (9).JPEG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (9).JPEG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (9).JPEG"
+    },
+    {
+      "file_name": "dup_Repeat (9).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (9).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (9).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (90).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (90).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (90).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (92).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (92).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (92).PNG"
+    },
+    {
+      "file_name": "dup_Repeat (93).PNG",
+      "source": "D:\\EDOK\\Duplicates\\dup_Repeat (93).PNG",
+      "destination": "D:\\EDOK\\Matched_Jinhipa_885\\dup_Repeat (93).PNG"
+    }
+  ]
+}

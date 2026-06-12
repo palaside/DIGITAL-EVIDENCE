@@ -1,0 +1,288 @@
+CHAT EVIDENCE PROCESSOR - AUDIT LOG
+===================================================
+Process Timestamp : 2026-06-07T15:13:26.661Z (UTC)
+Output PDF File   : outputs/evidence.pdf
+Output PDF Hash   : SHA256:72f50ed781da290342f67db065e75ef268d888c400e3223031718812766ff14a
+Total Pages       : 204
+Stitched Height   : 195948px
+
+Source Images Metadata:
+  [1] File: 01_chat_part1.png | Size: 1122x866 | SHA256:afba60b5e48686dcd7689cd7416a720d60ead97bfeefab478e58731f6a19b78e
+  [2] File: 02_chat_part2.png | Size: 1122x866 | SHA256:693a03972a20b50aebec382e0cc47324b54de90a58310090c4f7c00b29ce0d22
+  [3] File: chatv3 (1).jpg | Size: 636x6286 | SHA256:38bb247ba1f3670887e343fe82fe5b598b2cfff447f902045d7e68dc3b5d29d8
+  [4] File: chatv3 (2).jpg | Size: 828x2422 | SHA256:078ec7709ca4227e4433b4a422fc4e51d6aa13120f274561761706505938d7f0
+  [5] File: chatv3 (3).jpg | Size: 640x6244 | SHA256:93398f27ebed26cf24c52fa8aded0786c08df5f8c3110c55b748cfaa32a32c04
+  [6] File: chatv3 (4).jpg | Size: 788x5068 | SHA256:1d95529cc9b22999bbdbdf2f9ea8a02f49486a182728413ebc53437fb4e347a8
+  [7] File: chatv3 (5).jpg | Size: 654x6114 | SHA256:9c8deadeb55affafbc3651d06c4f48e44a6caaed5439d8ac13e8525f7d482fb4
+  [8] File: chatv3 (6).jpg | Size: 742x5382 | SHA256:4ff56b1f6d5e8387f611b1f29095ab0911eaf76b47af870de4cecf6eeb0dd716
+  [9] File: chatv3 (7).jpg | Size: 666x5990 | SHA256:8d3b0cff8950a690c73a16cefb0b90c7941ec1356bf225bef933d91ee75d4fe4
+  [10] File: chatv3 (8).jpg | Size: 638x6268 | SHA256:0b61c6ad77ece8030a6f2d11ddd3e90c313ad62dfa50676a3cf8b0b73e8b0a4d
+  [11] File: chatv3 (9).jpg | Size: 652x6130 | SHA256:fe8f0666b956cbd5d28cd1397e299544caeeabfef91a87013836ad37378fa22e
+  [12] File: chatv3 (10).jpg | Size: 664x6016 | SHA256:370bda3ed74922ecf7c4d0b57fcc3fa0d93a06ab555bc2bdaf754f1290a43203
+  [13] File: chatv3 (11).jpg | Size: 734x5442 | SHA256:5118424031a21bdb1bf63c61f587d25d8c9a16119de026f9d33ed093eea24635
+  [14] File: chatv3 (12).jpg | Size: 640x6242 | SHA256:2d133111f1e970a78f05674fe11b40cab8078f31ee56898f28948ade4fc91da3
+  [15] File: chatv3 (13).jpg | Size: 636x6284 | SHA256:d03a99b559d19b9755bc2bd5d773da9a986a0a495494b85b8558fe77bc03cc1b
+  [16] File: chatv3 (14).jpg | Size: 828x3000 | SHA256:9b34a1f0c80ab94935643e2ce608e760e42905b7bb24ac5c19d580c1d6d54225
+  [17] File: chatv3 (15).jpg | Size: 638x6260 | SHA256:7db2bb9371b634edf5bbc82f934817b1778db9a3a67f82eaae50f99fbb6b0bbf
+  [18] File: chatv3 (16).jpg | Size: 638x6258 | SHA256:f49eb5517cdcfdbdf9bff17159207df060adcf9ee7d37d166446e43e90690f9d
+  [19] File: chatv3 (17).jpg | Size: 828x2180 | SHA256:f16af100e63e88932cf027bf2d7905fc956a7c98a93e42c6746c0dedec420661
+  [20] File: chatv3 (18).jpg | Size: 642x6228 | SHA256:97fa91fa14d438cc306f32869d555428e35803e3bf855520b0273d1b2d1ef41f
+  [21] File: chatv3 (19).jpg | Size: 636x6280 | SHA256:c98b69dc3094c94d8bcab93712aee2530db486016303a7fc162848466fc7dc6c
+  [22] File: chatv3 (20).jpg | Size: 638x6266 | SHA256:41e130854a60ce16b1358ad9bd234a29c396e5e080b3653143239fce4f74cade
+  [23] File: chatv3 (21).jpg | Size: 828x3878 | SHA256:1a9eb81ba702a0084b0787f5e88801a1866ecbc9d90782612ccc797f1628228a
+  [24] File: chatv3 (22).jpg | Size: 640x6234 | SHA256:b783207c3a7354f61360a370821a2cf9acc8bb12a70dcff2eb0d4807b82dd4c3
+  [25] File: chatv3 (23).jpg | Size: 736x5430 | SHA256:930742a74da753cd05423099c50a563ad1fac43926cb2cad98a5103b3e0a3c67
+  [26] File: chatv3 (24).jpg | Size: 638x6250 | SHA256:f279fc11dfb7efd825e59e3d5b42c67a67f7ddcbbee5bd6cb85896beab71868f
+  [27] File: chatv3 (25).jpg | Size: 828x1148 | SHA256:c8fb02577ffff65175360dc1f61b8b833be4b6039e40e0b284698b8cc3bc74b6
+  [28] File: chatv3 (26).jpg | Size: 640x6240 | SHA256:f682c7092ff0217e6a47cfb43867404336d349e9cc9946eff9d255ca9cf3a630
+  [29] File: chatv3 (27).jpg | Size: 640x6240 | SHA256:f682c7092ff0217e6a47cfb43867404336d349e9cc9946eff9d255ca9cf3a630
+  [30] File: chatv3 (28).jpg | Size: 828x1408 | SHA256:d803f15a8e24ff52852cc2b8f345470e129f8479e65ba5e3ed825825907c75eb
+  [31] File: chatv3 (29).jpg | Size: 828x1408 | SHA256:d803f15a8e24ff52852cc2b8f345470e129f8479e65ba5e3ed825825907c75eb
+  [32] File: chatv3 (30).jpg | Size: 660x6056 | SHA256:e539f4bc0d4472086cd52b8b11665944307a79bfada4b1897e4d12215facb7d7
+  [33] File: chatv3 (31).jpg | Size: 734x5446 | SHA256:bdaf373659315414c59fdfa6bcea728639592ce077a03a69a6c31a57a1c2e6b0
+  [34] File: chatv3 (32).jpg | Size: 662x6026 | SHA256:a191b8d899e6c928d4f86bbaa63a35bcc22bbb26c40554543117965466aa45cb
+
+Stitching Overlap Offsets:
+  File 1 (01_chat_part1.png): Auto-trim offset = 0px
+  File 2 (02_chat_part2.png): Auto-trim offset = 148px
+  File 3 (chatv3 (1).jpg): Auto-trim offset = 0px
+  File 4 (chatv3 (2).jpg): Auto-trim offset = 364px
+  File 5 (chatv3 (3).jpg): Auto-trim offset = 77px
+  File 6 (chatv3 (4).jpg): Auto-trim offset = 79px
+  File 7 (chatv3 (5).jpg): Auto-trim offset = 227px
+  File 8 (chatv3 (6).jpg): Auto-trim offset = 0px
+  File 9 (chatv3 (7).jpg): Auto-trim offset = 155px
+  File 10 (chatv3 (8).jpg): Auto-trim offset = 0px
+  File 11 (chatv3 (9).jpg): Auto-trim offset = 74px
+  File 12 (chatv3 (10).jpg): Auto-trim offset = 0px
+  File 13 (chatv3 (11).jpg): Auto-trim offset = 0px
+  File 14 (chatv3 (12).jpg): Auto-trim offset = 260px
+  File 15 (chatv3 (13).jpg): Auto-trim offset = 0px
+  File 16 (chatv3 (14).jpg): Auto-trim offset = 0px
+  File 17 (chatv3 (15).jpg): Auto-trim offset = 77px
+  File 18 (chatv3 (16).jpg): Auto-trim offset = 0px
+  File 19 (chatv3 (17).jpg): Auto-trim offset = 0px
+  File 20 (chatv3 (18).jpg): Auto-trim offset = 73px
+  File 21 (chatv3 (19).jpg): Auto-trim offset = 68px
+  File 22 (chatv3 (20).jpg): Auto-trim offset = 0px
+  File 23 (chatv3 (21).jpg): Auto-trim offset = 0px
+  File 24 (chatv3 (22).jpg): Auto-trim offset = 81px
+  File 25 (chatv3 (23).jpg): Auto-trim offset = 0px
+  File 26 (chatv3 (24).jpg): Auto-trim offset = 111px
+  File 27 (chatv3 (25).jpg): Auto-trim offset = 0px
+  File 28 (chatv3 (26).jpg): Auto-trim offset = 77px
+  File 29 (chatv3 (27).jpg): Auto-trim offset = 0px
+  File 30 (chatv3 (28).jpg): Auto-trim offset = 0px
+  File 31 (chatv3 (29).jpg): Auto-trim offset = 0px
+  File 32 (chatv3 (30).jpg): Auto-trim offset = 409px
+  File 33 (chatv3 (31).jpg): Auto-trim offset = 0px
+  File 34 (chatv3 (32).jpg): Auto-trim offset = 79px
+
+Optimal Page Cuts Decisions:
+  Page Cut 1: Y=1075px | Cut Reason: gap_valley | Quality Score: 28.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 2: Y=2041px | Cut Reason: gap_valley | Quality Score: 71.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 3: Y=3117px | Cut Reason: gap_valley | Quality Score: 81.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 4: Y=4083px | Cut Reason: gap_valley | Quality Score: 75.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 5: Y=5010px | Cut Reason: gap_valley | Quality Score: 73.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 6: Y=6025px | Cut Reason: gap_valley | Quality Score: 79.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 7: Y=6695px | Cut Reason: gap_valley | Quality Score: 10.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 8: Y=7371px | Cut Reason: gap_valley | Quality Score: 41.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 9: Y=8062px | Cut Reason: gap_valley | Quality Score: 48.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 10: Y=9121px | Cut Reason: gap_valley | Quality Score: 77.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 11: Y=10069px | Cut Reason: gap_valley | Quality Score: 64.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 12: Y=11015px | Cut Reason: gap_valley | Quality Score: 71.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 13: Y=12120px | Cut Reason: gap_valley | Quality Score: 32.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 14: Y=13062px | Cut Reason: gap_valley | Quality Score: 33.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 15: Y=14086px | Cut Reason: gap_valley | Quality Score: 34.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 16: Y=15092px | Cut Reason: gap_valley | Quality Score: 34.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 17: Y=16153px | Cut Reason: gap_valley | Quality Score: 29.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 18: Y=17215px | Cut Reason: gap_valley | Quality Score: 28.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 19: Y=18281px | Cut Reason: gap_valley | Quality Score: 33.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 20: Y=19286px | Cut Reason: gap_valley | Quality Score: 77.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 21: Y=20375px | Cut Reason: gap_valley | Quality Score: 81.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 22: Y=21302px | Cut Reason: gap_valley | Quality Score: 59.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 23: Y=22058px | Cut Reason: gap_valley | Quality Score: 55.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 24: Y=23174px | Cut Reason: gap_valley | Quality Score: 68.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 25: Y=23790px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 26: Y=24816px | Cut Reason: gap_valley | Quality Score: 69.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 27: Y=25929px | Cut Reason: gap_valley | Quality Score: 75.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 28: Y=26959px | Cut Reason: gap_valley | Quality Score: 74.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 29: Y=27908px | Cut Reason: gap_valley | Quality Score: 70.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 30: Y=28502px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 31: Y=29268px | Cut Reason: gap_valley | Quality Score: 49.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 32: Y=30327px | Cut Reason: gap_valley | Quality Score: 81.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 33: Y=30998px | Cut Reason: gap_valley | Quality Score: 22.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 34: Y=31736px | Cut Reason: gap_valley | Quality Score: 19.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 35: Y=32495px | Cut Reason: gap_valley | Quality Score: 16.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 36: Y=33439px | Cut Reason: gap_valley | Quality Score: 25.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 37: Y=34548px | Cut Reason: gap_valley | Quality Score: 52.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 38: Y=35457px | Cut Reason: gap_valley | Quality Score: 29.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 39: Y=36531px | Cut Reason: gap_valley | Quality Score: 45.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 40: Y=37234px | Cut Reason: gap_valley | Quality Score: 42.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 41: Y=38354px | Cut Reason: gap_valley | Quality Score: 77.8/100 | Fit Scale: 0.980 | Fit Pass: shrink
+  Page Cut 42: Y=39087px | Cut Reason: gap_valley | Quality Score: 50.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 43: Y=39869px | Cut Reason: gap_valley | Quality Score: 56.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 44: Y=40886px | Cut Reason: gap_valley | Quality Score: 32.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 45: Y=41947px | Cut Reason: gap_valley | Quality Score: 72.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 46: Y=43032px | Cut Reason: gap_valley | Quality Score: 83.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 47: Y=43805px | Cut Reason: gap_valley | Quality Score: 73.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 48: Y=44910px | Cut Reason: gap_valley | Quality Score: 39.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 49: Y=45581px | Cut Reason: gap_valley | Quality Score: 12.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 50: Y=46356px | Cut Reason: gap_valley | Quality Score: 17.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 51: Y=47376px | Cut Reason: gap_valley | Quality Score: 42.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 52: Y=48219px | Cut Reason: gap_valley | Quality Score: 24.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 53: Y=49308px | Cut Reason: gap_valley | Quality Score: 38.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 54: Y=49993px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 55: Y=51037px | Cut Reason: gap_valley | Quality Score: 44.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 56: Y=52157px | Cut Reason: gap_valley | Quality Score: 40.8/100 | Fit Scale: 0.980 | Fit Pass: shrink
+  Page Cut 57: Y=53204px | Cut Reason: gap_valley | Quality Score: 35.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 58: Y=54070px | Cut Reason: gap_valley | Quality Score: 22.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 59: Y=55002px | Cut Reason: gap_valley | Quality Score: 32.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 60: Y=56033px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 61: Y=56836px | Cut Reason: gap_valley | Quality Score: 21.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 62: Y=57956px | Cut Reason: gap_valley | Quality Score: 36.3/100 | Fit Scale: 0.980 | Fit Pass: shrink
+  Page Cut 63: Y=59002px | Cut Reason: gap_valley | Quality Score: 38.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 64: Y=60051px | Cut Reason: gap_valley | Quality Score: 72.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 65: Y=61159px | Cut Reason: gap_valley | Quality Score: 61.8/100 | Fit Scale: 0.980 | Fit Pass: shrink
+  Page Cut 66: Y=62043px | Cut Reason: gap_valley | Quality Score: 70.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 67: Y=62903px | Cut Reason: gap_valley | Quality Score: 58.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 68: Y=63586px | Cut Reason: gap_valley | Quality Score: 9.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 69: Y=64342px | Cut Reason: gap_valley | Quality Score: 43.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 70: Y=65458px | Cut Reason: gap_valley | Quality Score: 60.7/100 | Fit Scale: 0.980 | Fit Pass: shrink
+  Page Cut 71: Y=66344px | Cut Reason: gap_valley | Quality Score: 76.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 72: Y=67449px | Cut Reason: gap_valley | Quality Score: 77.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 73: Y=68478px | Cut Reason: gap_valley | Quality Score: 78.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 74: Y=69538px | Cut Reason: gap_valley | Quality Score: 76.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 75: Y=70569px | Cut Reason: gap_valley | Quality Score: 74.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 76: Y=71608px | Cut Reason: gap_valley | Quality Score: 72.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 77: Y=72528px | Cut Reason: gap_valley | Quality Score: 68.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 78: Y=73477px | Cut Reason: gap_valley | Quality Score: 76.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 79: Y=74424px | Cut Reason: gap_valley | Quality Score: 70.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 80: Y=75529px | Cut Reason: gap_valley | Quality Score: 83.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 81: Y=76636px | Cut Reason: gap_valley | Quality Score: 80.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 82: Y=77700px | Cut Reason: gap_valley | Quality Score: 75.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 83: Y=78764px | Cut Reason: gap_valley | Quality Score: 79.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 84: Y=79756px | Cut Reason: gap_valley | Quality Score: 82.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 85: Y=80799px | Cut Reason: gap_valley | Quality Score: 82.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 86: Y=81882px | Cut Reason: gap_valley | Quality Score: 81.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 87: Y=82882px | Cut Reason: gap_valley | Quality Score: 71.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 88: Y=83931px | Cut Reason: gap_valley | Quality Score: 81.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 89: Y=84468px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 90: Y=85501px | Cut Reason: gap_valley | Quality Score: 72.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 91: Y=86597px | Cut Reason: gap_valley | Quality Score: 72.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 92: Y=87664px | Cut Reason: gap_valley | Quality Score: 80.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 93: Y=88703px | Cut Reason: gap_valley | Quality Score: 82.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 94: Y=89787px | Cut Reason: gap_valley | Quality Score: 79.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 95: Y=90556px | Cut Reason: gap_valley | Quality Score: 54.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 96: Y=91212px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 97: Y=92282px | Cut Reason: gap_valley | Quality Score: 70.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 98: Y=93321px | Cut Reason: gap_valley | Quality Score: 78.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 99: Y=94357px | Cut Reason: gap_valley | Quality Score: 75.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 100: Y=95472px | Cut Reason: gap_valley | Quality Score: 60.6/100 | Fit Scale: 0.980 | Fit Pass: shrink
+  Page Cut 101: Y=96212px | Cut Reason: gap_valley | Quality Score: 28.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 102: Y=97332px | Cut Reason: gap_valley | Quality Score: 80.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 103: Y=98309px | Cut Reason: gap_valley | Quality Score: 89.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 104: Y=99429px | Cut Reason: gap_valley | Quality Score: 72.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 105: Y=100406px | Cut Reason: gap_valley | Quality Score: 69.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 106: Y=101444px | Cut Reason: gap_valley | Quality Score: 76.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 107: Y=102534px | Cut Reason: gap_valley | Quality Score: 78.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 108: Y=103598px | Cut Reason: gap_valley | Quality Score: 72.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 109: Y=104639px | Cut Reason: gap_valley | Quality Score: 78.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 110: Y=105706px | Cut Reason: gap_valley | Quality Score: 77.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 111: Y=106799px | Cut Reason: gap_valley | Quality Score: 47.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 112: Y=107511px | Cut Reason: gap_valley | Quality Score: 20.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 113: Y=108259px | Cut Reason: gap_valley | Quality Score: 18.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 114: Y=109367px | Cut Reason: gap_valley | Quality Score: 79.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 115: Y=110464px | Cut Reason: gap_valley | Quality Score: 76.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 116: Y=111366px | Cut Reason: gap_valley | Quality Score: 56.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 117: Y=112459px | Cut Reason: gap_valley | Quality Score: 83.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 118: Y=113484px | Cut Reason: gap_valley | Quality Score: 80.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 119: Y=114516px | Cut Reason: gap_valley | Quality Score: 42.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 120: Y=115604px | Cut Reason: gap_valley | Quality Score: 40.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 121: Y=116673px | Cut Reason: gap_valley | Quality Score: 76.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 122: Y=117772px | Cut Reason: gap_valley | Quality Score: 84.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 123: Y=118725px | Cut Reason: gap_valley | Quality Score: 71.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 124: Y=119446px | Cut Reason: gap_valley | Quality Score: 47.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 125: Y=120224px | Cut Reason: gap_valley | Quality Score: 61.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 126: Y=120982px | Cut Reason: gap_valley | Quality Score: 5.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 127: Y=122042px | Cut Reason: gap_valley | Quality Score: 79.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 128: Y=123114px | Cut Reason: gap_valley | Quality Score: 70.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 129: Y=124217px | Cut Reason: gap_valley | Quality Score: 72.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 130: Y=125191px | Cut Reason: gap_valley | Quality Score: 72.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 131: Y=126254px | Cut Reason: gap_valley | Quality Score: 72.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 132: Y=127304px | Cut Reason: gap_valley | Quality Score: 80.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 133: Y=128159px | Cut Reason: gap_valley | Quality Score: 60.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 134: Y=129106px | Cut Reason: gap_valley | Quality Score: 60.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 135: Y=130224px | Cut Reason: gap_valley | Quality Score: 69.2/100 | Fit Scale: 0.980 | Fit Pass: shrink
+  Page Cut 136: Y=130914px | Cut Reason: gap_valley | Quality Score: 46.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 137: Y=131936px | Cut Reason: gap_valley | Quality Score: 74.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 138: Y=133044px | Cut Reason: gap_valley | Quality Score: 84.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 139: Y=134139px | Cut Reason: gap_valley | Quality Score: 83.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 140: Y=134650px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 141: Y=135691px | Cut Reason: gap_valley | Quality Score: 75.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 142: Y=136768px | Cut Reason: gap_valley | Quality Score: 82.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 143: Y=137849px | Cut Reason: gap_valley | Quality Score: 75.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 144: Y=138896px | Cut Reason: gap_valley | Quality Score: 67.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 145: Y=139957px | Cut Reason: gap_valley | Quality Score: 76.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 146: Y=141040px | Cut Reason: gap_valley | Quality Score: 84.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 147: Y=142054px | Cut Reason: gap_valley | Quality Score: 76.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 148: Y=143041px | Cut Reason: gap_valley | Quality Score: 91.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 149: Y=144085px | Cut Reason: gap_valley | Quality Score: 82.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 150: Y=145099px | Cut Reason: gap_valley | Quality Score: 76.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 151: Y=146207px | Cut Reason: gap_valley | Quality Score: 80.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 152: Y=147300px | Cut Reason: gap_valley | Quality Score: 75.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 153: Y=148359px | Cut Reason: gap_valley | Quality Score: 79.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 154: Y=149440px | Cut Reason: gap_valley | Quality Score: 45.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 155: Y=150530px | Cut Reason: gap_valley | Quality Score: 47.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 156: Y=151543px | Cut Reason: gap_valley | Quality Score: 42.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 157: Y=152205px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 158: Y=153203px | Cut Reason: gap_valley | Quality Score: 34.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 159: Y=153884px | Cut Reason: gap_valley | Quality Score: 7.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 160: Y=154861px | Cut Reason: gap_valley | Quality Score: 34.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 161: Y=155795px | Cut Reason: gap_valley | Quality Score: 31.5/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 162: Y=156839px | Cut Reason: gap_valley | Quality Score: 72.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 163: Y=157882px | Cut Reason: gap_valley | Quality Score: 73.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 164: Y=158922px | Cut Reason: gap_valley | Quality Score: 76.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 165: Y=159544px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 166: Y=160606px | Cut Reason: gap_valley | Quality Score: 82.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 167: Y=161625px | Cut Reason: gap_valley | Quality Score: 79.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 168: Y=162424px | Cut Reason: gap_valley | Quality Score: 61.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 169: Y=162964px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 170: Y=164015px | Cut Reason: gap_valley | Quality Score: 76.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 171: Y=164496px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 172: Y=165454px | Cut Reason: gap_valley | Quality Score: 87.7/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 173: Y=166494px | Cut Reason: gap_valley | Quality Score: 80.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 174: Y=167344px | Cut Reason: gap_valley | Quality Score: 56.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 175: Y=168406px | Cut Reason: gap_valley | Quality Score: 82.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 176: Y=169425px | Cut Reason: gap_valley | Quality Score: 79.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 177: Y=170224px | Cut Reason: gap_valley | Quality Score: 61.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 178: Y=170764px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 179: Y=171815px | Cut Reason: gap_valley | Quality Score: 75.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 180: Y=172296px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 181: Y=173254px | Cut Reason: gap_valley | Quality Score: 87.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 182: Y=174347px | Cut Reason: gap_valley | Quality Score: 72.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 183: Y=175440px | Cut Reason: gap_valley | Quality Score: 76.3/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 184: Y=176496px | Cut Reason: gap_valley | Quality Score: 71.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 185: Y=177553px | Cut Reason: gap_valley | Quality Score: 79.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 186: Y=178582px | Cut Reason: gap_valley | Quality Score: 35.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 187: Y=179685px | Cut Reason: gap_valley | Quality Score: 78.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 188: Y=180667px | Cut Reason: gap_valley | Quality Score: 74.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 189: Y=181510px | Cut Reason: gap_valley | Quality Score: 58.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 190: Y=182505px | Cut Reason: gap_valley | Quality Score: 78.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 191: Y=183534px | Cut Reason: gap_valley | Quality Score: 80.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 192: Y=184589px | Cut Reason: gap_valley | Quality Score: 76.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 193: Y=185681px | Cut Reason: gap_valley | Quality Score: 85.4/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 194: Y=186708px | Cut Reason: gap_valley | Quality Score: 81.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 195: Y=187468px | Cut Reason: gap_valley | Quality Score: 16.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 196: Y=188530px | Cut Reason: gap_valley | Quality Score: 82.2/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 197: Y=189570px | Cut Reason: gap_valley | Quality Score: 41.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 198: Y=190632px | Cut Reason: gap_valley | Quality Score: 29.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 199: Y=191608px | Cut Reason: gap_valley | Quality Score: 42.9/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 200: Y=192673px | Cut Reason: gap_valley | Quality Score: 36.6/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 201: Y=193314px | Cut Reason: fallback_rollback | Quality Score: 0.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 202: Y=194178px | Cut Reason: gap_valley | Quality Score: 25.8/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 203: Y=195254px | Cut Reason: gap_valley | Quality Score: 44.1/100 | Fit Scale: 1.000 | Fit Pass: shrink
+  Page Cut 204: Y=195948px | Cut Reason: end_of_image | Quality Score: 100.0/100 | Fit Scale: 1.000 | Fit Pass: shrink
+
+===================================================
+END OF AUDIT LOG
