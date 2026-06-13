@@ -287,16 +287,22 @@ export default function App() {
             `Generation stopped at file ${i + 1}/${uploadedFiles.length}: ${file.name} (processing timeout)`
           );
 
+          const sourceFileKey = `${i + 1}:${file.name}`;
           const taggedSegments = segments.map((seg) => ({
             ...seg,
             sourceFileId: file.name,
+            // segmentChatImage() generates object IDs from local Y coordinates.
+            // Namespace them before batch-level validation so two different
+            // images with the same local object coordinates do not block generation.
+            objectIds: seg.objectIds.map((id) => `${sourceFileKey}::${id}`),
           }));
           allSegments.push(...taggedSegments);
         }
 
         // ── Phase 2: Global ledger — cross-file objectId dedup check (90%) ───
         // Per-file pagination validates within each file. This pass
-        // confirms no objectId appears across files (algorithm invariant).
+        // confirms no namespaced objectId appears twice in the combined batch
+        // (algorithm invariant after file namespace is applied).
         const globalObjectIds = new Set<string>();
         const globalDuplicates: string[] = [];
         for (const seg of allSegments) {

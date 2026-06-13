@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 import json
-import tempfile
+import shutil
 
 from thai_ocr_project.slip_lawyer_cli import (
     ProcessedSlip,
@@ -15,6 +15,7 @@ from thai_ocr_project.slip_lawyer_cli import (
 
 
 TARGET_NAME = "จิณห์นิภา  ประสาทเขตรการ"
+TEST_TMP_DIR = Path(__file__).resolve().parents[1] / ".tmp" / "unit-test-from-audit"
 
 
 def make_slip(
@@ -107,64 +108,65 @@ class SlipLawyerCliTests(unittest.TestCase):
         self.assertEqual(summary["total_amount"], 100.0)
 
     def test_from_audit_recomputes_target_match_and_deduplicates(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            tmp_path = Path(tmp)
-            (tmp_path / "a.jpg").write_bytes(b"fake-a")
-            (tmp_path / "b.jpg").write_bytes(b"fake-b")
-            audit_path = tmp_path / "audit.json"
-            audit_path.write_text(
-                json.dumps(
-                    {
-                        "summary": {"scanned_files": 2},
-                        "results": [
-                            {
-                                "file_name": "a.jpg",
-                                "file_path": "old/a.jpg",
-                                "file_hash": "a",
-                                "raw_text": "",
-                                "is_slip": True,
-                                "target_matched": False,
-                                "transaction_date": "2026-06-09",
-                                "transaction_time": "12:34",
-                                "sender_bank": "ธนาคารกรุงไทย",
-                                "sender_name": "นาย ทดสอบ",
-                                "receiver_bank": "ธนาคารทหารไทยธนชาต",
-                                "receiver_name": "น.ส. จิณห์นิภา ประสาทเขตรการ",
-                                "amount": 100.0,
-                                "currency": "THB",
-                                "transaction_id": "REF001",
-                            },
-                            {
-                                "file_name": "b.jpg",
-                                "file_path": "old/b.jpg",
-                                "file_hash": "b",
-                                "raw_text": "",
-                                "is_slip": True,
-                                "target_matched": False,
-                                "transaction_date": "2026-06-09",
-                                "transaction_time": "12:34",
-                                "sender_bank": "ธนาคารกรุงไทย",
-                                "sender_name": "นาย ทดสอบ",
-                                "receiver_bank": "ธนาคารทหารไทยธนชาต",
-                                "receiver_name": "น.ส. จิณห์นิภา ประสาทเขตรการ",
-                                "amount": 100.0,
-                                "currency": "THB",
-                                "transaction_id": "REF001",
-                            },
-                        ],
-                    },
-                    ensure_ascii=False,
-                ),
-                encoding="utf-8",
-            )
+        shutil.rmtree(TEST_TMP_DIR, ignore_errors=True)
+        TEST_TMP_DIR.mkdir(parents=True, exist_ok=True)
+        (TEST_TMP_DIR / "a.jpg").write_bytes(b"fake-a")
+        (TEST_TMP_DIR / "b.jpg").write_bytes(b"fake-b")
+        audit_path = TEST_TMP_DIR / "audit.json"
+        audit_path.write_text(
+            json.dumps(
+                {
+                    "summary": {"scanned_files": 2},
+                    "results": [
+                        {
+                            "file_name": "a.jpg",
+                            "file_path": "old/a.jpg",
+                            "file_hash": "a",
+                            "raw_text": "",
+                            "is_slip": True,
+                            "target_matched": False,
+                            "transaction_date": "2026-06-09",
+                            "transaction_time": "12:34",
+                            "sender_bank": "ธนาคารกรุงไทย",
+                            "sender_name": "นาย ทดสอบ",
+                            "receiver_bank": "ธนาคารทหารไทยธนชาต",
+                            "receiver_name": "น.ส. จิณห์นิภา ประสาทเขตรการ",
+                            "amount": 100.0,
+                            "currency": "THB",
+                            "transaction_id": "REF001",
+                        },
+                        {
+                            "file_name": "b.jpg",
+                            "file_path": "old/b.jpg",
+                            "file_hash": "b",
+                            "raw_text": "",
+                            "is_slip": True,
+                            "target_matched": False,
+                            "transaction_date": "2026-06-09",
+                            "transaction_time": "12:34",
+                            "sender_bank": "ธนาคารกรุงไทย",
+                            "sender_name": "นาย ทดสอบ",
+                            "receiver_bank": "ธนาคารทหารไทยธนชาต",
+                            "receiver_name": "น.ส. จิณห์นิภา ประสาทเขตรการ",
+                            "amount": 100.0,
+                            "currency": "THB",
+                            "transaction_id": "REF001",
+                        },
+                    ],
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
 
-            results, source_summary = load_results_from_audit(audit_path, TARGET_NAME, image_root=tmp_path)
+        results, source_summary = load_results_from_audit(audit_path, TARGET_NAME, image_root=TEST_TMP_DIR)
+        shutil.rmtree(TEST_TMP_DIR, ignore_errors=True)
 
         self.assertEqual(source_summary["scanned_files"], 2)
         self.assertEqual(len(results), 2)
         self.assertTrue(results[0].target_matched)
         self.assertTrue(results[1].duplicate)
-        self.assertEqual(results[0].file_path, str(tmp_path / "a.jpg"))
+        self.assertEqual(results[0].file_path, str(TEST_TMP_DIR / "a.jpg"))
 
 
 if __name__ == "__main__":
