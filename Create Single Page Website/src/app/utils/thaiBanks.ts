@@ -47,7 +47,21 @@ export const THAI_BANKS: ThaiBank[] = [
     nameTh: "ธนาคารทหารไทยธนชาต",
     nameEn: "TMBThanachart Bank",
     abbreviations: ["TTB"],
-    keywords: ["ทีทีบี", "ทหารไทย", "ธนชาต", "ttb", "tmb", "thanachart"],
+    keywords: ["ทีทีบี", "ทหารไทย", "ธนชาต", "ttb", "tmb", "thanachart", "tmbthanachart"],
+  },
+  {
+    code: "017",
+    nameTh: "ธนาคารไทยเครดิตเพื่อรายย่อย",
+    nameEn: "TBank",
+    abbreviations: ["TCB"],
+    keywords: ["ไทยเครดิต", "tbank", "tcb", "ไทยเครดิตเพื่อรายย่อย"],
+  },
+  {
+    code: "038",
+    nameTh: "ธนาคารอิสลามแห่งประเทศไทย",
+    nameEn: "Islamic Bank of Thailand",
+    abbreviations: ["IBANK"],
+    keywords: ["อิสลาม", "islamic bank", "ibank", "islamic"],
   },
   {
     code: "030",

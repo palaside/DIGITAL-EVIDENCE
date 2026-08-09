@@ -1,0 +1,13 @@
+.root {
+  display: block;
+  background-color: var(--canvas-bg, #12243D);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.canvasWrapper {
+  width: 645px;
+  height: 890px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

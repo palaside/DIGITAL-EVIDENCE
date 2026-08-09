@@ -1,0 +1,53 @@
+{
+  "color": {
+    "canvas": "#12243D",
+    "secondary": "#8E9AA6",
+    "accent": "#00A1E4",
+    "error": "#fde8e8",
+    "text": "#FFFFFF",
+    "paper": "#F5F7FA"
+  },
+  "typography": {
+    "fontFamily": "Sarabun, 'Sarabun Light', system-ui, Arial, sans-serif",
+    "sizes": {
+      "body": "16px",
+      "h1": "24px",
+      "h2": "20px",
+      "h3": "18px"
+    },
+    "weights": {
+      "light": 300,
+      "regular": 400,
+      "semiBold": 600
+    }
+  },
+  "layout": {
+    "topTabsHeightPercent": 15,
+    "grid": {
+      "leftPercent": 25,
+      "centerPercent": 50,
+      "rightPercent": 25
+    },
+    "canvas": {
+      "width": 645,
+      "height": 890
+    }
+  },
+  "math": {
+    "scaleFormula": "Scale = min(645 / Worig, 890 / Horig)",
+    "wNewFormula": "Wnew = int(round(Worig * Scale))",
+    "hNewFormula": "Hnew = int(round(Horig * Scale))",
+    "xStartFormula": "x_start = (645 - Wnew) / 2",
+    "yStartFormula": "y_start = (890 - Hnew) / 2"
+  },
+  "ledger": {
+    "columns": 11,
+    "failedRowColor": "#fde8e8"
+  },
+  "packaging": {
+    "winrarSfx": {
+      "requirePasswordConfirm": true,
+      "copyPasswordToConfirmField": true
+    }
+  }
+}

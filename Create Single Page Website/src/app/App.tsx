@@ -14,6 +14,7 @@ import { scanQrFromDataUrl } from "./utils/qrScanner";
 import { parseEMVCoPayload } from "./utils/emvcoParser";
 import { buildEvidencePdfBlob, exportEvidencePdf } from "./utils/pdfExport";
 import { calculateSlipTotal, formatSlipTotal } from "./utils/slipTotals";
+import { normalizeArchiveName, validatePackageOptions } from "./utils/packageValidation";
 import JsonViewer from "./components/JsonViewer";
 import { Input } from "./components/ui/input";
 
@@ -115,7 +116,7 @@ function toSlipDetailRows(ocrData: any) {
 }
 
 export default function App() {
-  const [activeMode, setActiveMode] = useState<"chat" | "slip" | "notebooklm">("chat");
+  const [activeMode, setActiveMode] = useState<"chat" | "slip" | "notebooklm" | "newfeature">("chat");
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; url: string }[]>([]);
   const [paginatedPages, setPaginatedPages] = useState<PageSegment[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -131,10 +132,13 @@ export default function App() {
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressProgress, setCompressProgress] = useState(0);
   const [showPackageModal, setShowPackageModal] = useState(false);
+  const [packageErrors, setPackageErrors] = useState<string[]>([]);
   const [packageOptions, setPackageOptions] = useState({
     archiveName: "digital-evidence-package",
     archiveFormat: "zip" as "zip" | "rar",
     password: "",
+    confirmPassword: "",
+    legalDisclaimer: "",
     includePdf: true,
   });
 
@@ -151,6 +155,8 @@ export default function App() {
     setShowDetailModal(false);
     setShowPackageModal(false);
   };
+
+  const openNewFeature = () => setActiveMode("newfeature");
 
   const dataURLtoBlob = (dataurl: string) => {
     const arr = dataurl.split(',');
@@ -560,15 +566,22 @@ const handleSavePDF = async () => {
     }
 
     const safeArchiveName = packageOptions.archiveName.trim() || "digital-evidence-package";
+    const validation = validatePackageOptions(packageOptions);
+    if (!validation.valid) {
+      setPackageErrors(validation.errors);
+      return;
+    }
+
+    setPackageErrors([]);
     setShowPackageModal(false);
     setIsCompressing(true);
     setCompressProgress(10);
 
     try {
       const formData = new FormData();
-      formData.append("archive_name", safeArchiveName);
+      formData.append("archive_name", normalizeArchiveName(safeArchiveName));
       formData.append("archive_format", packageOptions.archiveFormat);
-      if (packageOptions.archiveFormat === "rar" && packageOptions.password.trim()) {
+      if (packageOptions.archiveFormat === "rar") {
         formData.append("password", packageOptions.password.trim());
       }
       formData.append("mode", activeMode);
@@ -645,7 +658,7 @@ const handleSavePDF = async () => {
         
         {/* Content Container */}
         <div className="relative z-10 flex-1 flex flex-col">
-          <Header />
+          <Header onOpenNewFeature={openNewFeature} />
 
           <main className="flex-1 mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6 md:py-8">
             <div className="glass-toolbar mb-6 rounded-[28px] p-4 md:p-5">
@@ -719,7 +732,10 @@ const handleSavePDF = async () => {
             </div>
 
             {/* Three Column Layout or NotebookLM Panel */}
-            {activeMode === "notebooklm" ? (
+            {activeMode === "newfeature" ? (
+              // lazy local import to avoid changing boot behaviour
+              React.createElement(require('../pages/NewFeature').default)
+            ) : activeMode === "notebooklm" ? (
               <NotebookLMPanel />
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -1006,6 +1022,16 @@ const handleSavePDF = async () => {
                     className="glass-input h-11 border-white/10 bg-slate-900/70 text-slate-100"
                   />
                 </div>
+                {packageErrors.length > 0 && (
+                  <div className="md:col-span-2 rounded-2xl border border-rose-400/30 bg-rose-950/20 px-4 py-3 text-sm text-rose-100">
+                    <p className="mb-2 font-semibold uppercase tracking-[0.12em] text-rose-200">Package validation errors</p>
+                    <ul className="list-disc pl-5 space-y-1">
+                      {packageErrors.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 <div className="space-y-2">
                   <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Archive format</label>
                   <div className="glass-segment inline-flex rounded-2xl p-1.5">
@@ -1058,6 +1084,46 @@ const handleSavePDF = async () => {
                         : "Password is available when RAR is selected"
                     }
                     className="glass-input h-11 border-white/10 bg-slate-900/70 text-slate-100 placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+                  />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <label className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    <LockKeyhole className="h-3.5 w-3.5 text-[#7fb7ef]" />
+                    Confirm password
+                  </label>
+                  <Input
+                    type="password"
+                    value={packageOptions.confirmPassword}
+                    disabled={packageOptions.archiveFormat !== "rar"}
+                    onChange={(event) =>
+                      setPackageOptions((current) => ({
+                        ...current,
+                        confirmPassword: event.target.value,
+                      }))
+                    }
+                    placeholder={
+                      packageOptions.archiveFormat === "rar"
+                        ? "Confirm archive password"
+                        : "Password confirmation available when RAR is selected"
+                    }
+                    className="glass-input h-11 border-white/10 bg-slate-900/70 text-slate-100 placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+                  />
+                </div>
+                <div className="space-y-2 md:col-span-2">
+                  <label htmlFor="legalDisclaimer" className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Legal disclaimer
+                  </label>
+                  <textarea
+                    id="legalDisclaimer"
+                    value={packageOptions.legalDisclaimer}
+                    onChange={(event) =>
+                      setPackageOptions((current) => ({
+                        ...current,
+                        legalDisclaimer: event.target.value,
+                      }))
+                    }
+                    placeholder="Enter the legal disclaimer shown before extraction"
+                    className="glass-input min-h-[120px] w-full resize-none rounded-xl border border-white/10 bg-slate-900/70 px-3 py-3 text-sm text-slate-100 placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
                   />
                 </div>
                 <div className="md:col-span-2 rounded-2xl border border-white/10 bg-slate-950/55 px-4 py-3 text-sm text-slate-300">

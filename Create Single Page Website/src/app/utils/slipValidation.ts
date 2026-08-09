@@ -7,8 +7,22 @@ import { THAI_BANKS, ThaiBank } from "./thaiBanks";
  */
 function normalizeText(text: string): string {
   if (!text) return "";
-  let cleaned = text
-    .toLowerCase()
+  let cleaned = text.toLowerCase();
+
+  const ocrCorrections: Array<[RegExp, string]> = [
+    [/กสี/g, "กสิ"],
+    [/ไทบ/g, "ไทย"],
+    [/กุรง/g, "กรุง"],
+    [/ศ/g, "ส"],
+    [/ธ\.ก\.*ส\.*|ธกส/g, "ธกส"],
+    [/ทหานไทย/g, "ทหารไทย"],
+  ];
+
+  for (const [pattern, replacement] of ocrCorrections) {
+    cleaned = cleaned.replace(pattern, replacement);
+  }
+
+  cleaned = cleaned
     .replace(/[^\w\sก-๙]/g, "") // Keep alphanumeric and Thai characters
     .replace(/\s+/g, " ")
     .trim();
@@ -66,13 +80,13 @@ export function verifyBankName(ocrText: string): {
     // Check against Thai Name
     const normNameTh = normalizeText(bank.nameTh);
     if (normalizedInput.includes(normNameTh) || normNameTh.includes(normalizedInput)) {
-       currentScore = 95;
+       currentScore = 100;
     }
 
     // Check against English Name
     const normNameEn = normalizeText(bank.nameEn);
     if (normalizedInput.includes(normNameEn) || normNameEn.includes(normalizedInput)) {
-      currentScore = 95;
+      currentScore = 100;
     }
 
     if (currentScore > highestScore) {
@@ -81,25 +95,21 @@ export function verifyBankName(ocrText: string): {
     }
   }
 
-  // 3. Fallback: Character overlap (Fuzzy-like behavior) for typos
-  // If we still have no good match, check for typos in keywords
-  if (highestScore < 50) {
+  // 3. Fallback: fuzzy similarity for OCR typos.
+  // Use a combination of Levenshtein and bigram similarity to catch partial matches.
+  if (highestScore < 60) {
     for (const bank of THAI_BANKS) {
-      for (const keyword of bank.keywords) {
-        const normKeyword = normalizeText(keyword);
-        if (normKeyword.length < 3) continue; // Skip very short keywords
+      const candidates = [bank.nameTh, bank.nameEn, ...bank.keywords];
+      for (const candidate of candidates) {
+        const normCandidate = normalizeText(candidate);
+        if (!normCandidate || normCandidate.length < 3) continue;
 
-        let matchCount = 0;
-        // Count how many characters match in sequence
-        for (let i = 0; i < normKeyword.length; i++) {
-          if (normalizedInput.includes(normKeyword.substring(i, i + 2))) {
-            matchCount++;
-          }
-        }
-        
-        const ratio = matchCount / (normKeyword.length - 1);
-        if (ratio > 0.7) { // 70% of character pairs match
-          const score = Math.floor(ratio * 70);
+        const levenshteinScore = getLevenshteinSimilarity(normalizedInput, normCandidate);
+        const bigramScore = getBigramSimilarity(normalizedInput, normCandidate);
+        const similarity = Math.max(levenshteinScore, bigramScore);
+
+        if (similarity >= 0.65) {
+          const score = Math.floor(similarity * 100);
           if (score > highestScore) {
             highestScore = score;
             bestMatch = bank;
@@ -125,4 +135,47 @@ export function verifyBankName(ocrText: string): {
 export function formatBankName(bank: ThaiBank | null, originalText: string): string {
   if (!bank) return originalText || "Unknown Bank";
   return `${bank.abbreviations[0] || bank.nameEn} (${bank.nameTh})`;
+}
+
+function getLevenshteinSimilarity(a: string, b: string): number {
+  if (!a || !b) return 0;
+  const distance = levenshtein(a, b);
+  const maxLength = Math.max(a.length, b.length);
+  return maxLength === 0 ? 1 : 1 - distance / maxLength;
+}
+
+function getBigramSimilarity(a: string, b: string): number {
+  if (!a || !b) return 0;
+  const bigrams = (value: string) =>
+    new Set(Array.from({ length: Math.max(value.length - 1, 0) }, (_, i) => value.slice(i, i + 2)));
+
+  const aBigrams = bigrams(a);
+  const bBigrams = bigrams(b);
+  const intersection = new Set([...aBigrams].filter((item) => bBigrams.has(item)));
+  const total = new Set([...aBigrams, ...bBigrams]).size;
+
+  return total === 0 ? 0 : intersection.size / total;
+}
+
+function levenshtein(a: string, b: string): number {
+  const matrix = Array.from({ length: a.length + 1 }, (_, i) =>
+    Array.from({ length: b.length + 1 }, (_, j) => j)
+  );
+
+  for (let i = 0; i <= a.length; i++) {
+    matrix[i][0] = i;
+  }
+
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,
+        matrix[i][j - 1] + 1,
+        matrix[i - 1][j - 1] + cost
+      );
+    }
+  }
+
+  return matrix[a.length][b.length];
 }
