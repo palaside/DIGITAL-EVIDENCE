@@ -1274,6 +1274,7 @@ const handleSavePDF = async () => {
         <SummaryLedgerModal
           isOpen={showSummaryModal}
           onClose={() => setShowSummaryModal(false)}
+          items={toSlipDetailRows(ocrData)}
         />
 
         <Toaster />
