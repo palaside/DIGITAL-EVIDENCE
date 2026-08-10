@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Upload, Play, Trash2, FileText, Files, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
@@ -70,6 +71,14 @@ export function UploadColumn({
       ? "We will paginate them into evidence-ready A4 pages next."
       : "We will extract OCR fields and prepare the evidence output next.";
   const uploadCta = hasUploads ? "Add more files" : activeMode === "chat" ? "Upload source images" : "Upload slip images";
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const openFilePicker = () => fileInputRef.current?.click();
+  const handleDropzoneKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openFilePicker();
+    }
+  };
 
   return (
     <div className="space-y-6 h-full flex flex-col justify-start">
@@ -89,16 +98,22 @@ export function UploadColumn({
           </p>
         </div>
         <div className="p-6">
-          <label className="cursor-pointer block">
-            <input
-              type="file"
-              multiple
-              className="hidden"
-              accept="image/*"
-              onChange={handleFileUpload}
-              disabled={isGenerating}
-            />
-            <div className="glass-segment border border-dashed border-[#7fb7ef]/50 p-8 rounded-2xl flex flex-col items-center justify-center gap-4 bg-white/40 dark:bg-slate-950/35 hover:border-[#3f82d8]/70 transition-all">
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            className="hidden"
+            accept="image/*"
+            onChange={handleFileUpload}
+            disabled={isGenerating}
+          />
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={openFilePicker}
+            onKeyDown={handleDropzoneKeyDown}
+            className="glass-segment cursor-pointer border border-dashed border-[#7fb7ef]/50 p-8 rounded-2xl flex flex-col items-center justify-center gap-4 bg-white/40 dark:bg-slate-950/35 hover:border-[#3f82d8]/70 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3f82d8]/70"
+          >
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/50 bg-white/70 dark:bg-slate-900/70">
                 <Upload className="w-6 h-6 text-[#2d5e9a]" strokeWidth={1.7} />
               </div>
@@ -108,22 +123,35 @@ export function UploadColumn({
                     <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{uploadGuidance}</p>
                     <p className="text-sm text-slate-500 dark:text-slate-400">{uploadNextStep}</p>
                   </div>
-                  <div className="inline-flex h-11 items-center justify-center rounded-xl border border-[#2d5e9a]/30 bg-[#12335f] px-5 text-sm font-semibold text-white shadow-[0_18px_30px_-24px_rgba(18,51,95,0.9)] transition-all hover:bg-[#153d73] dark:bg-[#1f4679] dark:hover:bg-[#275692]">
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      openFilePicker();
+                    }}
+                    className="inline-flex h-11 items-center justify-center rounded-xl border border-[#2d5e9a]/30 bg-[#12335f] px-5 text-sm font-semibold text-white shadow-[0_18px_30px_-24px_rgba(18,51,95,0.9)] transition-all hover:bg-[#153d73] dark:bg-[#1f4679] dark:hover:bg-[#275692]"
+                  >
                     {uploadCta}
-                  </div>
+                  </button>
                   <p className="text-xs text-slate-400 dark:text-slate-500">PNG or JPG, up to 10MB each. Drag and drop also works.</p>
                 </div>
               ) : (
                 <div className="space-y-2 text-center">
                   <p className="text-sm font-medium text-slate-600 dark:text-slate-300">Click to upload or drag and drop</p>
-                  <div className="inline-flex rounded-full border border-white/50 bg-white/70 px-3 py-1 text-[11px] font-semibold text-[#12335f] dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-slate-200">
+                  <button
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      openFilePicker();
+                    }}
+                    className="inline-flex rounded-full border border-white/50 bg-white/70 px-3 py-1 text-[11px] font-semibold text-[#12335f] dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-slate-200"
+                  >
                     {uploadCta}
-                  </div>
+                  </button>
                   <p className="text-xs text-slate-400 dark:text-slate-500">PNG or JPG, up to 10MB each</p>
                 </div>
               )}
-            </div>
-          </label>
+          </div>
 
           {/* Uploaded Files List */}
           {hasUploads && (
