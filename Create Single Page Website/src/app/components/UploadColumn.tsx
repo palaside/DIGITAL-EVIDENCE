@@ -123,7 +123,7 @@ export function UploadColumn({
                 </div>
               ) : (
                 <div className="space-y-2 text-center">
-                  <p className="text-sm font-medium text-slate-600 dark:text-slate-300">Click to upload or drag and drop</p>
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-300">Click to upload more files</p>
                   <span className="inline-flex rounded-full border border-white/50 bg-white/70 px-3 py-1 text-[11px] font-semibold text-[#12335f] dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-slate-200">
                     {uploadCta}
                   </span>
