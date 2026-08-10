@@ -17,29 +17,26 @@ export function PreviewColumn({
   paginatedPages = [],
   ocrData,
 }: PreviewColumnProps) {
+  const getThaiFormattedDate = () => {
+    const now = new Date();
+    const day = now.getDate();
+    const month = now.getMonth() + 1;
+    const christianYear = now.getFullYear();
+    const buddhistYear = christianYear + 543;
+    const shortYear = buddhistYear.toString().slice(-2);
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${day}/${month}/${shortYear} : ${hours}.${minutes}`;
+  };
+
   const currentDate = new Date().toISOString().split("T")[0];
+  const formattedDateWithTime = getThaiFormattedDate();
   const totalPages = paginatedPages.length || (uploadedFiles.length > 0 ? uploadedFiles.length : 1);
 
   return (
-    <div className="flex h-full flex-col justify-between space-y-4 rounded-3xl border border-cyan-500/20 bg-[#0b1329]/80 p-5 backdrop-blur-md">
-      {/* Top Metadata Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-cyan-500/20 pb-4 text-xs font-mono text-cyan-300">
-        <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md border border-cyan-500/30 bg-cyan-950/60 p-0.5">
-            <img src={projectLogo} alt="Logo" className="h-full w-full object-contain" />
-          </div>
-          <span className="font-bold tracking-wider text-white">หลักฐานดิจิทัล DIGITAL EVIDENCE</span>
-        </div>
-
-        <div className="flex items-center gap-4 text-[11px] text-slate-300">
-          <span>Mode : <strong className="text-cyan-400 uppercase">{activeMode}</strong></span>
-          <span>Page : <strong className="text-cyan-400">1 / {totalPages}</strong></span>
-          <span>Date : <strong className="text-cyan-400">{currentDate}</strong></span>
-        </div>
-      </div>
-
+    <div className="flex h-full flex-col rounded-3xl border border-cyan-500/20 bg-[#0b1329]/80 p-5 backdrop-blur-md">
       {/* Main Preview Frame Container */}
-      <div className="relative flex-1 flex flex-col items-center justify-start rounded-2xl border border-cyan-500/30 bg-[#060a14] p-4 min-h-[420px] max-h-[660px] shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] overflow-y-auto">
+      <div className="relative flex-1 flex flex-col items-center justify-start rounded-2xl border border-cyan-500/30 bg-[#060a14] p-4 shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] overflow-y-auto">
         {isGenerated && paginatedPages.length > 0 ? (
           <div className="w-full space-y-6 flex flex-col items-center py-2">
             {paginatedPages.map((page, idx) => (
@@ -48,17 +45,20 @@ export function PreviewColumn({
                 className="w-full max-w-[480px] aspect-[210/297] bg-white text-slate-900 shadow-2xl rounded-sm p-4 flex flex-col justify-between border border-slate-200 select-none"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                  <div className="flex items-center gap-1.5">
-                    <div className="h-6 w-6 rounded border border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center">
+                <div className="flex items-end justify-between border-b border-slate-200 pb-2">
+                  <div className="flex flex-col items-start space-y-1">
+                    <div className="h-8 w-8 rounded border border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center">
                       <img src={projectLogo} alt="Logo" className="h-full w-full object-contain" />
                     </div>
-                    <span className="text-[9px] font-black tracking-wide text-slate-800">หลักฐานดิจิทัล DIGITAL EVIDENCE</span>
+                    <div className="flex flex-col text-left leading-none space-y-0.5">
+                      <span className="text-[7.5px] font-black text-slate-800">หลักฐานดิจิทัล</span>
+                      <span className="text-[7.5px] font-black tracking-tight text-slate-800">DIGITAL EVIDENCE</span>
+                    </div>
                   </div>
-                  <div className="text-right text-[8px] text-slate-500 font-mono space-y-0.5 leading-none">
-                    <div>โหมดการทำงาน: Chat Mode</div>
-                    <div>PAGE: {page.pageNumber} / {paginatedPages.length}</div>
-                    <div>วันที่/เวลา: {currentDate}</div>
+                  <div className="text-right text-[9px] text-slate-800 font-mono space-y-0.5 leading-tight">
+                    <div className="font-bold">Chat Mode</div>
+                    <div>PAGE: {page.pageNumber}</div>
+                    <div>{formattedDateWithTime}</div>
                   </div>
                 </div>
 
@@ -89,17 +89,20 @@ export function PreviewColumn({
                 className="w-full max-w-[480px] aspect-[210/297] bg-white text-slate-900 shadow-2xl rounded-sm p-4 flex flex-col justify-between border border-slate-200 select-none"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                  <div className="flex items-center gap-1.5">
-                    <div className="h-6 w-6 rounded border border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center">
+                <div className="flex items-end justify-between border-b border-slate-200 pb-2">
+                  <div className="flex flex-col items-start space-y-1">
+                    <div className="h-8 w-8 rounded border border-slate-200 bg-slate-50 p-0.5 flex items-center justify-center">
                       <img src={projectLogo} alt="Logo" className="h-full w-full object-contain" />
                     </div>
-                    <span className="text-[9px] font-black tracking-wide text-slate-800">หลักฐานดิจิทัล DIGITAL EVIDENCE</span>
+                    <div className="flex flex-col text-left leading-none space-y-0.5">
+                      <span className="text-[7.5px] font-black text-slate-800">หลักฐานดิจิทัล</span>
+                      <span className="text-[7.5px] font-black tracking-tight text-slate-800">DIGITAL EVIDENCE</span>
+                    </div>
                   </div>
-                  <div className="text-right text-[8px] text-slate-500 font-mono space-y-0.5 leading-none">
-                    <div>โหมดการทำงาน: Slip Mode</div>
-                    <div>PAGE: {idx + 1} / {uploadedFiles.length}</div>
-                    <div>วันที่/เวลา: {currentDate}</div>
+                  <div className="text-right text-[9px] text-slate-800 font-mono space-y-0.5 leading-tight">
+                    <div className="font-bold">Slip Mode</div>
+                    <div>PAGE: {idx + 1}</div>
+                    <div>{formattedDateWithTime}</div>
                   </div>
                 </div>
 
@@ -138,13 +141,6 @@ export function PreviewColumn({
             </p>
           </div>
         )}
-      </div>
-
-      {/* Thai Legal Disclaimer Footer (Sidebar) */}
-      <div className="border-t border-cyan-500/20 pt-3 text-center">
-        <p className="text-[11px] leading-relaxed text-slate-400 font-normal px-2">
-          "DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวกให้กับผู้ว่าจ้าง โดยไม่ได้ดัดแปลง แก้ไข เพิ่ม-ลบ เนื้อหา จากต้นฉบับใดๆ และไม่มีส่วนเกี่ยวข้องใดๆกับเนื้อหาในเอกสาร เป็นเพียงเครื่องมือที่ทำงานเกี่ยวกับระบบไฟล์ เอกสารแบบอิเล็กทรอนิกส์ เท่านั้น"
-        </p>
       </div>
     </div>
   );
