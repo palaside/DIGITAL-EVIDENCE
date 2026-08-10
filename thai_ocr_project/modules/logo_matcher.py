@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from typing import Dict, Any
 
 class BankLogoMatcher:
     def __init__(self, logo_db_path: str = None):
