@@ -58,6 +58,19 @@ export function UploadColumn({
     setUploadedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const hasUploads = uploadedFiles.length > 0;
+  const uploadTitle = activeMode === "chat" ? "Chat Intake" : "Slip Intake";
+  const uploadLabel = activeMode === "chat" ? "Upload chat screenshots" : "Upload slip photos";
+  const uploadGuidance =
+    activeMode === "chat"
+      ? "Upload chat screenshots in reading order."
+      : "Upload clear photos of the bank slips you need to review.";
+  const uploadNextStep =
+    activeMode === "chat"
+      ? "We will paginate them into evidence-ready A4 pages next."
+      : "We will extract OCR fields and prepare the evidence output next.";
+  const uploadCta = hasUploads ? "Add more files" : activeMode === "chat" ? "Upload source images" : "Upload slip images";
+
   return (
     <div className="space-y-6 h-full flex flex-col justify-start">
       {/* Upload Box */}
@@ -65,14 +78,14 @@ export function UploadColumn({
         <div className="border-b border-white/35 px-6 py-4 dark:border-slate-700/70">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-[#112f59] dark:text-slate-100">
-              {activeMode === "chat" ? "Chat Intake" : "Slip Intake"}
+              {uploadTitle}
             </h3>
             <div className="rounded-full border border-slate-200/80 bg-white/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:border-slate-700/80 dark:bg-slate-900/50 dark:text-slate-300">
               {uploadedFiles.length} file{uploadedFiles.length === 1 ? "" : "s"}
             </div>
           </div>
           <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-            {activeMode === "chat" ? "Upload Chat Images" : "Upload Photo"}
+            {uploadLabel}
           </p>
         </div>
         <div className="p-6">
@@ -85,20 +98,40 @@ export function UploadColumn({
               onChange={handleFileUpload}
               disabled={isGenerating}
             />
-            <div className="glass-segment border border-dashed border-[#7fb7ef]/50 p-8 rounded-2xl flex flex-col items-center justify-center gap-3 bg-white/40 dark:bg-slate-950/35 hover:border-[#3f82d8]/70 transition-all">
+            <div className="glass-segment border border-dashed border-[#7fb7ef]/50 p-8 rounded-2xl flex flex-col items-center justify-center gap-4 bg-white/40 dark:bg-slate-950/35 hover:border-[#3f82d8]/70 transition-all">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/50 bg-white/70 dark:bg-slate-900/70">
                 <Upload className="w-6 h-6 text-[#2d5e9a]" strokeWidth={1.7} />
               </div>
-              <p className="text-sm font-medium text-slate-600 dark:text-slate-300 text-center">
-                Click to upload or drag and drop
-              </p>
-              <p className="text-xs text-slate-400 dark:text-slate-500">PNG, JPG up to 10MB each</p>
+              {!hasUploads ? (
+                <div className="space-y-3 text-center">
+                  <div className="space-y-2">
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">{uploadGuidance}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{uploadNextStep}</p>
+                  </div>
+                  <div className="inline-flex h-11 items-center justify-center rounded-xl border border-[#2d5e9a]/30 bg-[#12335f] px-5 text-sm font-semibold text-white shadow-[0_18px_30px_-24px_rgba(18,51,95,0.9)] transition-all hover:bg-[#153d73] dark:bg-[#1f4679] dark:hover:bg-[#275692]">
+                    {uploadCta}
+                  </div>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">PNG or JPG, up to 10MB each. Drag and drop also works.</p>
+                </div>
+              ) : (
+                <div className="space-y-2 text-center">
+                  <p className="text-sm font-medium text-slate-600 dark:text-slate-300">Click to upload or drag and drop</p>
+                  <div className="inline-flex rounded-full border border-white/50 bg-white/70 px-3 py-1 text-[11px] font-semibold text-[#12335f] dark:border-slate-700/80 dark:bg-slate-900/60 dark:text-slate-200">
+                    {uploadCta}
+                  </div>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">PNG or JPG, up to 10MB each</p>
+                </div>
+              )}
             </div>
           </label>
 
           {/* Uploaded Files List */}
-          {uploadedFiles.length > 0 && (
+          {hasUploads && (
             <div className="space-y-2 mt-4">
+              <div className="flex items-center justify-between gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                <span>Uploaded files</span>
+                <span>{uploadedFiles.length} ready</span>
+              </div>
               <ScrollArea className="h-[140px] rounded-2xl border border-white/35 bg-white/45 p-2 dark:border-slate-700/70 dark:bg-slate-950/30">
                 <div className="space-y-1">
                   {uploadedFiles.map((file, idx) => (
@@ -139,11 +172,11 @@ export function UploadColumn({
             disabled={isGenerating || uploadedFiles.length === 0}
           >
             <Play className="w-4 h-4 mr-2" fill="currentColor" />
-            {isGenerating ? "Processing..." : "Start Generation"}
+            {isGenerating ? "Processing..." : "Generate evidence"}
           </Button>
-          <div className="rounded-xl border border-white/35 bg-white/50 px-3 py-2 text-xs text-slate-500 dark:border-slate-700/70 dark:bg-slate-900/40 dark:text-slate-400">
-            Batch-safe backend currently accepts up to 500 images per request.
-          </div>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            {hasUploads ? "When the upload list looks right, generate the evidence output." : "Upload files first to unlock generation."}
+          </p>
         </div>
       </div>
 

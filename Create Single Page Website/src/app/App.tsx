@@ -673,6 +673,13 @@ const handleSavePDF = async () => {
         ? `${uploadedFiles.length} file${uploadedFiles.length === 1 ? "" : "s"} ready to process`
         : "No source files uploaded yet";
 
+  const topLevelPrompt =
+    activeMode === "chat"
+      ? "Choose the chat workflow, then upload screenshots to start the evidence package."
+      : activeMode === "slip"
+        ? "Choose the slip workflow, then upload slip images to start the evidence package."
+        : "Switch back to Chat or Slip to continue the evidence workflow.";
+
   return (
     <ThemeProvider>
       <div className="evidence-shell min-h-screen flex flex-col relative overflow-hidden transition-colors duration-300">
@@ -698,10 +705,10 @@ const handleSavePDF = async () => {
                   </p>
                   <div className="space-y-2">
                     <h2 className="text-2xl font-semibold tracking-[0.04em] text-[#112f59] dark:text-slate-100 md:text-[30px]">
-                      Choose a workflow, upload source files, then review the evidence output.
+                      Upload is the first step. Everything else follows from it.
                     </h2>
                     <p className="max-w-3xl text-sm leading-6 text-slate-500 dark:text-slate-300">
-                      Keep the upload, preview, and export columns on one screen so first-time users can move left to right without leaving the dashboard.
+                      {topLevelPrompt}
                     </p>
                   </div>
                 </div>
@@ -745,34 +752,40 @@ const handleSavePDF = async () => {
                       Slip
                     </button>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Pick the workflow first. Then use the three columns below in order: upload, review preview, and export or inspect details.
-                  </p>
+                  <div className="flex flex-wrap gap-2 text-xs text-slate-500 dark:text-slate-400">
+                    <span className="rounded-full border border-white/40 bg-white/55 px-3 py-1.5 dark:border-slate-700/80 dark:bg-slate-900/45">
+                      1. Upload source files
+                    </span>
+                    <span className="rounded-full border border-white/40 bg-white/55 px-3 py-1.5 dark:border-slate-700/80 dark:bg-slate-900/45">
+                      2. Review preview
+                    </span>
+                    <span className="rounded-full border border-white/40 bg-white/55 px-3 py-1.5 dark:border-slate-700/80 dark:bg-slate-900/45">
+                      3. Export or inspect
+                    </span>
+                  </div>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
                     <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                      01 Upload
+                      Upload status
                     </div>
                     <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      {uploadedFiles.length > 0 ? `${uploadedFiles.length} staged` : "Add source files"}
+                      {uploadedFiles.length > 0 ? `${uploadedFiles.length} file${uploadedFiles.length === 1 ? "" : "s"} staged` : "Waiting for source files"}
                     </p>
                   </div>
                   <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
                     <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                      02 Preview
+                      Output status
                     </div>
                     <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      {isGenerated ? "Ready to review" : isGenerating ? "Generating output" : "Waiting for output"}
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                      03 Export
-                    </div>
-                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      {batchSummary?.processed_files ? `${batchSummary.processed_files} processed` : "Save or inspect"}
+                      {isGenerated
+                        ? "Ready to review"
+                        : isGenerating
+                          ? "Generating output"
+                          : batchSummary?.processed_files
+                            ? `${batchSummary.processed_files} processed`
+                            : "Preview and export unlock after generation"}
                     </p>
                   </div>
                 </div>
