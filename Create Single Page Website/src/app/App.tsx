@@ -378,8 +378,62 @@ export default function App() {
           ...segment,
           pageNumber: index + 1,
         }));
-
         setPaginatedPages(renumberedSegments);
+
+        // Run OCR on the uploaded chat files to extract any slips and populate the ledger
+        setProgress(90);
+        setStatusText("Extracting slip OCR from chat...");
+        try {
+          const formData = new FormData();
+          uploadedFiles.forEach((file) => {
+            const blob = dataURLtoBlob(file.url);
+            formData.append('image', blob, file.name);
+          });
+          const ocrRes = await fetch('http://localhost:5000/api/ocr', {
+            method: 'POST',
+            body: formData,
+          });
+          if (ocrRes.ok) {
+            const ocrDataResult = await ocrRes.json();
+            const ocrResults = ocrDataResult.combined_results ? ocrDataResult.combined_results : [ocrDataResult];
+            
+            const normalizedResults = ocrResults.map((result: any, index: number) => {
+              const nextResult = {
+                ...result,
+                source_file_name: result.source_file_name || uploadedFiles[index]?.name || `Chat Page ${index + 1}`,
+                extracted_transaction_metadata: {
+                  ...(result.extracted_transaction_metadata || {}),
+                },
+              };
+              try {
+                return {
+                  ...nextResult,
+                  ...validateSlipData(nextResult),
+                };
+              } catch {
+                return nextResult;
+              }
+            });
+            
+            // Only populate ledger items that actually resolved metadata (are actual slips)
+            const validResults = normalizedResults.filter((r: any) => {
+              return r.date !== EMPTY_CELL || r.senderName !== EMPTY_CELL || r.receiverName !== EMPTY_CELL;
+            });
+
+            if (validResults.length > 0) {
+              if (validResults.length === 1) {
+                setOcrData(validResults[0]);
+              } else {
+                setOcrData(validResults);
+              }
+            } else {
+              setOcrData(null);
+            }
+          }
+        } catch (ocrErr) {
+          console.warn("Background Chat OCR failed:", ocrErr);
+        }
+
         setProgress(100);
         setStatusText("Ready");
         setIsGenerating(false);
