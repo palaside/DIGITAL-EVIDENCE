@@ -16,6 +16,7 @@ export interface PdfSlipRow {
   receiverName: string;
   receiverBank: string;
   memo: string;
+  refId?: string;
   note: string;
 }
 
@@ -148,16 +149,25 @@ async function createEvidencePage(
   drawHeader(context, logo, modeLabel, pageNumber, totalPages, PAGE_WIDTH_MM);
 
   const frame = { x: mm(20), y: mm(28), width: mm(170), height: mm(235) };
-  context.strokeStyle = "#166534";
+  
+  // Fill the container box with brand dark blue background
+  context.fillStyle = "#12335f";
+  context.fillRect(frame.x, frame.y, frame.width, frame.height);
+
+  // Draw the border matching the box color
+  context.strokeStyle = "#12335f";
   context.lineWidth = mm(0.4);
   context.strokeRect(frame.x, frame.y, frame.width, frame.height);
+
+  // Draw the image with 6mm padding inside the dark blue block container
+  const padding = mm(6);
   drawContainedImage(
     context,
     await loadImage(imageUrl),
-    frame.x,
-    frame.y,
-    frame.width,
-    frame.height,
+    frame.x + padding,
+    frame.y + padding,
+    frame.width - padding * 2,
+    frame.height - padding * 2,
     modeLabel === "Chat Mode" ? "bottom" : "center"
   );
 

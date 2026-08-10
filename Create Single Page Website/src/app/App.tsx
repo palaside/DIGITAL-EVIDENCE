@@ -4,6 +4,7 @@ import { Header } from "./components/Header";
 import { UploadColumn } from "./components/UploadColumn";
 import { PreviewColumn } from "./components/PreviewColumn";
 import { ActionsColumn } from "./components/ActionsColumn";
+import { SummaryLedgerModal } from "./components/SummaryLedgerModal";
 import { NotebookLMPanel } from "./components/NotebookLMPanel";
 import { Toaster } from "./components/ui/sonner";
 import { toast } from "sonner";
@@ -15,10 +16,28 @@ import { parseEMVCoPayload } from "./utils/emvcoParser";
 import { buildEvidencePdfBlob, exportEvidencePdf } from "./utils/pdfExport";
 import { calculateSlipTotal, formatSlipTotal } from "./utils/slipTotals";
 import { normalizeArchiveName, validatePackageOptions } from "./utils/packageValidation";
+import { buildSfxArchive } from "./utils/sfxBuilder";
+import JSZip from "jszip";
 import JsonViewer from "./components/JsonViewer";
+import { cleanPersonName } from "./utils/slipNameParser";
+import { extractAmount } from "./utils/slipAmountParser";
+import { normalizeSlipDate } from "./utils/slipDateParser";
+import { THAI_BANKS } from "./utils/thaiBanks";
 import { Input } from "./components/ui/input";
 
 const EMPTY_CELL = "-";
+
+function normalizeBankName(rawBank: string): string {
+  if (!rawBank || rawBank === EMPTY_CELL) return EMPTY_CELL;
+  const lower = rawBank.toLowerCase().trim();
+  const match = THAI_BANKS.find(
+    (b) =>
+      b.nameTh.includes(rawBank) ||
+      b.keywords.some((k) => lower.includes(k.toLowerCase())) ||
+      b.abbreviations.some((a) => lower.includes(a.toLowerCase()))
+  );
+  return match ? match.nameTh : rawBank;
+}
 
 function asSlipResults(ocrData: any): any[] {
   if (!ocrData) return [];
@@ -40,7 +59,8 @@ function splitSlipDateTime(value: string): { date: string; time: string } {
 
   const timeMatch = value.match(/\b\d{1,2}:\d{2}(?::\d{2})?\b/);
   const time = timeMatch?.[0] || EMPTY_CELL;
-  const date = value.replace(time, "").replace(/\s*\/\s*/g, " ").trim() || value;
+  const rawDate = value.replace(time, "").replace(/\s*\/\s*/g, " ").trim() || value;
+  const date = normalizeSlipDate(rawDate).normalizedDate || rawDate;
 
   return { date, time };
 }
@@ -55,46 +75,74 @@ function toSlipDetailRows(ocrData: any) {
     );
     const { date, time } = splitSlipDateTime(dateTime);
 
+    const rawSenderBank = readSlipField(
+      result,
+      "sender_bank",
+      "senderBank",
+      "bank_name",
+      "bankName",
+      "extracted_transaction_metadata.bank_name"
+    );
+
+    const rawSenderName = readSlipField(
+      result,
+      "sender_name",
+      "senderName",
+      "extracted_transaction_metadata.sender_name"
+    );
+
+    const rawAmount = readSlipField(
+      result,
+      "amount",
+      "extracted_transaction_metadata.amount_transferred"
+    );
+
+    const rawReceiverName = readSlipField(
+      result,
+      "receiver_name",
+      "receiverName",
+      "extracted_transaction_metadata.receiver_name"
+    );
+
+    const rawReceiverBank = readSlipField(
+      result,
+      "receiver_bank",
+      "receiverBank",
+      "extracted_transaction_metadata.receiver_bank_name"
+    );
+
+    const rawMemo = readSlipField(result, "memo", "extracted_transaction_metadata.memo");
+    const rawRefId = readSlipField(
+      result,
+      "transaction_id",
+      "transactionId",
+      "ref_id",
+      "refId",
+      "extracted_transaction_metadata.transaction_id"
+    );
+
+    const parsedAmount = extractAmount(rawAmount);
+    const cleanedSenderName = cleanPersonName(rawSenderName).cleanName || rawSenderName;
+    const cleanedReceiverName = cleanPersonName(rawReceiverName).cleanName || rawReceiverName;
+
     const row = {
       no: index + 1,
       sourceFileName: result?.source_file_name || `Slip ${index + 1}`,
-      status: result?.status || "",
+      status: result?.error ? "ล้มเหลว" : result?.isDuplicate ? "สลิปทำซ้ำ" : "สแกนสำเร็จ",
       error: result?.error || "",
       date,
       time,
-      senderBank: readSlipField(
-        result,
-        "sender_bank",
-        "senderBank",
-        "bank_name",
-        "bankName",
-        "extracted_transaction_metadata.bank_name"
-      ),
-      senderName: readSlipField(
-        result,
-        "sender_name",
-        "senderName",
-        "extracted_transaction_metadata.sender_name"
-      ),
-      amount: readSlipField(
-        result,
-        "amount",
-        "extracted_transaction_metadata.amount_transferred"
-      ),
-      receiverName: readSlipField(
-        result,
-        "receiver_name",
-        "receiverName",
-        "extracted_transaction_metadata.receiver_name"
-      ),
-      receiverBank: readSlipField(
-        result,
-        "receiver_bank",
-        "receiverBank",
-        "extracted_transaction_metadata.receiver_bank_name"
-      ),
-      memo: readSlipField(result, "memo"),
-      note: "",
+      senderBank: normalizeBankName(rawSenderBank),
+      senderName: cleanedSenderName,
+      amount: parsedAmount.numericAmount > 0
+        ? parsedAmount.numericAmount.toFixed(2)
+        : (rawAmount !== EMPTY_CELL ? rawAmount : "0.00"),
+      numericAmount: parsedAmount.numericAmount,
+      receiverName: cleanedReceiverName,
+      receiverBank: normalizeBankName(rawReceiverBank),
+      memo: rawMemo === EMPTY_CELL ? "-" : rawMemo,
+      refId: rawRefId === EMPTY_CELL ? "-" : rawRefId,
+      note: result?.error ? "ล้มเหลว" : result?.isDuplicate ? "สลิปทำซ้ำ" : "สแกนสำเร็จ",
     };
 
     const hasExtractedData = [
@@ -106,7 +154,8 @@ function toSlipDetailRows(ocrData: any) {
       row.receiverName,
       row.receiverBank,
       row.memo,
-    ].some((value) => value !== EMPTY_CELL);
+      row.refId,
+    ].some((value) => value !== EMPTY_CELL && value !== "-");
 
     return {
       ...row,
@@ -127,8 +176,9 @@ export default function App() {
   const [batchSummary, setBatchSummary] = useState<any>(null);
   const [showRawJson, setShowRawJson] = useState(false);
   
-  // Modals state
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showSummaryModal, setShowSummaryModal] = useState(false);
+  const [passwordProtection, setPasswordProtection] = useState(true);
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressProgress, setCompressProgress] = useState(0);
   const [showPackageModal, setShowPackageModal] = useState(false);
@@ -138,7 +188,7 @@ export default function App() {
     archiveFormat: "zip" as "zip" | "rar",
     password: "",
     confirmPassword: "",
-    legalDisclaimer: "",
+    legalDisclaimer: "DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวกให้กับผู้ว่าจ้าง โดยไม่ได้ดัดแปลง แก้ไข เพิ่ม-ลบ เนื้อหา จากต้นฉบับใดๆ และไม่มีส่วนเกี่ยวข้องใดๆ กับเนื้อหาในเอกสาร เป็นเพียงเครื่องมือที่ทำงานเกี่ยวกับระบบไฟล์ เอกสารแบบอิเล็กทรอนิกส์ เท่านั้น",
     includePdf: true,
   });
 
@@ -215,9 +265,6 @@ export default function App() {
 
     if (activeMode === "chat") {
       try {
-        // ── Guard: reject duplicate filenames before processing ──────────────
-        // If the same file was uploaded twice every page it produces will be a
-        // content duplicate. Catch here so the user can remove the copy.
         const fileNames = uploadedFiles.map((f) => f.name.trim().toLowerCase());
         const seenNames = new Set<string>();
         const duplicateNames: string[] = [];
@@ -236,11 +283,6 @@ export default function App() {
           return;
         }
 
-        // ── Phase 0: Cross-file visual overlap detection (0-15%) ─────────────
-        // For each adjacent file pair, compare the tail of file[i] with the head
-        // of file[i+1] using a sliding-window MAD pixel comparison. If overlap
-        // is detected, trim that many pixels from the TOP of file[i+1] before
-        // pagination, so the same chat content never appears on two pages.
         const trimOffsets: number[] = new Array(uploadedFiles.length).fill(0);
         const autoTrimLog: { file: string; trimPx: number; confidence: number }[] = [];
 
@@ -266,9 +308,6 @@ export default function App() {
           }
         }
 
-        // ── Phase 1: Per-file segmentation with trim (15-90%) ────────────────
-        // Tag every segment with the source file name so the global ledger
-        // can attribute pages to their origin and detect cross-file issues.
         const allSegments: (PageSegment & { sourceFileId: string })[] = [];
 
         for (let i = 0; i < uploadedFiles.length; i++) {
@@ -278,7 +317,6 @@ export default function App() {
           console.log(`[ChatPagination] Processing ${i + 1}/${uploadedFiles.length}: ${file.name}`);
 
           const processFile = async () => {
-            // Apply auto-trim if overlap was detected with the previous file
             const imageUrl =
               trimOffsets[i] > 0
                 ? await trimImageTop(file.url, trimOffsets[i])
@@ -300,9 +338,6 @@ export default function App() {
           allSegments.push(...taggedSegments);
         }
 
-        // ── Phase 2: Global ledger — cross-file objectId dedup check (90%) ───
-        // Per-file pagination validates within each file. This pass
-        // confirms no objectId appears across files (algorithm invariant).
         const globalObjectIds = new Set<string>();
         const globalDuplicates: string[] = [];
         for (const seg of allSegments) {
@@ -321,7 +356,6 @@ export default function App() {
           );
         }
 
-        // Cross-file boundary log (warn, not block)
         const crossFileWarnings: string[] = [];
         for (let i = 0; i < allSegments.length - 1; i++) {
           const curr = allSegments[i];
@@ -353,7 +387,6 @@ export default function App() {
           failure_count: 0,
         });
 
-        // Build informative toast
         const trimNote =
           autoTrimLog.length > 0
             ? ` — auto-trimmed ${autoTrimLog.length} file(s) (overlap removed)`
@@ -402,7 +435,6 @@ export default function App() {
           formData.append('image', blob, file.name);
         });
 
-        // PRE-PROCESSING: Attempt to extract real QR code before OCR
         try {
           setProgress(20);
           const firstImage = uploadedFiles[0];
@@ -441,7 +473,6 @@ export default function App() {
           throw new Error("Google Cloud Vision backend OCR failed. Please check Google credentials and the OCR server.");
         }
 
-        // Inject real QR payload if found
         if (ocrResults.length > 0) {
           const resultsWithMetadata = ocrResults.map((result, index) => {
             const nextResult = {
@@ -511,26 +542,22 @@ const handleSavePDF = async () => {
     return;
   }
 
-  // Determine mode and source images
   const mode = activeMode === "chat" ? "chat" : "slip";
   const sourceImages =
     mode === "chat" && paginatedPages.length > 0
       ? paginatedPages.map((page) => page.canvasDataUrl)
       : uploadedFiles.map((file) => file.url);
 
-  // Defensive checks
   if (sourceImages.length === 0) {
     toast.error("No images available for PDF export.");
     return;
   }
 
   if (mode === "chat") {
-    // Verify page count matches
     if (sourceImages.length !== paginatedPages.length) {
       toast.error(`Preview page count (${paginatedPages.length}) does not match export image count (${sourceImages.length}).`);
       return;
     }
-    // Verify sequential page order starting at 1
     const orderMismatch = paginatedPages.some((p, i) => p.pageNumber !== i + 1);
     if (orderMismatch) {
       toast.error("Page order mismatch detected in paginated preview. Export blocked.");
@@ -556,6 +583,10 @@ const handleSavePDF = async () => {
       toast.error("No evidence files to package!");
       return;
     }
+    setPackageOptions((current) => ({
+      ...current,
+      archiveFormat: passwordProtection ? "rar" : "zip",
+    }));
     setShowPackageModal(true);
   };
 
@@ -578,34 +609,11 @@ const handleSavePDF = async () => {
     setCompressProgress(10);
 
     try {
-      const formData = new FormData();
-      formData.append("archive_name", normalizeArchiveName(safeArchiveName));
-      formData.append("archive_format", packageOptions.archiveFormat);
-      if (packageOptions.archiveFormat === "rar") {
-        formData.append("password", packageOptions.password.trim());
-      }
-      formData.append("mode", activeMode);
-
-      uploadedFiles.forEach((file, index) => {
-        const blob = dataURLtoBlob(file.url);
-        formData.append("source_files", blob, file.name || `source-${index + 1}.png`);
-      });
-
-      if (activeMode === "chat" && paginatedPages.length > 0) {
-        paginatedPages.forEach((page, index) => {
-          const blob = dataURLtoBlob(page.canvasDataUrl);
-          formData.append("artifacts", blob, `chat-page-${index + 1}.png`);
-        });
-      }
-
-      if (activeMode === "slip" && ocrData) {
-        const metadataBlob = new Blob([JSON.stringify(ocrData, null, 2)], { type: "application/json" });
-        formData.append("artifacts", metadataBlob, "slip-ocr-analysis.json");
-      }
-
+      // 1. Prepare PDF Blob
+      let pdfBlob: Blob | undefined;
       if (packageOptions.includePdf && isGenerated) {
-        setCompressProgress(35);
-        const { blob, filename } = await buildEvidencePdfBlob({
+        setCompressProgress(30);
+        const { blob } = await buildEvidencePdfBlob({
           mode: activeMode === "chat" ? "chat" : "slip",
           sourceImages:
             activeMode === "chat" && paginatedPages.length > 0
@@ -613,30 +621,74 @@ const handleSavePDF = async () => {
               : uploadedFiles.map((file) => file.url),
           slipRows: activeMode === "slip" ? slipDetailRows : [],
         });
-        formData.append("artifacts", blob, filename);
+        pdfBlob = blob;
       }
 
-      setCompressProgress(65);
-      const response = await fetch("http://localhost:5000/api/package-project", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const message = await response.text();
-        throw new Error(message || "Package creation failed");
+      // 2. Prepare OCR Metadata Blob
+      let ocrBlob: Blob | undefined;
+      if (activeMode === "slip" && ocrData) {
+        ocrBlob = new Blob([JSON.stringify(ocrData, null, 2)], { type: "application/json" });
       }
 
-      const blob = await response.blob();
-      const disposition = response.headers.get("Content-Disposition") || "";
-      const filenameMatch = disposition.match(/filename=\"?([^"]+)\"?/i);
-      const filename = filenameMatch?.[1] || `${safeArchiveName}.${packageOptions.archiveFormat}`;
-      triggerBlobDownload(blob, filename);
+      setCompressProgress(50);
+
+      // 3. Package locally
+      if (packageOptions.archiveFormat === "rar") {
+        // SFX WinRAR executable builder
+        const uploadedFilesAdapter = uploadedFiles.map(f => ({
+          name: f.name,
+          url: f.url
+        }));
+        
+        const sfxFile = await buildSfxArchive(
+          packageOptions,
+          uploadedFilesAdapter,
+          pdfBlob,
+          ocrBlob
+        );
+        
+        setCompressProgress(90);
+        triggerBlobDownload(sfxFile, sfxFile.name);
+      } else {
+        // Direct ZIP archive builder
+        const zip = new JSZip();
+        
+        // Add source files
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          const file = uploadedFiles[i];
+          const blob = dataURLtoBlob(file.url);
+          const arr = new Uint8Array(await blob.arrayBuffer());
+          zip.file(file.name, arr);
+        }
+
+        // Add optional PDF
+        if (pdfBlob) {
+          const pdfArr = new Uint8Array(await pdfBlob.arrayBuffer());
+          zip.file("evidence.pdf", pdfArr);
+        }
+
+        // Add optional OCR json
+        if (ocrBlob) {
+          const jsonArr = new Uint8Array(await ocrBlob.arrayBuffer());
+          zip.file("slip-ocr-analysis.json", jsonArr);
+        }
+
+        // Generate ZIP file
+        const zipBlob = await zip.generateAsync({
+          type: "blob",
+          compression: "DEFLATE",
+          compressionOptions: { level: 9 },
+        });
+
+        setCompressProgress(90);
+        triggerBlobDownload(zipBlob, `${safeArchiveName}.zip`);
+      }
 
       setCompressProgress(100);
       setTimeout(() => {
         setIsCompressing(false);
-        toast.success("Project archive exported successfully.");
+        const formatLabel = packageOptions.archiveFormat === "rar" ? "WinRAR SFX (.exe)" : "ZIP (.zip)";
+        toast.success(`Project ${formatLabel} package generated successfully.`);
       }, 400);
     } catch (error) {
       console.error("Error packaging project:", error);
@@ -673,175 +725,71 @@ const handleSavePDF = async () => {
         ? `${uploadedFiles.length} file${uploadedFiles.length === 1 ? "" : "s"} ready to process`
         : "No source files uploaded yet";
 
-  const topLevelPrompt =
-    activeMode === "chat"
-      ? "Choose the chat workflow, then upload screenshots to start the evidence package."
-      : activeMode === "slip"
-        ? "Choose the slip workflow, then upload slip images to start the evidence package."
-        : "Switch back to Chat or Slip to continue the evidence workflow.";
 
   return (
     <ThemeProvider>
-      <div className="evidence-shell min-h-screen flex flex-col relative overflow-hidden transition-colors duration-300">
-        
-        {/* Content Container */}
-        <div className="relative z-10 flex-1 flex flex-col">
-          <Header
-            activeMode={activeMode}
-            uploadedFilesCount={uploadedFiles.length}
-            isGenerating={isGenerating}
-            isGenerated={isGenerated}
-            progress={progress}
-            statusText={statusText}
-            onOpenNewFeature={openNewFeature}
-          />
+      <div className="min-h-screen bg-[#070b14] text-slate-100 selection:bg-cyan-500 selection:text-slate-950 font-sans">
+        <Header
+          activeMode={activeMode === "slip" ? "slip" : "chat"}
+          onModeChange={(mode) => handleModeChange(mode)}
+          uploadedFilesCount={uploadedFiles.length}
+          isGenerating={isGenerating}
+          isGenerated={isGenerated}
+          progress={progress}
+          statusText={statusText}
+        />
 
-          <main className="flex-1 mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6 md:py-8">
-            <div className="glass-toolbar mb-6 rounded-[28px] p-4 md:p-5">
-              <div className="grid gap-4 xl:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.9fr)] xl:items-start">
-                <div className="space-y-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
-                    Start here
-                  </p>
-                  <div className="space-y-2">
-                    <h2 className="text-2xl font-semibold tracking-[0.04em] text-[#112f59] dark:text-slate-100 md:text-[30px]">
-                      Upload is the first step. Everything else follows from it.
-                    </h2>
-                    <p className="max-w-3xl text-sm leading-6 text-slate-500 dark:text-slate-300">
-                      {topLevelPrompt}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="rounded-[24px] border border-white/40 bg-white/60 p-4 shadow-[0_18px_36px_-28px_rgba(15,23,42,0.55)] dark:border-slate-700/80 dark:bg-slate-900/45">
-                  <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                    <Workflow className="h-3.5 w-3.5 text-[#2d5e9a]" />
-                    Current workflow
-                  </div>
-                  <p className="mt-2 text-base font-semibold text-slate-950 dark:text-slate-100">{modeTitle}</p>
-                  <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-300">{modeDescription}</p>
-                  <div className="mt-4 rounded-2xl border border-slate-200/80 bg-slate-50/90 px-3 py-2 text-sm text-slate-700 dark:border-slate-700/80 dark:bg-slate-950/40 dark:text-slate-200">
-                    {entryStateLabel}
-                  </div>
-                </div>
+        <main className="mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6">
+          {activeMode === "newfeature" ? (
+            React.createElement(require('../pages/NewFeature').default)
+          ) : activeMode === "notebooklm" ? (
+            <NotebookLMPanel />
+          ) : (
+            <div className="grid grid-cols-1 gap-6 items-stretch lg:grid-cols-[minmax(18rem,22rem)_minmax(0,1.5fr)_minmax(18rem,22rem)]">
+              {/* Column 1: Upload, Generate, Progress */}
+              <div className="xl:min-w-0">
+                <UploadColumn 
+                  activeMode={activeMode === "slip" ? "slip" : "chat"}
+                  uploadedFiles={uploadedFiles}
+                  setUploadedFiles={setUploadedFiles}
+                  isGenerating={isGenerating}
+                  progress={progress}
+                  statusText={statusText}
+                  isGenerated={isGenerated}
+                  onGenerate={handleGenerate}
+                />
               </div>
 
-              <div className="mt-5 grid gap-3 border-t border-white/35 pt-4 dark:border-slate-700/70 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-                <div className="space-y-3">
-                  <div className="glass-segment inline-flex rounded-2xl p-1.5">
-                    <button
-                      onClick={() => handleModeChange("chat")}
-                      className={`flex min-w-[160px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
-                        activeMode === "chat"
-                          ? "bg-[#12335f] text-white shadow-[0_14px_28px_-20px_rgba(18,51,95,0.85)]"
-                          : "text-slate-500 hover:bg-white/60 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
-                      }`}
-                    >
-                      <MessagesSquare className="h-4 w-4" />
-                      Chat
-                    </button>
-                    <button
-                      onClick={() => handleModeChange("slip")}
-                      className={`flex min-w-[160px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
-                        activeMode === "slip"
-                          ? "bg-[#12335f] text-white shadow-[0_14px_28px_-20px_rgba(18,51,95,0.85)]"
-                          : "text-slate-500 hover:bg-white/60 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
-                      }`}
-                    >
-                      <ReceiptText className="h-4 w-4" />
-                      Slip
-                    </button>
-                  </div>
-                  <div className="flex flex-wrap gap-2 text-xs text-slate-500 dark:text-slate-400">
-                    <span className="rounded-full border border-white/40 bg-white/55 px-3 py-1.5 dark:border-slate-700/80 dark:bg-slate-900/45">
-                      1. Upload source files
-                    </span>
-                    <span className="rounded-full border border-white/40 bg-white/55 px-3 py-1.5 dark:border-slate-700/80 dark:bg-slate-900/45">
-                      2. Review preview
-                    </span>
-                    <span className="rounded-full border border-white/40 bg-white/55 px-3 py-1.5 dark:border-slate-700/80 dark:bg-slate-900/45">
-                      3. Export or inspect
-                    </span>
-                  </div>
-                </div>
+              {/* Column 2: Preview (wider) */}
+              <div className="xl:min-w-0">
+                <PreviewColumn 
+                  activeMode={activeMode === "slip" ? "slip" : "chat"}
+                  isGenerated={isGenerated}
+                  uploadedFiles={uploadedFiles}
+                  paginatedPages={paginatedPages}
+                  ocrData={ocrData}
+                />
+              </div>
 
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                      Upload status
-                    </div>
-                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      {uploadedFiles.length > 0 ? `${uploadedFiles.length} file${uploadedFiles.length === 1 ? "" : "s"} staged` : "Waiting for source files"}
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                      Output status
-                    </div>
-                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      {isGenerated
-                        ? "Ready to review"
-                        : isGenerating
-                          ? "Generating output"
-                          : batchSummary?.processed_files
-                            ? `${batchSummary.processed_files} processed`
-                            : "Preview and export unlock after generation"}
-                    </p>
-                  </div>
-                </div>
+              {/* Column 3: Save, Detail, Send */}
+              <div className="xl:min-w-0">
+                <ActionsColumn 
+                  activeMode={activeMode === "slip" ? "slip" : "chat"}
+                  isGenerated={isGenerated}
+                  hasUploads={uploadedFiles.length > 0}
+                  uploadedFilesCount={uploadedFiles.length}
+                  passwordProtection={passwordProtection}
+                  setPasswordProtection={setPasswordProtection}
+                  onOpenSummaryModal={() => setShowSummaryModal(true)}
+                  onSavePdf={handleSavePDF}
+                  onSaveWinrar={handleSendProject}
+                  onGenerate={handleGenerate}
+                  isGenerating={isGenerating}
+                />
               </div>
             </div>
-
-            {/* Three Column Layout or NotebookLM Panel */}
-            {activeMode === "newfeature" ? (
-              // lazy local import to avoid changing boot behaviour
-              React.createElement(require('../pages/NewFeature').default)
-            ) : activeMode === "notebooklm" ? (
-              <NotebookLMPanel />
-            ) : (
-              <div className="grid grid-cols-1 gap-6 items-stretch lg:grid-cols-[minmax(18rem,22rem)_minmax(0,1.5fr)_minmax(18rem,22rem)]">
-                {/* Column 1: Upload, Generate, Progress */}
-                <div className="xl:min-w-0">
-                  <UploadColumn 
-                    activeMode={activeMode as "chat" | "slip"}
-                    uploadedFiles={uploadedFiles}
-                    setUploadedFiles={setUploadedFiles}
-                    isGenerating={isGenerating}
-                    progress={progress}
-                    statusText={statusText}
-                    isGenerated={isGenerated}
-                    onGenerate={handleGenerate}
-                  />
-                </div>
-
-                {/* Column 2: Preview (wider) */}
-                <div className="xl:min-w-0">
-                  <PreviewColumn 
-                    activeMode={activeMode as "chat" | "slip"}
-                    isGenerated={isGenerated}
-                    uploadedFiles={uploadedFiles}
-                    paginatedPages={paginatedPages}
-                    ocrData={ocrData}
-                  />
-                </div>
-
-                {/* Column 3: Save, Detail, Send */}
-                <div className="xl:min-w-0">
-                  <ActionsColumn 
-                    activeMode={activeMode as "chat" | "slip"}
-                    isGenerated={isGenerated}
-                    hasUploads={uploadedFiles.length > 0}
-                    onSave={handleSavePDF}
-                    onDetail={() => setShowDetailModal(true)}
-                    onSend={handleSendProject}
-                    ocrData={ocrData}
-                    batchSummary={batchSummary}
-                  />
-                </div>
-              </div>
-            )}
-          </main>
-        </div>
+          )}
+        </main>
 
         {/* Modal: Slip OCR Details Table */}
         {showDetailModal && (
@@ -957,6 +905,7 @@ const handleSavePDF = async () => {
                       <th className="px-2 py-2 font-bold text-slate-950 break-words w-[180px]">ชื่อผู้รับ</th>
                       <th className="px-2 py-2 font-bold text-slate-950 break-words w-[156px]">ธนาคารผู้รับ</th>
                       <th className="px-2 py-2 font-bold text-slate-950 break-words w-[164px]">บันทึกช่วยจำ</th>
+                      <th className="px-2 py-2 font-bold text-slate-950 break-words w-[150px]">รหัสอ้างอิง</th>
                       <th className="px-2 py-2 font-bold text-slate-950 break-words w-[110px]">หมายเหตุ</th>
                     </tr>
                   </thead>
@@ -969,16 +918,19 @@ const handleSavePDF = async () => {
                           <td className="px-2 py-2 text-slate-950 break-words">{row.time}</td>
                           <td className="px-2 py-2 text-slate-950 break-words">{row.senderBank}</td>
                           <td className="px-2 py-2 text-slate-950 break-words">{row.senderName}</td>
-                          <td className="px-2 py-2 font-bold text-emerald-700 break-words">{row.amount}</td>
+                          <td className="px-2 py-2 font-bold text-emerald-700 break-words">
+                            {row.amount ? (row.amount.startsWith("฿") ? row.amount : `฿${row.amount}`) : "฿0.00"}
+                          </td>
                           <td className="px-2 py-2 text-slate-950 break-words">{row.receiverName}</td>
                           <td className="px-2 py-2 text-slate-950 break-words">{row.receiverBank}</td>
-                          <td className="px-2 py-2 text-slate-700 break-words">{row.memo}</td>
+                          <td className="px-2 py-2 text-slate-700 break-words">{row.memo || "-"}</td>
+                          <td className="px-2 py-2 font-mono text-[11px] text-slate-700 break-words">{row.refId || "-"}</td>
                           <td className="px-2 py-2 text-slate-700">{row.note}</td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td className="p-4 text-center text-slate-600" colSpan={10}>
+                        <td className="p-4 text-center text-slate-600" colSpan={11}>
                           {processingRows.length > 0
                             ? "กำลังรอผล OCR จากสลิปที่อัปโหลด"
                             : errorRows.length > 0
@@ -997,7 +949,7 @@ const handleSavePDF = async () => {
                         <td className="px-2 py-2 font-extrabold text-emerald-700 break-words">
                           {formatSlipTotal(slipTotalAmount)}
                         </td>
-                        <td className="px-2 py-2 text-slate-500" colSpan={4}>
+                        <td className="px-2 py-2 text-slate-500" colSpan={5}>
                           รวมจากรายการที่สกัดข้อมูลได้ {completedRows.length} รายการ
                         </td>
                       </tr>
@@ -1222,6 +1174,12 @@ const handleSavePDF = async () => {
             </div>
           </div>
         )}
+
+        {/* Summary Ledger Modal */}
+        <SummaryLedgerModal
+          isOpen={showSummaryModal}
+          onClose={() => setShowSummaryModal(false)}
+        />
 
         <Toaster />
       </div>

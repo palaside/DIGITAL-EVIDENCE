@@ -54,54 +54,26 @@ export function validateArchiveName(name: string): ValidationResult {
 }
 
 export function evaluatePasswordStrength(password: string): ValidationResult {
-  const errors: string[] = [];
-
-  if (password.length < PASSWORD_MIN_LENGTH) {
-    errors.push(`Password must be at least ${PASSWORD_MIN_LENGTH} characters long.`);
-  }
-
-  PASSWORD_RULES.forEach(({ test, message }) => {
-    if (!test.test(password)) {
-      errors.push(`Password must contain ${message}.`);
-    }
-  });
-
-  if (/\s/.test(password)) {
-    errors.push("Password must not contain whitespace characters.");
-  }
-
-  return { valid: errors.length === 0, errors };
+  // Password strength checks removed as requested
+  return { valid: true, errors: [] };
 }
 
 export function validatePasswordConfirmation(password: string, confirmPassword?: string): ValidationResult {
   const errors: string[] = [];
 
-  if (password.length === 0) {
-    errors.push("Password is required for RAR archive creation.");
-  }
-
-  if (!confirmPassword || confirmPassword.trim().length === 0) {
-    errors.push("Password confirmation is required.");
-  }
-
-  if (password !== confirmPassword) {
-    errors.push("Password and confirmation do not match.");
+  // Check matching only if a password is typed
+  if (password && password.length > 0) {
+    if (password !== confirmPassword) {
+      errors.push("Password and confirmation do not match.");
+    }
   }
 
   return { valid: errors.length === 0, errors };
 }
 
 export function validateLegalDisclaimer(legalDisclaimer?: string): ValidationResult {
-  const errors: string[] = [];
-  const value = legalDisclaimer?.trim() ?? "";
-
-  if (value.length === 0) {
-    errors.push("Legal disclaimer is required.");
-  } else if (value.length < 20) {
-    errors.push("Legal disclaimer must be at least 20 characters long.");
-  }
-
-  return { valid: errors.length === 0, errors };
+  // Legal disclaimer is now optional with no constraints
+  return { valid: true, errors: [] };
 }
 
 export function validatePackageOptions(options: PackageOptions): ValidationResult {

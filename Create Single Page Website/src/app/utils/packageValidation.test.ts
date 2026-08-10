@@ -36,21 +36,11 @@ describe("Archive name normalization", () => {
 });
 
 describe("Password strength validation", () => {
-  it("accepts a strong password", () => {
-    const result = evaluatePasswordStrength("StrongPassw0rd!");
-    expect(result.valid).toBe(true);
-  });
-
-  it("rejects a short password", () => {
-    const result = evaluatePasswordStrength("short1A!");
-    expect(result.valid).toBe(false);
-    expect(result.errors).toContain("Password must be at least 12 characters long.");
-  });
-
-  it("rejects a password missing a symbol", () => {
-    const result = evaluatePasswordStrength("StrongPassw0rd");
-    expect(result.valid).toBe(false);
-    expect(result.errors).toContain("Password must contain at least one symbol.");
+  it("accepts any password (strength validation removed)", () => {
+    const result1 = evaluatePasswordStrength("StrongPassw0rd!");
+    const result2 = evaluatePasswordStrength("short");
+    expect(result1.valid).toBe(true);
+    expect(result2.valid).toBe(true);
   });
 });
 
@@ -60,10 +50,9 @@ describe("Password confirmation validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("rejects when confirmation is missing", () => {
-    const result = validatePasswordConfirmation("StrongPassw0rd!", "");
-    expect(result.valid).toBe(false);
-    expect(result.errors).toContain("Password confirmation is required.");
+  it("accepts empty password and confirmation (optional mode)", () => {
+    const result = validatePasswordConfirmation("", "");
+    expect(result.valid).toBe(true);
   });
 
   it("rejects when password and confirmation differ", () => {
@@ -85,7 +74,7 @@ describe("Package options validation", () => {
     expect(result.valid).toBe(true);
   });
 
-  it("requires a legal disclaimer even for ZIP package options", () => {
+  it("accepts empty legal disclaimer (optional mode)", () => {
     const result = validatePackageOptions({
       archiveName: "DEvidence_batch_0001",
       archiveFormat: "zip",
@@ -93,20 +82,18 @@ describe("Package options validation", () => {
       legalDisclaimer: "",
       includePdf: true,
     });
-    expect(result.valid).toBe(false);
-    expect(result.errors).toContain("Legal disclaimer is required.");
+    expect(result.valid).toBe(true);
   });
 
-  it("rejects RAR package options with weak password or missing confirmation", () => {
+  it("accepts RAR package options with any matching password (optional mode)", () => {
     const result = validatePackageOptions({
       archiveName: "DEvidence_batch_0001",
       archiveFormat: "rar",
       password: "weakpass",
       confirmPassword: "weakpass",
-      legalDisclaimer: "This archive contains evidence files and must be handled securely.",
+      legalDisclaimer: "",
       includePdf: true,
     });
-    expect(result.valid).toBe(false);
-    expect(result.errors).toContain("Password must be at least 12 characters long.");
+    expect(result.valid).toBe(true);
   });
 });
