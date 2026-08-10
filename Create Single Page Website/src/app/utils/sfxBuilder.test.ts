@@ -80,9 +80,10 @@ describe("sfxBuilder", () => {
     expect(disclaimerContent).toBe("This is a custom test legal disclaimer text.");
 
     // 4. Verify WinRAR SFX commands in the ZIP comment
-    expect((zip as any).comment).toContain(";The comment below contains SFX script commands");
-    expect((zip as any).comment).toContain("Title=test-evidence-pack");
-    expect((zip as any).comment).toContain("Text\r\n{\r\nThis is a custom test legal disclaimer text.\r\n}");
+    const decodedComment = getDecodedZipComment(zipBytes);
+    expect(decodedComment).toContain(";The comment below contains SFX script commands");
+    expect(decodedComment).toContain("Title=test-evidence-pack");
+    expect(decodedComment).toContain("Text\r\n{\r\nThis is a custom test legal disclaimer text.\r\n}");
   });
 
   it("should fall back to default disclaimer if none is provided", async () => {
@@ -98,9 +99,9 @@ describe("sfxBuilder", () => {
 
     const resultBytes = new Uint8Array(await resultFile.arrayBuffer());
     const zipBytes = resultBytes.slice(mockStubBytes.length);
-    const zip = await JSZip.loadAsync(zipBytes);
 
-    expect((zip as any).comment).toContain("DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวก");
+    const decodedComment = getDecodedZipComment(zipBytes);
+    expect(decodedComment).toContain("DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวก");
   });
 
   it("should throw error if fetching the SFX stub fails", async () => {
@@ -116,3 +117,36 @@ describe("sfxBuilder", () => {
     );
   });
 });
+
+function getDecodedZipComment(zipBytes: Uint8Array): string {
+  let eocdOffset = zipBytes.length - 22;
+  while (eocdOffset >= 0) {
+    if (
+      zipBytes[eocdOffset] === 0x50 &&
+      zipBytes[eocdOffset + 1] === 0x4B &&
+      zipBytes[eocdOffset + 2] === 0x05 &&
+      zipBytes[eocdOffset + 3] === 0x06
+    ) {
+      break;
+    }
+    eocdOffset--;
+  }
+  if (eocdOffset < 0) {
+    throw new Error("Could not find ZIP EOCD record in test bytes.");
+  }
+  const commentLen =
+    zipBytes[eocdOffset + 20] + (zipBytes[eocdOffset + 21] << 8);
+  const commentBytes = zipBytes.slice(zipBytes.length - commentLen);
+
+  let decoded = "";
+  for (let i = 0; i < commentBytes.length; i++) {
+    const byte = commentBytes[i];
+    if (byte >= 0xA1 && byte <= 0xFB) {
+      decoded += String.fromCharCode(byte - 0xA0 + 0x0E00);
+    } else {
+      decoded += String.fromCharCode(byte);
+    }
+  }
+  return decoded;
+}
+

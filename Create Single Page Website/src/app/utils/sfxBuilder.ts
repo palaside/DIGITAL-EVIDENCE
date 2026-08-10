@@ -14,6 +14,32 @@ export interface PackageOptions {
   includePdf?: boolean;
 }
 
+function encodeWindows874(str: string): Uint8Array {
+  const bytes = new Uint8Array(str.length);
+  for (let i = 0; i < str.length; i++) {
+    const code = str.charCodeAt(i);
+    if (code >= 0x0E01 && code <= 0x0E5B) {
+      bytes[i] = code - 0x0E00 + 0xA0;
+    } else if (code < 128) {
+      bytes[i] = code;
+    } else {
+      // Map other characters
+      if (code === 0x2013 || code === 0x2014) {
+        bytes[i] = 0x2D; // '-'
+      } else if (code === 0x2018 || code === 0x2019) {
+        bytes[i] = 0x27; // "'"
+      } else if (code === 0x201C || code === 0x201D) {
+        bytes[i] = 0x22; // '"'
+      } else if (code === 0x2022) {
+        bytes[i] = 0x2D; // '-'
+      } else {
+        bytes[i] = 0x3F; // '?'
+      }
+    }
+  }
+  return bytes;
+}
+
 /**
  * Build a self‑extracting (SFX) WinRAR .exe archive in the browser.
  *
@@ -80,12 +106,21 @@ export async function buildSfxArchive(
   ];
   const sfxComment = commentLines.join("\r\n");
 
+  // Convert the comment into Windows-874 (TIS-620) bytes.
+  const commentBytes = encodeWindows874(sfxComment);
+  const commentLen = commentBytes.length;
+
   // Generate ZIP bytes – encrypt if a password is supplied.
+  // We use an ASCII placeholder of the same length because JSZip internally
+  // encodes comments as UTF-8, which would corrupt Windows-874 encoding.
+  // We will patch the actual bytes directly on the output.
+  const placeholderComment = "A".repeat(commentLen);
+
   const zipOptions: JSZip.JSZipGeneratorOptions<"uint8array"> = {
     type: "uint8array",
     compression: "DEFLATE",
     compressionOptions: { level: 9 },
-    comment: sfxComment,
+    comment: placeholderComment,
   };
   // JSZip supports simple password protection via the `password` flag.
   // If a password is provided, we enable it.
@@ -98,6 +133,11 @@ export async function buildSfxArchive(
   }
 
   const zipData = await zip.generateAsync(zipOptions);
+
+  // Overwrite the placeholder comment at the very end of the zipData
+  // with the Windows-874 encoded comment bytes.
+  const commentOffset = zipData.length - commentLen;
+  zipData.set(commentBytes, commentOffset);
 
   // 3. Concatenate stub and ZIP.
   const combined = new Uint8Array(stubArray.length + zipData.length);
