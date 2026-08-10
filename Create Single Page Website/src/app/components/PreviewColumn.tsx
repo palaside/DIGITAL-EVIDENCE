@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import projectLogo from "../../imports/digital_evidence_logo_full.png";
-import { Cpu, ShieldAlert, BadgeInfo, ZoomIn } from "lucide-react";
+import { Cpu, BadgeInfo } from "lucide-react";
 
 interface PreviewColumnProps {
   activeMode: "chat" | "slip";
@@ -19,23 +19,43 @@ export function PreviewColumn({
   ocrData,
 }: PreviewColumnProps) {
   const [zoomLevel, setZoomLevel] = useState<100 | 150>(100);
-  const viewportBg = isGenerated
-    ? "bg-[#dfe7f1] dark:bg-[#111c2c]"
-    : "bg-white/35 dark:bg-slate-950/25";
-  const viewportBorder = "border-white/35 dark:border-slate-700/70";
+  const pageScaleClass = zoomLevel === 150 ? "max-w-[920px]" : "max-w-[760px]";
+  const slipScaleClass = zoomLevel === 150 ? "max-w-[440px]" : "max-w-[360px]";
+  const modeLabel = activeMode === "chat" ? "Chat preview" : "Slip preview";
+  const modeHint = activeMode === "chat" ? "Generate pages" : "Run OCR";
+  const previewSummary = isGenerated
+    ? activeMode === "chat"
+      ? `${paginatedPages.length} page${paginatedPages.length === 1 ? "" : "s"} ready`
+      : `${uploadedFiles.length} slip${uploadedFiles.length === 1 ? "" : "s"} ready`
+    : activeMode === "chat"
+      ? "A4 evidence pages appear here"
+      : "Slip review appears here";
+  const previewNote = isGenerated
+    ? activeMode === "chat"
+      ? "Review each page before export."
+      : "Check the source image against the extracted result."
+    : activeMode === "chat"
+      ? "Upload screenshots, then generate clean A4 pages."
+      : "Upload slip images, then run OCR to inspect the result.";
+  const generatedHash = Array.isArray(ocrData)
+    ? ocrData[0]?.forensics_analysis?.integrity_hash
+    : ocrData?.forensics_analysis?.integrity_hash;
 
   return (
     <div className="glass-panel relative flex h-full flex-col overflow-hidden rounded-2xl">
-      <div className="flex flex-row items-center justify-between border-b border-white/35 px-6 py-4 dark:border-slate-700/70">
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-[#112f59] dark:text-slate-100">
-            Evidence Preview
-          </h3>
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-            {activeMode === "chat"
-              ? "Paginated A4 output for chat evidence"
-              : "Slip evidence review aligned to OCR extraction"}
-          </p>
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-white/35 px-6 py-4 dark:border-slate-700/70">
+        <div className="space-y-2">
+          <div className="inline-flex items-center rounded-full border border-[#c8d8eb] bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#12335f] shadow-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
+            {modeLabel}
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-[#112f59] dark:text-slate-100">
+              {previewSummary}
+            </h3>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              {previewNote}
+            </p>
+          </div>
         </div>
         {isGenerated ? (
           <div className="flex shrink-0 rounded-xl bg-white/55 p-0.5 text-xs font-medium shadow-sm dark:bg-slate-900/55">
@@ -65,175 +85,214 @@ export function PreviewColumn({
 
       <div className="flex flex-1 flex-col p-6">
         <div
-          className={`relative flex w-full flex-1 flex-col items-center overflow-auto rounded-[28px] border p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] transition-all duration-300 ${viewportBg} ${viewportBorder} ${
-            isGenerated ? "min-h-[890px]" : "min-h-[500px]"
+          className={`relative flex w-full flex-1 flex-col items-center overflow-auto rounded-[30px] border px-4 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] transition-all duration-300 ${
+            isGenerated
+              ? "min-h-[890px] border-[#c9d8e8] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95),_rgba(226,236,247,0.9)_38%,_rgba(213,225,239,0.92)_100%)] dark:border-slate-700 dark:bg-[radial-gradient(circle_at_top,_rgba(20,31,50,0.96),_rgba(12,22,37,0.96)_38%,_rgba(8,16,29,0.98)_100%)]"
+              : "min-h-[520px] border-white/35 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.72),_rgba(232,239,248,0.56)_44%,_rgba(219,229,240,0.52)_100%)] dark:border-slate-700/70 dark:bg-[radial-gradient(circle_at_top,_rgba(20,31,50,0.72),_rgba(10,18,32,0.78)_45%,_rgba(2,6,23,0.9)_100%)]"
           }`}
         >
+          <div className="mb-5 flex w-full max-w-[920px] items-center justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                Preview canvas
+              </p>
+              <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                {activeMode === "chat"
+                  ? isGenerated
+                    ? "Each sheet shows the paginated export exactly as it will be reviewed."
+                    : "Your generated A4 evidence pages will appear here."
+                  : isGenerated
+                    ? "Compare each uploaded slip with the OCR-ready review surface."
+                    : "Your slip image review surface will appear here."}
+              </p>
+            </div>
+            <div className="hidden rounded-2xl border border-white/55 bg-white/70 px-4 py-2 text-right shadow-sm dark:border-slate-700/70 dark:bg-slate-900/55 sm:block">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                Next
+              </p>
+              <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                {modeHint}
+              </p>
+            </div>
+          </div>
+
           {isGenerated ? (
-            <>
-              {/* Header */}
-              <div className="border-b-2 border-double border-gray-300 pb-3">
-                <div className="mb-2 flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-[#eef2f7] shadow-sm">
-                      <img
-                        src={projectLogo}
-                        className="h-full w-full object-cover object-top scale-[1.24]"
-                        alt="Emblem"
-                      />
+            <div className={`w-full ${pageScaleClass}`}>
+              <div className="rounded-[34px] border border-white/70 bg-white/90 p-5 shadow-[0_24px_60px_-34px_rgba(15,23,42,0.45)] dark:border-slate-700/70 dark:bg-slate-950/88">
+                <div className="border-b border-slate-200 pb-4 dark:border-slate-800">
+                  <div className="mb-2 flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-[#eef2f7] shadow-sm">
+                        <img
+                          src={projectLogo}
+                          className="h-full w-full scale-[1.24] object-cover object-top"
+                          alt="Emblem"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-black uppercase tracking-[0.24em] text-blue-900 dark:text-blue-100">
+                          Digital Evidence Records
+                        </h4>
+                        <p className="mt-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                          {activeMode === "chat" ? "Chat evidence export" : "Slip OCR review"}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-xs font-black uppercase tracking-widest text-blue-900">
-                        Digital Evidence Records
-                      </h4>
-                      <p className="text-[8px] font-bold tracking-wider text-gray-500">
-                        OFFICIAL FORENSICS REPORT
+                    <div className="space-y-1 text-right text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+                      <p>
+                        CASE <span className="ml-1 font-bold text-blue-950 dark:text-slate-100">DE-2026-0528</span>
+                      </p>
+                      <p>
+                        DATE <span className="ml-1 font-bold text-slate-700 dark:text-slate-200">28 MAY 2026</span>
                       </p>
                     </div>
                   </div>
-                  <div className="space-y-0.5 text-right text-[8px] font-bold text-gray-600">
-                    <p>
-                      CASE: <span className="font-extrabold text-blue-950">DE-2026-0528</span>
-                    </p>
-                    <p>
-                      DATE: <span>28 MAY 2026</span>
-                    </p>
+                </div>
+
+                <div className="mt-4 grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3 text-[11px] dark:border-slate-800 dark:bg-slate-900/65 md:grid-cols-3">
+                  <div>
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
+                      Module
+                    </span>
+                    <span className="mt-1 block font-semibold text-blue-900 dark:text-blue-100">
+                      {activeMode === "chat" ? "LINE Chat Paginator" : "Thai Slip OCR Scanner"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
+                      Files
+                    </span>
+                    <span className="mt-1 block font-semibold text-slate-800 dark:text-slate-100">
+                      {uploadedFiles.length} image{uploadedFiles.length === 1 ? "" : "s"}
+                    </span>
+                  </div>
+                  <div className="truncate">
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
+                      Hash
+                    </span>
+                    <span className="mt-1 block truncate font-mono text-[10px] font-semibold text-emerald-700 dark:text-emerald-300">
+                      {generatedHash ? `SHA256: ${generatedHash.slice(7, 18)}...` : "SHA256: pending"}
+                    </span>
                   </div>
                 </div>
-              </div>
-              {/* Meta grid */}
-              <div className="grid grid-cols-3 gap-2 rounded-lg border border-gray-150 bg-gray-50 p-2 text-[8px] font-bold text-gray-500">
-                <div>
-                  <span className="block text-[6px] uppercase text-gray-400">
-                    Process Module
-                  </span>
-                  <span className="text-blue-900">
-                    {activeMode === "chat" ? "LINE Chat Paginator" : "Thai Slip OCR Scanner"}
-                  </span>
-                </div>
-                <div>
-                  <span className="block text-[6px] uppercase text-gray-400">
-                    Uploaded Files
-                  </span>
-                  <span className="text-blue-900">{uploadedFiles.length} Images</span>
-                </div>
-                <div className="truncate">
-                  <span className="block text-[6px] uppercase text-gray-400">
-                    Legal Security Hash
-                  </span>
-                  <span className="font-mono text-green-700">
-                    {ocrData?.forensics_analysis?.integrity_hash
-                      ? `SHA256: ${ocrData.forensics_analysis.integrity_hash.slice(7, 18)}...`
-                      : "SHA256: 7e8b23a9d..."}
-                  </span>
-                </div>
-              </div>
 
-              {/* Content */}
-              <div className="flex-1 space-y-4 py-4 pr-1">
-                {activeMode === "chat" ? (
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-1 rounded border border-blue-100 bg-blue-50/50 p-1.5 text-[8px] font-bold text-blue-900">
-                      <BadgeInfo className="h-3.5 w-3.5 shrink-0 text-blue-700" />
-                      <span>
-                        Object-Aware Pagination: Slices wallpapers and arranges chat items without splitting bubbles.
-                      </span>
+                <div className="mt-5 space-y-4">
+                  {activeMode === "chat" ? (
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 rounded-2xl border border-blue-100 bg-blue-50 px-3 py-2 text-[11px] font-medium text-blue-900 dark:border-blue-900/70 dark:bg-blue-950/30 dark:text-blue-100">
+                        <BadgeInfo className="h-4 w-4 shrink-0 text-blue-700 dark:text-blue-300" />
+                        <span>Pages are arranged to avoid splitting chat bubbles across sheets.</span>
+                      </div>
+                      {paginatedPages.length > 0 ? (
+                        <div className="space-y-5">
+                          {paginatedPages.map((page) => (
+                            <div
+                              key={page.pageNumber}
+                              className="rounded-[26px] border border-slate-200 bg-slate-50/80 p-3 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.7)] dark:border-slate-800 dark:bg-slate-900/55"
+                            >
+                              <div className="mb-3 flex items-center justify-between gap-3 border-b border-slate-200 pb-2 dark:border-slate-800">
+                                <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-900 dark:text-blue-100">
+                                  Page {page.pageNumber}
+                                </span>
+                                <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                                  Generated preview
+                                </span>
+                              </div>
+                              <img
+                                src={page.canvasDataUrl}
+                                className="h-auto w-full rounded-[18px] border border-slate-200 bg-white object-contain object-bottom shadow-sm dark:border-slate-800"
+                                alt={`A4 Page ${page.pageNumber}`}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="rounded-2xl border border-dashed border-slate-300 px-4 py-10 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                          No generated pages yet.
+                        </div>
+                      )}
                     </div>
-                    {paginatedPages.length > 0 ? (
-                      <div className="space-y-4">
-                        {paginatedPages.map((page) => (
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="flex flex-col gap-2 rounded-2xl border border-amber-100 bg-amber-50 px-3 py-2 text-[11px] font-medium text-amber-900 dark:border-amber-900/70 dark:bg-amber-950/30 dark:text-amber-100">
+                        <div className="flex items-center gap-2">
+                          <Cpu className="h-4 w-4 shrink-0 animate-pulse text-amber-700 dark:text-amber-300" />
+                          <span>
+                            Detected bank brand: {ocrData?.bank_slip_verification?.matched_bank_brand || "SCB"} ({ocrData?.bank_slip_verification?.brand_matching_confidence || "95.4%"})
+                          </span>
+                        </div>
+                        <p className="pl-6 text-[10px] text-amber-800/80 dark:text-amber-100/75">
+                          Review the original slip against the OCR-extracted details before export.
+                        </p>
+                      </div>
+                      <div className="space-y-5">
+                        {uploadedFiles.map((file, idx) => (
                           <div
-                            key={page.pageNumber}
-                            className="flex flex-col gap-1.5 rounded-xl border border-gray-200 bg-gray-50/50 p-2 shadow-sm"
+                            key={idx}
+                            className="rounded-[26px] border border-slate-200 bg-slate-50/80 p-3 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.7)] dark:border-slate-800 dark:bg-slate-900/55"
                           >
-                            <span className="border-b border-gray-150 pb-1 text-[7px] font-bold uppercase tracking-wider text-blue-900">
-                              Page {page.pageNumber} — Segmented Evidence
-                            </span>
-                            <img
-                              src={page.canvasDataUrl}
-                              className="h-auto w-full rounded-lg border border-gray-200 bg-white object-contain object-bottom"
-                              alt={`A4 Page ${page.pageNumber}`}
-                            />
+                            <div className="mb-3 flex items-center justify-between gap-3 border-b border-slate-200 pb-2 dark:border-slate-800">
+                              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-200">
+                                Slip {idx + 1}
+                              </span>
+                              <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
+                                {file.name}
+                              </span>
+                            </div>
+                            <div className={`${slipScaleClass} mx-auto overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-sm dark:border-slate-800`}>
+                              <img src={file.url} className="h-auto w-full object-contain" alt="Bank Slip Receipt" />
+                            </div>
                           </div>
                         ))}
                       </div>
-                    ) : (
-                      <span className="text-xs text-slate-500">No pages generated.</span>
-                    )}
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="flex flex-col gap-1 rounded-xl border border-amber-100 bg-amber-50/50 p-2 text-[8px] font-bold text-amber-800">
-                      <div className="flex items-center gap-1">
-                        <Cpu className="h-3.5 w-3.5 shrink-0 animate-pulse text-amber-700" />
-                        <span>
-                          YOLOv8 Bank Logo: {ocrData?.bank_slip_verification?.matched_bank_brand || "SCB"} (
-                          {ocrData?.bank_slip_verification?.brand_matching_confidence || "95.4%"}
-                          ) Bounding Boxes Activated.
-                        </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center py-4">
+              <div className="w-full max-w-[760px]">
+                <div className="rounded-[36px] border border-white/70 bg-white/88 p-6 shadow-[0_24px_60px_-34px_rgba(15,23,42,0.45)] dark:border-slate-700/70 dark:bg-slate-950/88">
+                  <div className="mx-auto max-w-[560px] rounded-[28px] border border-dashed border-slate-300 bg-[linear-gradient(180deg,rgba(247,250,252,0.96),rgba(235,242,249,0.96))] px-8 py-14 text-center dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.9),rgba(2,6,23,0.96))]">
+                    <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[22px] border border-slate-200 bg-[#eef2f7] shadow-sm dark:border-slate-700">
+                      <ImageWithFallback
+                        src={projectLogo}
+                        alt="Digital Evidence Preview"
+                        className="h-full w-full scale-[1.18] object-cover object-top"
+                      />
+                    </div>
+                    <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                      {modeLabel}
+                    </p>
+                    <h4 className="mt-3 text-2xl font-semibold text-slate-950 dark:text-slate-100">
+                      Nothing generated yet
+                    </h4>
+                    <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600 dark:text-slate-300">
+                      {activeMode === "chat"
+                        ? "Upload chat screenshots, then generate clean A4 evidence pages here."
+                        : "Upload slip images, then run OCR to review the source image here."}
+                    </p>
+                    <div className="mt-8 grid gap-3 text-left sm:grid-cols-2">
+                      <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 dark:border-slate-800 dark:bg-slate-900/70">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                          Now
+                        </p>
+                        <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
+                          Add source files and choose the processing mode.
+                        </p>
                       </div>
-                      <div className="mt-0.5 border-t border-amber-100/50 pt-1 pl-4.5 text-[7.5px] font-semibold text-gray-500">
-                        OCR result from uploaded slip. Please review extracted fields.
+                      <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 dark:border-slate-800 dark:bg-slate-900/70">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                          Next
+                        </p>
+                        <p className="mt-2 text-sm text-slate-700 dark:text-slate-200">
+                          {activeMode === "chat"
+                            ? "Generate pages to review the export-ready document."
+                            : "Run OCR to compare the slip image with extracted fields."}
+                        </p>
                       </div>
                     </div>
-                    {uploadedFiles.map((file, idx) => (
-                      <div
-                        key={idx}
-                        className="relative flex flex-col gap-2 overflow-hidden rounded-xl border border-gray-200 bg-gray-50/50 p-3 shadow-sm"
-                      >
-                        <span className="border-b border-gray-150 pb-1 text-[8px] font-bold uppercase tracking-wider text-amber-700">
-                          Bank Receipt #{idx + 1} — {file.name} (Matched Brand: {ocrData?.extracted_transaction_metadata?.bank_name || "SCB"})
-                        </span>
-                        <div className="relative mx-auto max-w-[320px] overflow-hidden rounded-lg border border-gray-200 bg-white">
-                          <img src={file.url} className="h-auto w-full object-contain" alt="Bank Slip Receipt" />
-                          {/* Bounding boxes omitted for brevity */}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            <div className="group relative flex h-full w-full flex-col items-center justify-center p-8">
-              <div className="max-w-2xl rounded-[32px] border border-white/12 bg-slate-950/58 px-10 py-12 text-center shadow-[0_28px_60px_-42px_rgba(5,12,24,0.82)] dark:border-slate-700/70 dark:bg-slate-950/62">
-                <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[24px] border border-white/10 bg-[#eef2f7] shadow-sm">
-                  <ImageWithFallback
-                    src={projectLogo}
-                    alt="Digital Evidence Preview"
-                    className="h-full w-full scale-[1.18] object-cover object-top transition-all duration-500 group-hover:scale-[1.22]"
-                  />
-                </div>
-                <div className="mt-6 space-y-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-400">
-                    Ready for evidence processing
-                  </p>
-                  <h4 className="text-2xl font-semibold tracking-[0.08em] text-slate-100 dark:text-slate-100">
-                    DIGITAL EVIDENCE
-                  </h4>
-                  <p className="mx-auto max-w-md text-sm leading-6 text-slate-300 dark:text-slate-300">
-                    Upload source files on the left, choose Chat or Slip mode,
-                    and generate a review-ready document workspace in the center.
-                  </p>
-                </div>
-                <div className="mt-8 grid gap-3 text-left md:grid-cols-2">
-                  <div className="rounded-2xl border border-white/10 bg-slate-900/72 p-4 dark:border-slate-700/70 dark:bg-slate-950/45">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-400">
-                      Chat Mode
-                    </p>
-                    <p className="mt-2 text-sm text-slate-300 dark:text-slate-300">
-                      Arrange LINE chat captures into clean A4 evidence pages
-                      without breaking message bubbles.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-white/10 bg-slate-900/72 p-4 dark:border-slate-700/70 dark:bg-slate-950/45">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-400">
-                      Slip Mode
-                    </p>
-                    <p className="mt-2 text-sm text-slate-300 dark:text-slate-300">
-                      Inspect slip OCR results, batch progress, and extracted
-                      evidence fields from the same review surface.
-                    </p>
                   </div>
                 </div>
               </div>

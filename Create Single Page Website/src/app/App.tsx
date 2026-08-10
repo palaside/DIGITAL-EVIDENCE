@@ -799,9 +799,9 @@ const handleSavePDF = async () => {
             ) : activeMode === "notebooklm" ? (
               <NotebookLMPanel />
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+              <div className="grid grid-cols-1 gap-6 items-stretch xl:grid-cols-[minmax(18rem,22rem)_minmax(0,1.5fr)_minmax(18rem,22rem)]">
                 {/* Column 1: Upload, Generate, Progress */}
-                <div className="lg:col-span-3">
+                <div className="xl:min-w-0">
                   <UploadColumn 
                     activeMode={activeMode as "chat" | "slip"}
                     uploadedFiles={uploadedFiles}
@@ -815,7 +815,7 @@ const handleSavePDF = async () => {
                 </div>
 
                 {/* Column 2: Preview (wider) */}
-                <div className="lg:col-span-6">
+                <div className="xl:min-w-0">
                   <PreviewColumn 
                     activeMode={activeMode as "chat" | "slip"}
                     isGenerated={isGenerated}
@@ -826,7 +826,7 @@ const handleSavePDF = async () => {
                 </div>
 
                 {/* Column 3: Save, Detail, Send */}
-                <div className="lg:col-span-3">
+                <div className="xl:min-w-0">
                   <ActionsColumn 
                     activeMode={activeMode as "chat" | "slip"}
                     isGenerated={isGenerated}
