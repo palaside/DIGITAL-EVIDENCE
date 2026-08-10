@@ -7,7 +7,7 @@ import { ActionsColumn } from "./components/ActionsColumn";
 import { NotebookLMPanel } from "./components/NotebookLMPanel";
 import { Toaster } from "./components/ui/sonner";
 import { toast } from "sonner";
-import { X, Table, Cpu, ShieldAlert, FileArchive, LayoutTemplate, MessagesSquare, ReceiptText, Workflow, LockKeyhole, Package2 } from "lucide-react";
+import { X, Table, Cpu, ShieldAlert, FileArchive, MessagesSquare, ReceiptText, Workflow, LockKeyhole, Package2 } from "lucide-react";
 import { segmentChatImage, PageSegment, PaginationValidationError, detectCrossFileOverlap, trimImageTop } from "./utils/pagination";
 import { validateSlipData } from "./utils/slipValidatorEngine";
 import { scanQrFromDataUrl } from "./utils/qrScanner";
@@ -651,6 +651,27 @@ const handleSavePDF = async () => {
   const errorRows = slipDetailRows.filter((row) => row.error);
   const completedRows = slipDetailRows.filter((row) => row.hasExtractedData);
   const slipTotalAmount = calculateSlipTotal(completedRows);
+  const modeTitle =
+    activeMode === "chat"
+      ? "Chat evidence"
+      : activeMode === "slip"
+        ? "Slip evidence"
+        : activeMode === "notebooklm"
+          ? "NotebookLM"
+          : "New feature";
+  const modeDescription =
+    activeMode === "chat"
+      ? "Paginate long chat screenshots into A4-ready evidence pages."
+      : activeMode === "slip"
+        ? "Extract OCR fields from bank slips, then review the evidence output."
+        : "Switch back to Chat or Slip to continue the evidence workflow.";
+  const entryStateLabel = isGenerating
+    ? `${statusText || "Generating"}${progress > 0 ? ` • ${progress}%` : ""}`
+    : isGenerated
+      ? "Output ready for review and export"
+      : uploadedFiles.length > 0
+        ? `${uploadedFiles.length} file${uploadedFiles.length === 1 ? "" : "s"} ready to process`
+        : "No source files uploaded yet";
 
   return (
     <ThemeProvider>
@@ -658,75 +679,102 @@ const handleSavePDF = async () => {
         
         {/* Content Container */}
         <div className="relative z-10 flex-1 flex flex-col">
-          <Header onOpenNewFeature={openNewFeature} />
+          <Header
+            activeMode={activeMode}
+            uploadedFilesCount={uploadedFiles.length}
+            isGenerating={isGenerating}
+            isGenerated={isGenerated}
+            progress={progress}
+            statusText={statusText}
+            onOpenNewFeature={openNewFeature}
+          />
 
           <main className="flex-1 mx-auto w-full max-w-[1600px] px-4 py-6 md:px-6 md:py-8">
             <div className="glass-toolbar mb-6 rounded-[28px] p-4 md:p-5">
-              <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
-                <div className="space-y-2">
+              <div className="grid gap-4 xl:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.9fr)] xl:items-start">
+                <div className="space-y-3">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
-                    Document Evidence Workstation
+                    Start here
                   </p>
-                  <h2 className="text-2xl font-semibold tracking-[0.08em] text-[#112f59] dark:text-slate-100 md:text-[32px]">
-                    Review, paginate, and validate source evidence
-                  </h2>
-                  <p className="max-w-3xl text-sm leading-6 text-slate-500 dark:text-slate-300">
-                    Use the left rail to upload source files, keep the center focused on A4 output, and inspect OCR details and batch status from the right rail.
-                  </p>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-3 xl:min-w-[520px]">
-                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
-                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                      <Workflow className="h-3.5 w-3.5 text-[#2d5e9a]" />
-                      Active mode
-                    </div>
-                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">{activeMode === "chat" ? "Chat processing" : activeMode === "slip" ? "Slip processing" : "NotebookLM"}</p>
-                  </div>
-                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
-                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                      <LayoutTemplate className="h-3.5 w-3.5 text-[#2d5e9a]" />
-                      Workspace
-                    </div>
-                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">Document-first shell</p>
-                  </div>
-                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
-                    <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                      <ReceiptText className="h-3.5 w-3.5 text-[#2d5e9a]" />
-                      Batch state
-                    </div>
-                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
-                      {batchSummary?.processed_files ? `${batchSummary.processed_files} processed` : `${uploadedFiles.length} staged`}
+                  <div className="space-y-2">
+                    <h2 className="text-2xl font-semibold tracking-[0.04em] text-[#112f59] dark:text-slate-100 md:text-[30px]">
+                      Choose a workflow, upload source files, then review the evidence output.
+                    </h2>
+                    <p className="max-w-3xl text-sm leading-6 text-slate-500 dark:text-slate-300">
+                      Keep the upload, preview, and export columns on one screen so first-time users can move left to right without leaving the dashboard.
                     </p>
                   </div>
                 </div>
-              </div>
-              <div className="mt-5 flex flex-col gap-3 border-t border-white/35 pt-4 dark:border-slate-700/70 lg:flex-row lg:items-center lg:justify-between">
-                <div className="glass-segment inline-flex rounded-2xl p-1.5">
-                  <button
-                    onClick={() => handleModeChange("chat")}
-                    className={`flex min-w-[160px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
-                      activeMode === "chat"
-                        ? "bg-[#12335f] text-white shadow-[0_14px_28px_-20px_rgba(18,51,95,0.85)]"
-                        : "text-slate-500 hover:bg-white/60 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
-                    }`}
-                  >
-                    <MessagesSquare className="h-4 w-4" />
-                    Chat
-                  </button>
-                  <button
-                    onClick={() => handleModeChange("slip")}
-                    className={`flex min-w-[160px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
-                      activeMode === "slip"
-                        ? "bg-[#12335f] text-white shadow-[0_14px_28px_-20px_rgba(18,51,95,0.85)]"
-                        : "text-slate-500 hover:bg-white/60 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
-                    }`}
-                  >
-                    <ReceiptText className="h-4 w-4" />
-                    Slip
-                  </button>
+
+                <div className="rounded-[24px] border border-white/40 bg-white/60 p-4 shadow-[0_18px_36px_-28px_rgba(15,23,42,0.55)] dark:border-slate-700/80 dark:bg-slate-900/45">
+                  <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                    <Workflow className="h-3.5 w-3.5 text-[#2d5e9a]" />
+                    Current workflow
+                  </div>
+                  <p className="mt-2 text-base font-semibold text-slate-950 dark:text-slate-100">{modeTitle}</p>
+                  <p className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-300">{modeDescription}</p>
+                  <div className="mt-4 rounded-2xl border border-slate-200/80 bg-slate-50/90 px-3 py-2 text-sm text-slate-700 dark:border-slate-700/80 dark:bg-slate-950/40 dark:text-slate-200">
+                    {entryStateLabel}
+                  </div>
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400">
-                  Chat and Slip modes carry equal priority in this workspace; the center rail always remains the main review surface.
+              </div>
+
+              <div className="mt-5 grid gap-3 border-t border-white/35 pt-4 dark:border-slate-700/70 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+                <div className="space-y-3">
+                  <div className="glass-segment inline-flex rounded-2xl p-1.5">
+                    <button
+                      onClick={() => handleModeChange("chat")}
+                      className={`flex min-w-[160px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
+                        activeMode === "chat"
+                          ? "bg-[#12335f] text-white shadow-[0_14px_28px_-20px_rgba(18,51,95,0.85)]"
+                          : "text-slate-500 hover:bg-white/60 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
+                      }`}
+                    >
+                      <MessagesSquare className="h-4 w-4" />
+                      Chat
+                    </button>
+                    <button
+                      onClick={() => handleModeChange("slip")}
+                      className={`flex min-w-[160px] items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${
+                        activeMode === "slip"
+                          ? "bg-[#12335f] text-white shadow-[0_14px_28px_-20px_rgba(18,51,95,0.85)]"
+                          : "text-slate-500 hover:bg-white/60 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
+                      }`}
+                    >
+                      <ReceiptText className="h-4 w-4" />
+                      Slip
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Pick the workflow first. Then use the three columns below in order: upload, review preview, and export or inspect details.
+                  </p>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                      01 Upload
+                    </div>
+                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      {uploadedFiles.length > 0 ? `${uploadedFiles.length} staged` : "Add source files"}
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                      02 Preview
+                    </div>
+                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      {isGenerated ? "Ready to review" : isGenerating ? "Generating output" : "Waiting for output"}
+                    </p>
+                  </div>
+                  <div className="rounded-2xl border border-white/40 bg-white/55 p-4 dark:border-slate-700/80 dark:bg-slate-900/45">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                      03 Export
+                    </div>
+                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                      {batchSummary?.processed_files ? `${batchSummary.processed_files} processed` : "Save or inspect"}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
