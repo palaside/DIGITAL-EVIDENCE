@@ -25,6 +25,9 @@ test("chat workflow generates ordered preview pages and exports the same evidenc
     expect(altText).toBe(`Page ${i + 1}`);
   }
 
+  // Toggle password protection off to download PDF directly
+  await page.getByRole("switch").click();
+
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: /SAVE FOR PDF/i }).click();
   const download = await downloadPromise;

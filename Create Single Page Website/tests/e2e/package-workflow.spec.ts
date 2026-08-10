@@ -48,5 +48,5 @@ test("client-side WinRAR SFX packaging creates and downloads an exe package succ
   await page.getByRole("button", { name: /Create Archive/i }).click();
   const download = await downloadPromise;
 
-  expect(download.suggestedFilename()).toBe("digital-evidence-package.exe");
+  expect(download.suggestedFilename()).toBe("digital-evidence-package.rar");
 });

@@ -24,6 +24,7 @@ interface PdfExportOptions {
   mode: "chat" | "slip";
   sourceImages: string[];
   slipRows: PdfSlipRow[];
+  password?: string;
 }
 
 export interface PdfExportResult {
@@ -276,14 +277,30 @@ function createSummaryPage(
   return canvas;
 }
 
-export async function buildEvidencePdfBlob({ mode, sourceImages, slipRows }: PdfExportOptions): Promise<PdfExportResult> {
+export async function buildEvidencePdfBlob({ mode, sourceImages, slipRows, password }: PdfExportOptions): Promise<PdfExportResult> {
   if (sourceImages.length === 0) throw new Error("No evidence images are available for PDF export.");
 
   const { jsPDF } = await import("jspdf");
   const logo = await loadImage(brandLogo);
   const summaryPageCount = mode === "slip" ? Math.max(1, Math.ceil(slipRows.length / 20)) : 0;
   const totalPages = sourceImages.length + summaryPageCount;
-  const document = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4", compress: true });
+  
+  const docOptions: any = {
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4",
+    compress: true
+  };
+
+  if (password && password.length > 0) {
+    docOptions.encryption = {
+      userPassword: password,
+      ownerPassword: password,
+      userPermissions: ["print", "copy"]
+    };
+  }
+
+  const document = new jsPDF(docOptions);
 
   for (let index = 0; index < sourceImages.length; index += 1) {
     if (index > 0) document.addPage("a4", "portrait");

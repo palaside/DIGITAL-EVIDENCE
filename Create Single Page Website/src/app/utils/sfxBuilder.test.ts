@@ -53,8 +53,8 @@ describe("sfxBuilder", () => {
 
     // 1. Verify File metadata
     expect(resultFile).toBeInstanceOf(File);
-    expect(resultFile.name).toBe("test-evidence-pack.exe");
-    expect(resultFile.type).toBe("application/octet-stream");
+    expect(resultFile.name).toBe("test-evidence-pack.rar");
+    expect(resultFile.type).toBe("application/x-rar-compressed");
 
     // 2. Verify stub concatenation
     const resultBuffer = await resultFile.arrayBuffer();
@@ -80,9 +80,9 @@ describe("sfxBuilder", () => {
     expect(disclaimerContent).toBe("This is a custom test legal disclaimer text.");
 
     // 4. Verify WinRAR SFX commands in the ZIP comment
-    expect(zip.comment).toContain(";The comment below contains SFX script commands");
-    expect(zip.comment).toContain("Title=test-evidence-pack");
-    expect(zip.comment).toContain("Text\r\n{\r\nThis is a custom test legal disclaimer text.\r\n}");
+    expect((zip as any).comment).toContain(";The comment below contains SFX script commands");
+    expect((zip as any).comment).toContain("Title=test-evidence-pack");
+    expect((zip as any).comment).toContain("Text\r\n{\r\nThis is a custom test legal disclaimer text.\r\n}");
   });
 
   it("should fall back to default disclaimer if none is provided", async () => {
@@ -100,7 +100,7 @@ describe("sfxBuilder", () => {
     const zipBytes = resultBytes.slice(mockStubBytes.length);
     const zip = await JSZip.loadAsync(zipBytes);
 
-    expect(zip.comment).toContain("DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวก");
+    expect((zip as any).comment).toContain("DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวก");
   });
 
   it("should throw error if fetching the SFX stub fails", async () => {

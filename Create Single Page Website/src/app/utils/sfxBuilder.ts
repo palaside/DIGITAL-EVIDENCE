@@ -103,7 +103,7 @@ export async function buildSfxArchive(
   combined.set(stubArray, 0);
   combined.set(zipData, stubArray.length);
 
-  // 4. Return as a File (exe).
-  const filename = `${options.archiveName}.exe`;
-  return new File([combined], filename, { type: "application/octet-stream" });
+  // 4. Return as a File (rar).
+  const filename = `${options.archiveName}.rar`;
+  return new File([combined], filename, { type: "application/x-rar-compressed" });
 }

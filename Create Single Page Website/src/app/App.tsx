@@ -182,6 +182,10 @@ export default function App() {
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressProgress, setCompressProgress] = useState(0);
   const [showPackageModal, setShowPackageModal] = useState(false);
+  const [showPdfPasswordModal, setShowPdfPasswordModal] = useState(false);
+  const [pdfPassword, setPdfPassword] = useState("");
+  const [pdfConfirmPassword, setPdfConfirmPassword] = useState("");
+  const [pdfPasswordError, setPdfPasswordError] = useState("");
   const [packageErrors, setPackageErrors] = useState<string[]>([]);
   const [packageOptions, setPackageOptions] = useState({
     archiveName: "digital-evidence-package",
@@ -536,12 +540,7 @@ export default function App() {
     }
   };
 
-const handleSavePDF = async () => {
-  if (!isGenerated) {
-    toast.error("Please generate the evidence preview first!");
-    return;
-  }
-
+const generatePdfWithPassword = async (password?: string) => {
   const mode = activeMode === "chat" ? "chat" : "slip";
   const sourceImages =
     mode === "chat" && paginatedPages.length > 0
@@ -570,11 +569,28 @@ const handleSavePDF = async () => {
       mode,
       sourceImages,
       slipRows: mode === "slip" ? slipDetailRows : [],
+      password,
     });
-    toast.success("Evidence PDF saved successfully.");
+    toast.success(password ? "Evidence PDF saved and encrypted successfully." : "Evidence PDF saved successfully.");
   } catch (error) {
     console.error("Error exporting evidence PDF:", error);
     toast.error("Unable to create the evidence PDF.");
+  }
+};
+
+const handleSavePDF = async () => {
+  if (!isGenerated) {
+    toast.error("Please generate the evidence preview first!");
+    return;
+  }
+
+  if (passwordProtection) {
+    setPdfPassword("");
+    setPdfConfirmPassword("");
+    setPdfPasswordError("");
+    setShowPdfPasswordModal(true);
+  } else {
+    await generatePdfWithPassword(undefined);
   }
 };
 
@@ -1169,6 +1185,85 @@ const handleSavePDF = async () => {
                   className="rounded-xl border border-[#2d5e9a]/30 bg-[#12335f] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#153d73]"
                 >
                   Create Archive
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showPdfPasswordModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-black/55 animate-in fade-in duration-200">
+            <div className="glass-panel relative w-full max-w-md rounded-[28px] border-none p-6 shadow-2xl">
+              <div className="mb-5 flex items-center justify-between border-b border-white/10 pb-4">
+                <div>
+                  <h3 className="flex items-center gap-2 text-xl font-bold text-slate-100">
+                    <LockKeyhole className="h-5 w-5 text-[#7fb7ef]" />
+                    ตั้งรหัสผ่านสำหรับ PDF
+                  </h3>
+                  <p className="mt-1 text-sm text-slate-400">
+                    กรุณาตั้งรหัสผ่านเพื่อเข้ารหัสไฟล์ PDF (เหมือนเวลาเปิดเอกสารสเตทเม้นท์ธนาคาร)
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowPdfPasswordModal(false)}
+                  className="rounded-lg bg-white/5 p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-slate-200"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {pdfPasswordError && (
+                  <div className="rounded-2xl border border-rose-400/30 bg-rose-950/20 px-4 py-2 text-xs text-rose-200">
+                    {pdfPasswordError}
+                  </div>
+                )}
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400 block">รหัสผ่าน PDF</label>
+                  <Input
+                    type="password"
+                    value={pdfPassword}
+                    onChange={(event) => setPdfPassword(event.target.value)}
+                    placeholder="รหัสผ่านสำหรับเปิดเอกสาร"
+                    className="glass-input h-11 border-white/10 bg-slate-900/70 text-slate-100"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400 block">ยืนยันรหัสผ่านอีกครั้ง</label>
+                  <Input
+                    type="password"
+                    value={pdfConfirmPassword}
+                    onChange={(event) => setPdfConfirmPassword(event.target.value)}
+                    placeholder="ป้อนรหัสผ่านซ้ำอีกครั้ง"
+                    className="glass-input h-11 border-white/10 bg-slate-900/70 text-slate-100"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-end gap-3">
+                <button
+                  onClick={() => setShowPdfPasswordModal(false)}
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:bg-white/10"
+                >
+                  ยกเลิก
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!pdfPassword.trim()) {
+                      setPdfPasswordError("กรุณากรอกรหัสผ่าน");
+                      return;
+                    }
+                    if (pdfPassword !== pdfConfirmPassword) {
+                      setPdfPasswordError("รหัสผ่านไม่ตรงกัน");
+                      return;
+                    }
+                    setPdfPasswordError("");
+                    setShowPdfPasswordModal(false);
+                    await generatePdfWithPassword(pdfPassword);
+                  }}
+                  className="rounded-xl border border-[#2d5e9a]/30 bg-[#12335f] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#153d73]"
+                >
+                  ตกลงและบันทึก
                 </button>
               </div>
             </div>
