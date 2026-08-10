@@ -83,7 +83,8 @@ describe("sfxBuilder", () => {
     const decodedComment = getDecodedZipComment(zipBytes);
     expect(decodedComment).toContain(";The comment below contains SFX script commands");
     expect(decodedComment).toContain("Title=test-evidence-pack");
-    expect(decodedComment).toContain("Text\r\n{\r\nThis is a custom test legal disclaimer text.\r\n}");
+    expect(decodedComment).toContain("<html><body");
+    expect(decodedComment).toContain("This is a custom test legal disclaimer text.");
   });
 
   it("should fall back to default disclaimer if none is provided", async () => {
@@ -147,6 +148,12 @@ function getDecodedZipComment(zipBytes: Uint8Array): string {
       decoded += String.fromCharCode(byte);
     }
   }
+
+  // Also decode HTML numeric entities so tests can assert plaintext
+  decoded = decoded.replace(/&#(\d+);/g, (match, dec) =>
+    String.fromCharCode(parseInt(dec, 10))
+  );
+
   return decoded;
 }
 

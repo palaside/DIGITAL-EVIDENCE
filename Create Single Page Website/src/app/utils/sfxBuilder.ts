@@ -14,6 +14,20 @@ export interface PackageOptions {
   includePdf?: boolean;
 }
 
+function convertToHtmlEntities(str: string): string {
+  let result = "";
+  for (let i = 0; i < str.length; i++) {
+    const code = str.charCodeAt(i);
+    // If it's a Thai character or non-ASCII, convert to HTML numeric entity
+    if (code > 127) {
+      result += `&#${code};`;
+    } else {
+      result += str[i];
+    }
+  }
+  return result;
+}
+
 function encodeWindows874(str: string): Uint8Array {
   const bytes = new Uint8Array(str.length);
   for (let i = 0; i < str.length; i++) {
@@ -90,30 +104,41 @@ export async function buildSfxArchive(
     zip.file("slip-ocr-analysis.json", jsonArr);
   }
 
-  // Disclaimer text file.
+  // Disclaimer text file (keep as standard plain text).
   const disclaimer = options.legalDisclaimer?.trim() ?? "";
   zip.file("disclaimer.txt", disclaimer);
 
   // Format the WinRAR SFX commands comment.
+  // We use HTML formatting for the Text box and convert all Thai characters
+  // to HTML entities. This ensures they render perfectly on ALL Windows systems
+  // regardless of their default ANSI code page/system locale!
+  const rawDisclaimer = disclaimer || `DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวกให้กับผู้ว่าจ้าง โดยไม่ได้ดัดแปลง แก้ไข เพิ่ม-ลบ เนื้อหา จากต้นฉบับใดๆ และไม่มีส่วนเกี่ยวข้องใดๆ กับเนื้อหาในเอกสาร เป็นเพียงเครื่องมือที่ทำงานเกี่ยวกับระบบไฟล์ เอกสารแบบอิเล็กทรอนิกส์ เท่านั้น`;
+  
+  const htmlDisclaimer = `<html><body style="font-family: 'Tahoma', 'Arial', sans-serif; font-size: 10pt; line-height: 1.4; color: #333333; margin: 0; padding: 0;">${convertToHtmlEntities(rawDisclaimer)}</body></html>`;
+
+  // Strip non-ASCII characters from the window title to prevent title bar mojibake
+  const safeTitle = (options.archiveName || "DIGITAL EVIDENCE")
+    .replace(/[^\x00-\x7F]/g, "")
+    .trim() || "DIGITAL EVIDENCE";
+
   const commentLines = [
     `;The comment below contains SFX script commands`,
     `Path=%USERPROFILE%\\Desktop`,
-    `Title=${options.archiveName || "DIGITAL EVIDENCE"}`,
+    `Title=${safeTitle}`,
     `Text`,
     `{`,
-    disclaimer || `DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวกให้กับผู้ว่าจ้าง โดยไม่ได้ดัดแปลง แก้ไข เพิ่ม-ลบ เนื้อหา จากต้นฉบับใดๆ และไม่มีส่วนเกี่ยวข้องใดๆ กับเนื้อหาในเอกสาร เป็นเพียงเครื่องมือที่ทำงานเกี่ยวกับระบบไฟล์ เอกสารแบบอิเล็กทรอนิกส์ เท่านั้น`,
+    htmlDisclaimer,
     `}`
   ];
   const sfxComment = commentLines.join("\r\n");
 
-  // Convert the comment into Windows-874 (TIS-620) bytes.
+  // We convert the comment to Windows-874 bytes only for the Title/commands,
+  // but since we encoded the Thai text as HTML entities (ASCII), the comment
+  // is now 100% ASCII-compatible and can be encoded by JSZip directly!
+  // However, we still patch it at the end to support any Thai characters in
+  // other commands if needed, or we can write it directly. Let's keep it safe.
   const commentBytes = encodeWindows874(sfxComment);
   const commentLen = commentBytes.length;
-
-  // Generate ZIP bytes – encrypt if a password is supplied.
-  // We use an ASCII placeholder of the same length because JSZip internally
-  // encodes comments as UTF-8, which would corrupt Windows-874 encoding.
-  // We will patch the actual bytes directly on the output.
   const placeholderComment = "A".repeat(commentLen);
 
   const zipOptions: JSZip.JSZipGeneratorOptions<"uint8array"> = {
@@ -122,20 +147,14 @@ export async function buildSfxArchive(
     compressionOptions: { level: 9 },
     comment: placeholderComment,
   };
-  // JSZip supports simple password protection via the `password` flag.
-  // If a password is provided, we enable it.
-  // Note: This uses legacy ZIPCrypto; sufficient for our purpose.
-  // For stronger AES encryption a different library would be required.
-  // We keep the implementation simple here.
   if (options.password && options.password.length > 0) {
-    // @ts-ignore – JSZip typings may not expose password directly.
+    // @ts-ignore
     (zipOptions as any).password = options.password;
   }
 
   const zipData = await zip.generateAsync(zipOptions);
 
   // Overwrite the placeholder comment at the very end of the zipData
-  // with the Windows-874 encoded comment bytes.
   const commentOffset = zipData.length - commentLen;
   zipData.set(commentBytes, commentOffset);
 
