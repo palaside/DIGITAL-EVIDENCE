@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   test: {
     exclude: ["tests/e2e/**"],
+    environment: "jsdom",
+    globals: true,
+    setupFiles: ["./src/setupTests.ts"],
   },
   server: {
     host: '127.0.0.1',

@@ -416,8 +416,16 @@ export default function App() {
             });
             
             // Only populate ledger items that actually resolved metadata (are actual slips)
+            // Check raw OCR fields since normalizedResults are pre-toSlipDetailRows objects
             const validResults = normalizedResults.filter((r: any) => {
-              return r.date !== EMPTY_CELL || r.senderName !== EMPTY_CELL || r.receiverName !== EMPTY_CELL;
+              const meta = r?.extracted_transaction_metadata || {};
+              return (
+                (meta.sender_name && meta.sender_name !== 'Unknown') ||
+                (meta.receiver_name && meta.receiver_name !== 'Unknown') ||
+                (meta.transaction_date_time && meta.transaction_date_time !== 'Unknown') ||
+                (meta.amount_transferred && meta.amount_transferred !== 'Unknown') ||
+                r?.sender_name || r?.senderName || r?.receiver_name || r?.receiverName
+              );
             });
 
             if (validResults.length > 0) {
@@ -427,7 +435,8 @@ export default function App() {
                 setOcrData(validResults);
               }
             } else {
-              setOcrData(null);
+              // Keep all results in ledger even if OCR extracted no clean metadata
+              setOcrData(normalizedResults.length === 1 ? normalizedResults[0] : normalizedResults);
             }
           }
         } catch (ocrErr) {
@@ -527,8 +536,33 @@ export default function App() {
           ocrResults = data.combined_results ? data.combined_results : [data];
           setProgress(70);
         } catch (backendErr) {
-          console.warn("Google Cloud Vision backend OCR failed.", backendErr);
-          throw new Error("Google Cloud Vision backend OCR failed. Please check Google credentials and the OCR server.");
+          console.warn("Google Cloud Vision backend OCR failed — falling back to local Tesseract OCR.", backendErr);
+          setStatusText("Falling back to local OCR...");
+          setProgress(40);
+          // Fallback: run Tesseract.js locally for each uploaded file
+          const localResults: any[] = [];
+          for (let i = 0; i < uploadedFiles.length; i++) {
+            const file = uploadedFiles[i];
+            try {
+              const { runLocalOCR } = await import('./utils/localOcr');
+              const localResult = await runLocalOCR(file.url, (p) => {
+                setStatusText(`Local OCR: ${p.status} (${Math.round(p.progress * 100)}%)`);
+              });
+              localResults.push({
+                ...localResult,
+                source_file_name: file.name || `Slip ${i + 1}`,
+              });
+            } catch (localErr) {
+              console.warn(`Local OCR failed for file ${file.name}:`, localErr);
+              localResults.push({
+                source_file_name: file.name || `Slip ${i + 1}`,
+                error: localErr instanceof Error ? localErr.message : 'Local OCR failed',
+                extracted_transaction_metadata: {},
+              });
+            }
+          }
+          ocrResults = localResults;
+          setProgress(70);
         }
 
         if (ocrResults.length > 0) {
