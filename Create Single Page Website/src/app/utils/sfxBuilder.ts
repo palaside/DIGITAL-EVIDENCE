@@ -71,6 +71,7 @@ export async function buildSfxArchive(
   // Format the WinRAR SFX commands comment.
   const commentLines = [
     `;The comment below contains SFX script commands`,
+    `Path=%USERPROFILE%\\Desktop`,
     `Title=${options.archiveName || "DIGITAL EVIDENCE"}`,
     `Text`,
     `{`,
@@ -103,7 +104,7 @@ export async function buildSfxArchive(
   combined.set(stubArray, 0);
   combined.set(zipData, stubArray.length);
 
-  // 4. Return as a File (rar).
-  const filename = `${options.archiveName}.rar`;
-  return new File([combined], filename, { type: "application/x-rar-compressed" });
+  // 4. Return as a File (exe).
+  const filename = `${options.archiveName}.exe`;
+  return new File([combined], filename, { type: "application/octet-stream" });
 }

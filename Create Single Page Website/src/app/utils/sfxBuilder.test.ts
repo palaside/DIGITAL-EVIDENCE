@@ -53,8 +53,8 @@ describe("sfxBuilder", () => {
 
     // 1. Verify File metadata
     expect(resultFile).toBeInstanceOf(File);
-    expect(resultFile.name).toBe("test-evidence-pack.rar");
-    expect(resultFile.type).toBe("application/x-rar-compressed");
+    expect(resultFile.name).toBe("test-evidence-pack.exe");
+    expect(resultFile.type).toBe("application/octet-stream");
 
     // 2. Verify stub concatenation
     const resultBuffer = await resultFile.arrayBuffer();
