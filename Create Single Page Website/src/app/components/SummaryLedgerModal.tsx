@@ -31,48 +31,7 @@ export function SummaryLedgerModal({
 }: SummaryLedgerModalProps) {
   if (!isOpen) return null;
 
-  // Default sample evidence items if none provided
-  const ledgerItems: EvidenceLedgerItem[] = items && items.length > 0 ? items : [
-    {
-      no: 1,
-      date: "09/08/2569",
-      time: "15:37",
-      senderBank: "ธนาคารไทยพาณิชย์",
-      senderName: "สมชาย รักสงบ",
-      amount: 2500.00,
-      receiverName: "เอกชัย วงศ์สว่าง",
-      receiverBank: "ธนาคารกสิกรไทย",
-      memo: "ชำระค่าสินค้า",
-      refId: "202608091537001",
-      status: "สแกนสำเร็จ",
-    },
-    {
-      no: 2,
-      date: "09/08/2569",
-      time: "15:39",
-      senderBank: "ธนาคารกสิกรไทย",
-      senderName: "สมพงษ์ มั่งมี",
-      amount: 24500.00,
-      receiverName: "สมชาย รักสงบ",
-      receiverBank: "ธนาคารกรุงเทพ",
-      memo: "-",
-      refId: "202608091539088",
-      status: "สแกนสำเร็จ",
-    },
-    {
-      no: 3,
-      date: "09/08/2569",
-      time: "15:41",
-      senderBank: "ธนาคารกรุงเทพ",
-      senderName: "สมชาย รักสงบ",
-      amount: 14250.00,
-      receiverName: "บริษัท เอวิเดนซ์ จำกัด",
-      receiverBank: "ธนาคารกรุงไทย",
-      memo: "มัดจำมัดจำคดี",
-      refId: "202608091541904",
-      status: "สแกนสำเร็จ",
-    },
-  ];
+  const ledgerItems: EvidenceLedgerItem[] = items || [];
 
   const totalAmount = ledgerItems.reduce((acc, item) => {
     if (typeof item.amount === "number") return acc + item.amount;
@@ -164,32 +123,40 @@ export function SummaryLedgerModal({
               </tr>
             </thead>
             <tbody className="divide-y divide-cyan-500/10">
-              {ledgerItems.map((item) => (
-                <tr key={item.no} className="hover:bg-cyan-500/10 transition-colors">
-                  <td className="py-3 px-2 text-center font-mono font-bold text-cyan-400">{item.no}.</td>
-                  <td className="py-3 px-3 text-slate-200 font-medium">{item.date}</td>
-                  <td className="py-3 px-2 font-mono text-slate-300">{item.time}</td>
-                  <td className="py-3 px-3 font-semibold text-slate-100">{item.senderBank}</td>
-                  <td className="py-3 px-3 text-slate-200 font-semibold">{item.senderName}</td>
-                  <td className="py-3 px-3 text-right font-mono font-bold text-emerald-400 text-sm">
-                    {typeof item.amount === "number" ? `฿${item.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}` : item.amount}
-                  </td>
-                  <td className="py-3 px-3 text-slate-200 font-semibold">{item.receiverName}</td>
-                  <td className="py-3 px-3 font-semibold text-slate-100">{item.receiverBank}</td>
-                  <td className="py-3 px-3 text-slate-400 italic">{item.memo || "-"}</td>
-                  <td className="py-3 px-3 font-mono text-[11px] text-cyan-300/80">{item.refId || "-"}</td>
-                  <td className="py-3 px-3">
-                    <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold ${
-                      item.status === "ล้มเหลว"
-                        ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
-                        : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                    }`}>
-                      <CheckCircle2 className="h-3 w-3" />
-                      {item.status || "สแกนสำเร็จ"}
-                    </span>
+              {ledgerItems.length === 0 ? (
+                <tr>
+                  <td colSpan={11} className="py-8 text-center text-slate-400 italic">
+                    ไม่มีข้อมูลหลักฐานการโอนเงิน (กรุณาอัปโหลดสลิปหลักฐานและกด Generate)
                   </td>
                 </tr>
-              ))}
+              ) : (
+                ledgerItems.map((item) => (
+                  <tr key={item.no} className="hover:bg-cyan-500/10 transition-colors">
+                    <td className="py-3 px-2 text-center font-mono font-bold text-cyan-400">{item.no}.</td>
+                    <td className="py-3 px-3 text-slate-200 font-medium">{item.date}</td>
+                    <td className="py-3 px-2 font-mono text-slate-300">{item.time}</td>
+                    <td className="py-3 px-3 font-semibold text-slate-100">{item.senderBank}</td>
+                    <td className="py-3 px-3 text-slate-200 font-semibold">{item.senderName}</td>
+                    <td className="py-3 px-3 text-right font-mono font-bold text-emerald-400 text-sm">
+                      {typeof item.amount === "number" ? `฿${item.amount.toLocaleString('th-TH', { minimumFractionDigits: 2 })}` : item.amount}
+                    </td>
+                    <td className="py-3 px-3 text-slate-200 font-semibold">{item.receiverName}</td>
+                    <td className="py-3 px-3 font-semibold text-slate-100">{item.receiverBank}</td>
+                    <td className="py-3 px-3 text-slate-400 italic">{item.memo || "-"}</td>
+                    <td className="py-3 px-3 font-mono text-[11px] text-cyan-300/80">{item.refId || "-"}</td>
+                    <td className="py-3 px-3">
+                      <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold ${
+                        item.status === "ล้มเหลว"
+                          ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
+                          : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                      }`}>
+                        <CheckCircle2 className="h-3 w-3" />
+                        {item.status || "สแกนสำเร็จ"}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
