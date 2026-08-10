@@ -21,19 +21,28 @@ export function PreviewColumn({
   const [zoomLevel, setZoomLevel] = useState<100 | 150>(100);
   const pageScaleClass = zoomLevel === 150 ? "max-w-[920px]" : "max-w-[760px]";
   const slipScaleClass = zoomLevel === 150 ? "max-w-[440px]" : "max-w-[360px]";
+  const slipResults = Array.isArray(ocrData) ? ocrData : ocrData ? [ocrData] : [];
+  const slipReadyCount = slipResults.filter((entry) => !entry?.error).length;
+  const slipErrorCount = slipResults.filter((entry) => entry?.error).length;
   const modeLabel = activeMode === "chat" ? "Chat preview" : "Slip preview";
   const modeHint = activeMode === "chat" ? "Generate pages" : "Run OCR";
   const previewSummary = isGenerated
     ? activeMode === "chat"
       ? `${paginatedPages.length} page${paginatedPages.length === 1 ? "" : "s"} ready`
-      : `${uploadedFiles.length} slip${uploadedFiles.length === 1 ? "" : "s"} ready`
+      : slipResults.length === 0
+        ? `${uploadedFiles.length} slip${uploadedFiles.length === 1 ? "" : "s"} processed`
+        : slipErrorCount > 0
+          ? `${slipReadyCount} slip${slipReadyCount === 1 ? "" : "s"} ready, ${slipErrorCount} need review`
+          : `${slipReadyCount} slip${slipReadyCount === 1 ? "" : "s"} ready`
     : activeMode === "chat"
       ? "A4 evidence pages appear here"
       : "Slip review appears here";
   const previewNote = isGenerated
     ? activeMode === "chat"
       ? "Review each page before export."
-      : "Check the source image against the extracted result."
+      : slipErrorCount > 0
+        ? "Review failed OCR items before export."
+        : "Check the source image against the extracted result."
     : activeMode === "chat"
       ? "Upload screenshots, then generate clean A4 pages."
       : "Upload slip images, then run OCR to inspect the result.";
