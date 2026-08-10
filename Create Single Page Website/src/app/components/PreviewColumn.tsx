@@ -40,6 +40,16 @@ export function PreviewColumn({
   const generatedHash = Array.isArray(ocrData)
     ? ocrData[0]?.forensics_analysis?.integrity_hash
     : ocrData?.forensics_analysis?.integrity_hash;
+  const slipSummary = Array.isArray(ocrData)
+    ? ocrData.find((entry) => entry?.bank_slip_verification || entry?.extracted_transaction_metadata || entry?.error)
+    : ocrData;
+  const slipBankBrand =
+    slipSummary?.bank_slip_verification?.matched_bank_brand ??
+    slipSummary?.extracted_transaction_metadata?.bank_name ??
+    "Unknown";
+  const slipBrandConfidence =
+    slipSummary?.bank_slip_verification?.brand_matching_confidence ??
+    "Unknown";
 
   return (
     <div className="glass-panel relative flex h-full flex-col overflow-hidden rounded-2xl">
@@ -218,7 +228,7 @@ export function PreviewColumn({
                         <div className="flex items-center gap-2">
                           <Cpu className="h-4 w-4 shrink-0 animate-pulse text-amber-700 dark:text-amber-300" />
                           <span>
-                            Detected bank brand: {ocrData?.bank_slip_verification?.matched_bank_brand || "SCB"} ({ocrData?.bank_slip_verification?.brand_matching_confidence || "95.4%"})
+                            Detected bank brand: {slipBankBrand} ({slipBrandConfidence})
                           </span>
                         </div>
                         <p className="pl-6 text-[10px] text-amber-800/80 dark:text-amber-100/75">

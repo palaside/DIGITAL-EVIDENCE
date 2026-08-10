@@ -799,7 +799,7 @@ const handleSavePDF = async () => {
             ) : activeMode === "notebooklm" ? (
               <NotebookLMPanel />
             ) : (
-              <div className="grid grid-cols-1 gap-6 items-stretch xl:grid-cols-[minmax(18rem,22rem)_minmax(0,1.5fr)_minmax(18rem,22rem)]">
+              <div className="grid grid-cols-1 gap-6 items-stretch lg:grid-cols-[minmax(18rem,22rem)_minmax(0,1.5fr)_minmax(18rem,22rem)]">
                 {/* Column 1: Upload, Generate, Progress */}
                 <div className="xl:min-w-0">
                   <UploadColumn 
