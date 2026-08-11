@@ -28,7 +28,7 @@ import { Input } from "./components/ui/input";
 const EMPTY_CELL = "-";
 
 function normalizeBankName(rawBank: string): string {
-  if (!rawBank || rawBank === EMPTY_CELL) return EMPTY_CELL;
+  if (!rawBank || rawBank === EMPTY_CELL || rawBank === "Unknown Bank" || rawBank === "UNKNOWN") return EMPTY_CELL;
   const lower = rawBank.toLowerCase().trim();
   const match = THAI_BANKS.find(
     (b) =>
@@ -192,7 +192,7 @@ export default function App() {
     archiveFormat: "zip" as "zip" | "rar",
     password: "",
     confirmPassword: "",
-    legalDisclaimer: "DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวกให้กับผู้ว่าจ้าง โดยไม่ได้ดัดแปลง แก้ไข เพิ่ม-ลบ เนื้อหา จากต้นฉบับใดๆ และไม่มีส่วนเกี่ยวข้องใดๆ กับเนื้อหาในเอกสาร เป็นเพียงเครื่องมือที่ทำงานเกี่ยวกับระบบไฟล์ เอกสารแบบอิเล็กทรอนิกส์ เท่านั้น",
+    legalDisclaimer: '"DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวกให้กับผู้ว่าจ้าง โดยไม่ได้ดัดแปลง แก้ไข เพิ่ม-ลบ\nเนื้อหาจากต้นฉบับใดๆ และไม่มีส่วนเกี่ยวข้องใดๆ\nกับเนื้อหาในเอกสาร เป็นเพียงเครื่องมือที่ทำงานเกี่ยวกับระบบไฟล์เอกสารแบบอิเล็กทรอนิกส์ เท่านั้น"',
     includePdf: true,
   });
 
@@ -338,6 +338,7 @@ export default function App() {
           const taggedSegments = segments.map((seg) => ({
             ...seg,
             sourceFileId: file.name,
+            objectIds: seg.objectIds.map((id) => `file${i}-${id}`),
           }));
           allSegments.push(...taggedSegments);
         }
@@ -533,10 +534,37 @@ export default function App() {
           if (!res.ok) throw new Error('OCR Server returned error');
           const data = await res.json();
           setBatchSummary(data.batch_summary ?? null);
-          ocrResults = data.combined_results ? data.combined_results : [data];
+          const rawResults = data.combined_results ? data.combined_results : [data];
+          
+          const hasAllFailed = rawResults.length > 0 && rawResults.every((r: any) => r?.error);
+          if (hasAllFailed) {
+            throw new Error(`Backend OCR failed: ${rawResults[0]?.error || 'Cloud credentials missing'}`);
+          }
+          
+          // Replace any failed individual items with local Tesseract OCR results
+          ocrResults = await Promise.all(
+            rawResults.map(async (result: any, i: number) => {
+              if (result?.error && uploadedFiles[i]) {
+                try {
+                  const { runLocalOCR } = await import('./utils/localOcr');
+                  const localRes = await runLocalOCR(uploadedFiles[i].url, (p) => {
+                    setStatusText(`Local OCR (${uploadedFiles[i].name}): ${p.status} (${Math.round(p.progress * 100)}%)`);
+                  });
+                  return {
+                    ...localRes,
+                    source_file_name: uploadedFiles[i].name || `Slip ${i + 1}`,
+                  };
+                } catch (localErr) {
+                  console.warn(`Local OCR fallback failed for ${uploadedFiles[i].name}:`, localErr);
+                  return result;
+                }
+              }
+              return result;
+            })
+          );
           setProgress(70);
         } catch (backendErr) {
-          console.warn("Google Cloud Vision backend OCR failed — falling back to local Tesseract OCR.", backendErr);
+          console.warn("Backend OCR failed — falling back to local Tesseract OCR.", backendErr);
           setStatusText("Falling back to local OCR...");
           setProgress(40);
           // Fallback: run Tesseract.js locally for each uploaded file

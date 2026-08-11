@@ -155,20 +155,48 @@ class OCREngine:
 
     # ─── Google Cloud Vision ───────────────────────────────────────────────
     async def _google_vision_ocr(self, image_path: str) -> str:
+        api_key = (
+            self.api_key
+            or os.getenv("GOOGLE_VISION_API_KEY")
+            or os.getenv("GOOGLE_API_KEY")
+        )
+        if api_key:
+            import base64
+            import requests
+
+            with open(image_path, "rb") as f:
+                img_b64 = base64.b64encode(f.read()).decode("utf-8")
+
+            url = f"https://vision.googleapis.com/v1/images:annotate?key={api_key}"
+            payload = {
+                "requests": [
+                    {
+                        "image": {"content": img_b64},
+                        "features": [{"type": "DOCUMENT_TEXT_DETECTION"}],
+                    }
+                ]
+            }
+            try:
+                resp = requests.post(url, json=payload, timeout=30)
+                if resp.status_code == 200:
+                    res_json = resp.json()
+                    responses = res_json.get("responses", [])
+                    if responses and "fullTextAnnotation" in responses[0]:
+                        return responses[0]["fullTextAnnotation"]["text"]
+                    if responses and "error" in responses[0]:
+                        raise RuntimeError(f"Google Vision API error: {responses[0]['error'].get('message')}")
+            except Exception as req_err:
+                print(f"[Google Vision REST API Warning] {req_err}. Trying gRPC Client fallback...")
+
         try:
             from google.cloud import vision
-        except ImportError:
-            raise RuntimeError("ต้องติดตั้ง google-cloud-vision: pip install google-cloud-vision")
-
-        client = vision.ImageAnnotatorClient()
-
-        with open(image_path, "rb") as f:
-            content = f.read()
-
-        image = vision.Image(content=content)
-        response = client.document_text_detection(image=image)
-
-        if response.error.message:
-            raise RuntimeError(f"Google Vision Error: {response.error.message}")
-
-        return response.full_text_annotation.text
+            client = vision.ImageAnnotatorClient()
+            with open(image_path, "rb") as f:
+                content = f.read()
+            image = vision.Image(content=content)
+            response = client.document_text_detection(image=image)
+            if response.error.message:
+                raise RuntimeError(f"Google Vision Error: {response.error.message}")
+            return response.full_text_annotation.text
+        except Exception as e:
+            raise RuntimeError(f"Google Cloud Vision OCR failed: {e}")

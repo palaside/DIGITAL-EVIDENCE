@@ -104,11 +104,11 @@ export function SummaryLedgerModal({
           </button>
         </div>
 
-        {/* 11-Column Table Content */}
+        {/* Table refreshed */}
         <div className="p-6 overflow-x-auto flex-1">
-          <table className="w-full text-left text-xs border-collapse min-w-[1100px]">
-            <thead>
-              <tr className="border-b border-cyan-500/30 text-cyan-300 font-bold uppercase tracking-wider bg-cyan-950/50">
+          <table className="w-full text-left text-sm border-collapse min-w-[1100px]">
+            <thead className="bg-cyan-950/50 text-cyan-300">
+              <tr className="border-b border-cyan-500/30 font-bold uppercase tracking-wider">
                 <th className="py-3 px-2 w-12 text-center">ลำดับ</th>
                 <th className="py-3 px-3">วันที่</th>
                 <th className="py-3 px-2">เวลา</th>
@@ -130,7 +130,7 @@ export function SummaryLedgerModal({
                   </td>
                 </tr>
               ) : (
-                ledgerItems.map((item) => (
+                ledgerItems.map(item => (
                   <tr key={item.no} className="hover:bg-cyan-500/10 transition-colors">
                     <td className="py-3 px-2 text-center font-mono font-bold text-cyan-400">{item.no}.</td>
                     <td className="py-3 px-3 text-slate-200 font-medium">{item.date}</td>
@@ -145,11 +145,7 @@ export function SummaryLedgerModal({
                     <td className="py-3 px-3 text-slate-400 italic">{item.memo || "-"}</td>
                     <td className="py-3 px-3 font-mono text-[11px] text-cyan-300/80">{item.refId || "-"}</td>
                     <td className="py-3 px-3">
-                      <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold ${
-                        item.status === "ล้มเหลว"
-                          ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
-                          : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                      }`}>
+                      <span className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold ${item.status === "ล้มเหลว" ? "bg-rose-500/20 text-rose-300 border border-rose-500/40" : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"}` }>
                         <CheckCircle2 className="h-3 w-3" />
                         {item.status || "สแกนสำเร็จ"}
                       </span>

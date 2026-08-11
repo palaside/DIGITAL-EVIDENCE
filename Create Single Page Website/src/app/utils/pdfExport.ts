@@ -3,8 +3,13 @@ import brandLogo from "../../imports/_______________-_Copy-1.png";
 const MM_TO_PX = 6;
 const PAGE_WIDTH_MM = 210;
 const PAGE_HEIGHT_MM = 297;
-const DISCLAIMER =
-  '"DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวกให้กับผู้ว่าจ้าง โดยไม่ได้ดัดแปลง แก้ไข เพิ่ม-ลบ เนื้อหาจากต้นฉบับใดๆ และไม่มีส่วนเกี่ยวข้องใดๆกับเนื้อหาในเอกสาร เป็นเพียงเครื่องมือที่ทำงานเกี่ยวกับระบบไฟล์เอกสารแบบอิเล็กทรอนิกส์ เท่านั้น"';
+const DISCLAIMER_LINE1 =
+  '"DIGITAL EVIDENCE เป็นเพียงการเครื่องมืออำนวยความสะดวกให้กับผู้ว่าจ้าง โดยไม่ได้ดัดแปลง แก้ไข เพิ่ม-ลบ';
+const DISCLAIMER_LINE2 =
+  'เนื้อหาจากต้นฉบับใดๆ และไม่มีส่วนเกี่ยวข้องใดๆ';
+const DISCLAIMER_LINE3 =
+  'กับเนื้อหาในเอกสาร เป็นเพียงเครื่องมือที่ทำงานเกี่ยวกับระบบไฟล์เอกสารแบบอิเล็กทรอนิกส์ เท่านั้น"';
+const DISCLAIMER = `${DISCLAIMER_LINE1}\n${DISCLAIMER_LINE2}\n${DISCLAIMER_LINE3}`;
 
 export interface PdfSlipRow {
   no: number;
@@ -117,12 +122,21 @@ function wrapText(context: CanvasRenderingContext2D, text: string, maxWidth: num
 }
 
 function drawFooter(context: CanvasRenderingContext2D, widthMm: number, heightMm: number) {
-  context.fillStyle = "#111827";
-  context.font = `${mm(2.5)}px Tahoma, sans-serif`;
-  const lines = wrapText(context, DISCLAIMER, mm(widthMm - 12));
-  lines.slice(0, 3).forEach((line, index) => {
-    context.fillText(line, mm(6), mm(heightMm - 10 + index * 3));
-  });
+  // Draw subtle horizontal line above disclaimer matching the screenshot
+  context.strokeStyle = "#e2e8f0";
+  context.lineWidth = mm(0.2);
+  context.beginPath();
+  context.moveTo(mm(20), mm(258));
+  context.lineTo(mm(widthMm - 20), mm(258));
+  context.stroke();
+
+  context.fillStyle = "#334155";
+  context.font = `${mm(2.65)}px Tahoma, sans-serif`;
+  context.textAlign = "center";
+  context.fillText(DISCLAIMER_LINE1, mm(widthMm / 2), mm(266));
+  context.fillText(DISCLAIMER_LINE2, mm(widthMm / 2), mm(271));
+  context.fillText(DISCLAIMER_LINE3, mm(widthMm / 2), mm(276));
+  context.textAlign = "left";
 }
 
 function clippedText(context: CanvasRenderingContext2D, value: string, maxWidth: number) {
@@ -149,7 +163,7 @@ async function createEvidencePage(
   context.fillRect(0, 0, canvas.width, canvas.height);
   drawHeader(context, logo, modeLabel, pageNumber, totalPages, PAGE_WIDTH_MM);
 
-  const frame = { x: mm(20), y: mm(28), width: mm(170), height: mm(235) };
+  const frame = { x: mm(20), y: mm(26), width: mm(170), height: mm(226) };
   
   // Fill the container box with brand dark blue background
   context.fillStyle = "#12335f";
@@ -169,7 +183,7 @@ async function createEvidencePage(
     frame.y + padding,
     frame.width - padding * 2,
     frame.height - padding * 2,
-    modeLabel === "Chat Mode" ? "bottom" : "center"
+    "center"
   );
 
   drawFooter(context, PAGE_WIDTH_MM, PAGE_HEIGHT_MM);

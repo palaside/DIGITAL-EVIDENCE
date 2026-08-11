@@ -94,7 +94,15 @@ def _process_saved_slip(
 
         import asyncio
 
-        full_text = asyncio.run(ocr_engine.extract_text(file_path))
+        try:
+            full_text = asyncio.run(ocr_engine.extract_text(file_path))
+        except Exception as ocr_err:
+            print(f"[OCR Backend Warning] Engine '{ocr_engine.provider}' failed: {ocr_err}. Attempting fallback...")
+            try:
+                tess_engine = OCREngine(provider="tesseract")
+                full_text = asyncio.run(tess_engine.extract_text(file_path))
+            except Exception:
+                full_text = ""
         result = asyncio.run(parser.parse(full_text, file_name=filename))
         slip_dict = result.to_dict()
         combined_datetime, time_str = _build_combined_datetime(slip_dict)
@@ -269,9 +277,13 @@ def package_project():
     archive_name = secure_filename(request.form.get("archive_name", "digital-evidence-package")) or "digital-evidence-package"
     archive_format = request.form.get("archive_format", "zip").lower()
     password = request.form.get("password", "")
+    legal_disclaimer = request.form.get("legal_disclaimer", "").strip()
 
     if archive_format not in {"zip", "rar"}:
         return jsonify({"error": "Unsupported archive format"}), 400
+
+    if len(legal_disclaimer) < 20:
+        return jsonify({"error": "Legal disclaimer is required and must be at least 20 characters long."}), 400
 
     files = request.files.getlist("source_files") + request.files.getlist("artifacts")
     if not files:
@@ -290,6 +302,12 @@ def package_project():
             file_path = os.path.join(staging_dir, filename)
             file.save(file_path)
             staged_names.append(filename)
+
+        disclaimer_filename = "DIGITAL_EVIDENCE_LEGAL_DISCLAIMER.txt"
+        disclaimer_path = os.path.join(staging_dir, disclaimer_filename)
+        with open(disclaimer_path, "w", encoding="utf-8") as disclaimer_file:
+            disclaimer_file.write(legal_disclaimer)
+        staged_names.append(disclaimer_filename)
 
         if not staged_names:
             return jsonify({"error": "No valid files provided for packaging"}), 400
